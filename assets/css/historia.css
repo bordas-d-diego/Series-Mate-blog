@@ -294,7 +294,13 @@
   box-shadow: 0 0 0 4px var(--bg);
 }
 
-.hist__hito-lamina { margin: 0; }
+.hist__hito-lamina {
+  margin: 0;
+  /* TAREA T08: el cuerpo pasa a flex y deja de ser caja de posicion;
+     el nodo de la linea de tiempo (hist__hito-cuerpo::before) se ancla
+     aqui, que es la celda de la izquierda en el diptico. */
+  position: relative;
+}
 .hist__hito-lamina img {
   display: block;
   width: 100%;
@@ -940,4 +946,94 @@ sup > a[href^="#ref-"]:focus-visible { text-decoration: underline; }
 .refs li[id^="ref-"]:target {
   background: color-mix(in srgb, var(--accent) 12%, transparent);
   border-radius: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   15. TAREA T06 — ENLACE ACTIVO DEL INDICE
+   El enlace de la seccion por la que va la lectura recibe .activo (y
+   aria-current="true", que ya estilaba esta hoja). La regla nueva comparte
+   declaracion con la de aria-current para que las dos marcas luzcan igual y
+   el cambio entre enlaces no parpadee: el fondo y el color ya tienen su
+   transicion en .hist__indice a.
+   -------------------------------------------------------------------------- */
+.hist__indice a.activo,
+.hist__indice a[aria-current="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   16. TAREA T07 — CONMUTADOR PARTE 1 / PARTE 2 EN LA CABECERA
+   Las dos paginas de historia comparten cabecera (.nav--historia) y llevan
+   un enlace a la otra parte dentro de .nav__cta, que es la ultima caja del
+   interior de la barra. Con --nav-h: 64px (T05) el boton nunca pasa de esa
+   altura y mantiene los 44px minimos de zona de toque, tanto en escritorio
+   (1440px) como en celular (375px), donde vive dentro del menu desplegable
+   y ocupa una fila propia de 48px.
+   -------------------------------------------------------------------------- */
+.nav--historia .nav__cta--conmutada {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.nav__conmutador {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;            /* zona de toque minima */
+  min-width: 44px;
+  padding: .5rem 1rem;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: .85rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--fg-soft);
+  background: var(--bg);
+  transition: color .15s var(--ease), background .15s var(--ease),
+              border-color .15s var(--ease);
+}
+.nav__conmutador:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.nav__conmutador:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 2px;
+}
+@media (max-width: 900px) {
+  /* Dentro del menu de celular: cada accion, una fila de 48px >= 44px. */
+  .nav--historia .nav__cta--conmutada { flex-direction: column; align-items: stretch; }
+  .nav__conmutador { width: 100%; min-height: 48px; }
+}
+@media print {
+  .nav__conmutador { display: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   17. TAREA T08 — ORDEN DE LECTURA DE LOS HITOS (Fecha -> Titulo -> Texto -> Figura)
+   El orden del DOM de cada hito es ahora Fecha -> Titulo -> Texto -> Figura:
+   el lector de pantalla recorre primero el contenido y al final la lamina,
+   que es lo critico para accesibilidad. La posicion visual del diptico no se
+   toca: en escritorio la rejilla de la seccion 4 manda sobre order con
+   grid-column (lamina a la izquierda o a la derecha segun --invertido), y en
+   celular los numeros de order dejan la figura al fondo sin mover el DOM.
+   Los margenes superior propios de titulo, texto y etiqueta pasan a ser el
+   gap del cuerpo, para que el aire entre lineas sea el mismo de antes.
+   -------------------------------------------------------------------------- */
+.hist__hito-cuerpo { display: flex; flex-wrap: wrap; gap: .6rem; }
+.hist__hito-anio     { order: 0; }
+.hist__hito-titulo   { order: 1; flex: 1 1 100%; margin-top: 0; }
+.hist__hito-texto    { order: 2; flex: 1 1 100%; margin-top: 0; }
+.hist__hito-etiqueta { order: 3; flex: 1 1 100%; margin-top: 0; }
+.hist__hito-lamina   { order: 4; flex: 1 1 100%; margin-top: .65rem; }
+
+@media (min-width: 900px) {
+  /* Escritorio: la lamina vuelve a su celda de rejilla (grid-column manda
+     sobre order) y recupera su margen de cero. */
+  .hist__hito-lamina { margin-top: 0; }
 }
