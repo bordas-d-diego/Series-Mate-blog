@@ -1,0 +1,75 @@
+/* ==========================================================================
+   ECUACIONES
+   --------------------------------------------------------------------------
+   Las f&oacute;rmulas est&aacute;n escritas con MathML, que es el mismo sistema
+   de composici&oacute;n que usa el editor de ecuaciones de Word pero en HTML
+   nativo: no hace falta JavaScript, y los lectores de pantalla lo leen bien
+   ("uno sobre dos"), cosa que un truco de CSS no consigue.
+
+   La fuente es STIX Two Math, que es libre y est&aacute; en Google Fonts, as&iacute;
+   que todo el mundo ve lo mismo. No se usa Cambria Math aunque se vea muy
+   bien en un Windows, porque es de Microsoft, no se puede distribuir por un
+   sitio p&uacute;blico, y solo la tienen algunos equipos: en un celular se ver&iacute;a
+   distinto o no se ver&iacute;a.
+
+   Este archivo lo cargan solo las cuatro p&aacute;ginas que tienen f&oacute;rmulas
+   (las dos historias y los dos cuentos). Las otras siete no lo cargan y no
+   pagan ni un byte de la fuente.
+   ========================================================================== */
+
+math {
+  font-family: "STIX Two Math", "Cambria Math", serif;
+  /* Sin esto el navegador encoge las fracciones como si fueran ndices de un
+     subndice, y dentro de un prrafo se leen fatal. */
+  math-style: normal;
+  font-size: 1.04em;
+  /* La fracci&oacute;n es alta: sin esto se solapa con las l&iacute;neas de arriba y
+     de abajo. Solo ensancha la l&iacute;nea en la que est&aacute;, las otras del
+     prrafo no se tocan. */
+  line-height: 2.15;
+}
+
+/* Una fracci&oacute;n con un n&uacute;mero de cuatro cifras debajo (1/4 000) necesita un
+   poco m&aacute;s de aire todav&iacute;a. */
+math .largo,
+math[data-largo] {
+  font-size: .94em;
+}
+
+/* Las f&oacute;rmulas sueltas, las que van en su propio recuadro con su
+   etiqueta. */
+.formula math {
+  display: block;
+  text-align: left;
+  margin: .55rem 0 .2rem;
+}
+
+/* Si la f&oacute;rmula no cabe en un celular, que se desplace en vez de salirse
+   de la pantalla. */
+.formula,
+.matematica .formula {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+/* Las variables van en cursiva, que es como las escribe cualquier libro de
+   texto; los n&uacute;meros no. MathML ya lo hace solo, pero esto lo refuerza por
+   si alg&uacute;n navegador se queda corto. */
+math mi {
+  font-style: italic;
+}
+math mn,
+math mo {
+  font-style: normal;
+}
+
+/* Cuando la fracci&oacute;n va dentro de un texto corrido, se deja un pelo de
+   aire a los lados para que no quede pegada a la palabra. */
+p math,
+li math,
+.hito__texto math,
+.ficha__nota math,
+.ficha__valor math {
+  margin-inline: .12em;
+}

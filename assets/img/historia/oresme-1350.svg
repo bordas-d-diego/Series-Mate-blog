@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 250" role="img">
+  <!-- La agrupacion de Nicole Oresme hacia 1350: los terminos de la serie
+       armonica se juntan en bloques de potencias de dos y cada bloque deja al
+       menos 1/2. Como hay bloques sin fin, la suma tampoco tiene tope.
+
+       El unico color literal es el de la paleta del sitio, declarado una vez en
+       la raiz de este propio SVG. Va ahi y no en cada elemento porque un archivo
+       cargado con <img> no hereda ni el currentColor ni las variables CSS de la
+       pagina que lo muestra: a partir de esa raiz, todo el dibujo se pinta con
+       currentColor. El fondo no lleva ninguno: se ve a traves, y el papel lo
+       aporta la lamina. -->
+  <style>
+    svg { color: #0b3d91; }
+    .bloque { fill: currentColor; fill-opacity: .16; stroke: currentColor; stroke-width: 2; }
+    .frac {
+      fill: currentColor;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 10px;
+      text-anchor: middle;
+    }
+    .cota { fill: none; stroke: currentColor; stroke-width: 1.3; }
+    .rotulo {
+      fill: currentColor;
+      font-family: Inter, "Segoe UI", sans-serif;
+      font-size: 9.5px;
+      text-anchor: middle;
+    }
+    .frac--chico { font-size: 9px; }
+    .rotulo--fuerte { font-size: 11px; font-weight: 700; }
+  </style>
+
+  <!-- los cinco bloques -->
+  <rect class="bloque" x="14" y="24"  width="28"  height="24" rx="2"/>
+  <rect class="bloque" x="14" y="62"  width="28"  height="24" rx="2"/>
+  <rect class="bloque" x="14" y="100" width="48"  height="24" rx="2"/>
+  <rect class="bloque" x="14" y="138" width="88"  height="24" rx="2"/>
+  <rect class="bloque" x="14" y="176" width="112" height="24" rx="2"/>
+
+  <!-- los terminos de cada bloque -->
+  <g class="frac">
+    <text x="28" y="40">1</text>
+    <text x="28" y="78">1/2</text>
+    <text x="27" y="116">1/3</text>
+    <text x="49" y="116">1/4</text>
+    <text x="25" y="154">1/5</text>
+    <text x="47" y="154">1/6</text>
+    <text x="69" y="154">1/7</text>
+    <text x="91" y="154">1/8</text>
+    <text class="frac--chico" x="70" y="192">1/9 … 1/16</text>
+  </g>
+
+  <!-- la cota: cada bloque deja al menos 1/2 -->
+  <path class="cota" d="M134 24h8v176h-8"/>
+  <text class="rotulo" x="138" y="16">cada bloque</text>
+  <text class="rotulo rotulo--fuerte" x="138" y="218">&#8805; 1/2</text>
+
+  <text class="rotulo" x="100" y="238">la suma crece sin tope</text>
+</svg>

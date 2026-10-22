@@ -1,0 +1,297 @@
+/* ==========================================================================
+   TEMA: ALEJANDRO GUERRERO
+   --------------------------------------------------------------------------
+   Oscuro. Fondo casi negro con acentos ámbar: la idea es la de un panel
+   de luces encendidas sobre superficie negra, con mucho contraste y
+   bloques sólidos donde la versión clara usa sombras suaves.
+   Se aplica con la clase .tema-alejandro.
+   ========================================================================== */
+
+.tema-alejandro {
+  /* Superficies */
+  --bg:          #0d0f13;
+  --bg-2:        #14171d;
+  --bg-3:        #1e222b;
+  --surface:     #171a21;
+  --line:        #2b303b;
+  --line-2:      #3d4453;
+
+  /* Texto */
+  --fg:          #f2f0eb;
+  --fg-soft:     #b6b3ac;
+  --fg-faint:    #969389;
+
+  /* Acento: ámbar */
+  --accent:      #f0a91e;
+  --accent-2:    #ffc94d;
+  --accent-fg:   #17110a;
+  --accent-soft: #3a2c11;
+  --accent-line: #f0a91e;
+
+  /* Formas: rectas, bien rectas */
+  --r-sm:   2px;
+  --r:      4px;
+  --r-lg:   6px;
+  --r-xl:   8px;
+
+  --f-title: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --f-body:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --f-mono:  "JetBrains Mono", "SF Mono", Consolas, monospace;
+
+  /* Sombras profundas, de luz proyectada sobre negro */
+  --sh-sm: 0 0 0 1px rgba(240, 169, 30, .12);
+  --sh:    0 0 24px rgba(240, 169, 30, .10);
+  --sh-lg: 0 0 48px rgba(240, 169, 30, .16);
+
+  --nav-bg:        rgba(13, 15, 19, .88);
+  --nav-bg-fija:   rgba(13, 15, 19, .96);
+
+  color-scheme: dark;
+}
+
+/* Un halo cálido en el fondo, como la luz de un tablero */
+.tema-alejandro.resplandor {
+  position: relative;
+  isolation: isolate;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(240, 169, 30, .10), transparent 60%),
+    radial-gradient(700px 420px at 5% 5%, rgba(255, 201, 77, .06), transparent 60%);
+}
+
+/* --------------------------------------------------------------------------
+   Encabezados: muy marcados
+   -------------------------------------------------------------------------- */
+.tema-alejandro h1,
+.tema-alejandro h2,
+.tema-alejandro h3 {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+.tema-alejandro h2 { color: #fff; }
+.tema-alejandro .eyebrow {
+  color: var(--accent);
+  font-size: .7rem;
+  letter-spacing: .2em;
+}
+.tema-alejandro .eyebrow::before {
+  background: linear-gradient(to right, var(--accent), transparent);
+  width: 34px;
+}
+
+/* Chapa de identificación */
+.tema-alejandro .sello {
+  display: inline-block;
+  padding: .3rem .65rem;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-radius: 2px;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   Tarjetas: bloque sólido con borde luminoso
+   -------------------------------------------------------------------------- */
+.tema-alejandro .tarjeta {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+.tema-alejandro .tarjeta:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 32px rgba(240, 169, 30, .14);
+  transform: translateY(-4px);
+}
+.tema-alejandro .tarjeta::before {
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), transparent);
+}
+.tema-alejandro .tarjeta__texto { color: var(--fg-soft); }
+
+/* --------------------------------------------------------------------------
+   Paneles con cabecera encendida
+   -------------------------------------------------------------------------- */
+.tema-alejandro .panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.tema-alejandro .panel__cab {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .7rem 1rem;
+  background: var(--bg-3);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tema-alejandro .panel__cab::before {
+  content: "";
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent);
+  flex-shrink: 0;
+}
+.tema-alejandro .panel__cuerpo { padding: 1.25rem; }
+
+/* --------------------------------------------------------------------------
+   Datos numéricos
+   -------------------------------------------------------------------------- */
+.tema-alejandro .dato {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.tema-alejandro .dato--grande {
+  font-size: clamp(1.8rem, 2.4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+}
+.tema-alejandro .cifras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.tema-alejandro .cifras > div > .dato { display: block; }
+.tema-alejandro .cifras > div > span:not(.sello) {
+  display: block;
+  margin-top: .3rem;
+  font-size: .82rem;
+  color: var(--fg-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Tablas
+   -------------------------------------------------------------------------- */
+.tema-alejandro .tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-mono);
+  font-size: .85rem;
+}
+.tema-alejandro .tabla th,
+.tema-alejandro .tabla td {
+  padding: .6rem .75rem;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+}
+.tema-alejandro .tabla th:first-child,
+.tema-alejandro .tabla td:first-child { text-align: left; }
+.tema-alejandro .tabla thead th {
+  background: var(--bg-3);
+  color: var(--accent);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.tema-alejandro .tabla tbody tr:hover { background: var(--bg-2); }
+
+/* --------------------------------------------------------------------------
+   Notas
+   -------------------------------------------------------------------------- */
+.tema-alejandro .nota {
+  padding: 1.1rem 1.2rem;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-sm);
+  font-size: .88rem;
+  line-height: 1.7;
+  color: var(--fg-soft);
+}
+.tema-alejandro .nota__num {
+  display: block;
+  margin-bottom: .5rem;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Fórmulas
+   -------------------------------------------------------------------------- */
+.tema-alejandro .formula {
+  display: block;
+  margin-block: 1.5rem;
+  padding: 1.25rem;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-sm);
+  font-family: var(--f-mono);
+  font-size: 1.1rem;
+  text-align: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.tema-alejandro .formula__label {
+  display: block;
+  margin-bottom: .75rem;
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: left;
+}
+.tema-alejandro .frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  margin-inline: .18em;
+  font-size: .95em;
+  line-height: 1.25;
+}
+.tema-alejandro .frac > span:first-child { padding: 0 .3em; }
+.tema-alejandro .frac > span:last-child { padding: 0 .3em; border-top: 1.2px solid currentColor; }
+
+/* --------------------------------------------------------------------------
+   Botones
+   -------------------------------------------------------------------------- */
+.tema-alejandro .boton--solido {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+.tema-alejandro .boton--acento {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.tema-alejandro .boton--contorno {
+  color: var(--fg);
+  border-color: var(--line-2);
+}
+.tema-alejandro .boton--contorno:hover {
+  background: var(--bg-3);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.tema-alejandro .flecha { color: var(--accent); }
+.tema-alejandro .flecha:hover { color: var(--accent-2); }
+
+/* Ficha de autor */
+.tema-alejandro .autor {
+  --autor-bg:    #171a21;
+  --autor-linea: #2b303b;
+  --autor-color: #f0a91e;
+  --autor-fg:    #17110a;
+}

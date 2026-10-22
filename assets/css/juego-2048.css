@@ -1,0 +1,723 @@
+/* ==========================================================================
+   2048 - juego geometrico de Diego Bordas
+   Tablero de fichas que se juntan de dos en dos. Cada pareja se convierte en
+   una del doble: 2, 4, 8, 16... La serie esta en el motor, no en la pantalla.
+   ========================================================================== */
+
+.dosmil {
+  --hueco: clamp(5px, 1.3vmin, 10px);
+  /* Las casillas por lado. Tiene que ser el mismo numero que el LADO del
+     motor, en 2048.js. Si aqui se pone otro, el tablero se dibuja con mas
+     casillas de las que existen y la ultima fila queda descuadrada. */
+  --lados: 5;
+  --esquina: var(--r);
+  display: block;
+}
+
+.dosmil__barra {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: .6rem .85rem;
+  margin-bottom: var(--hueco);
+  background: var(--bg-3);
+  border-radius: var(--r);
+}
+.boton--peque {
+  min-width: auto;
+  padding: .4rem .7rem;
+  font-size: .78rem;
+}
+
+.dosmil__meta {
+  position: relative;
+  font-family: var(--f-mono);
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--fg-soft);
+}
+.dosmil__meta b { color: var(--fg); font-size: 1.05rem; display: inline-block; }
+
+/* La suma que acaba de subir. Se coloca encima de la etiqueta sin tocar el
+   flujo: no mueve ni un pixel de la barra, aparece donde ya estaba escrito
+   "Puntos". El nodo es uno solo y se reutiliza siempre, asi que no hay nada
+   que pueda acumularse por muchas veces que suban los puntos. */
+.dosmil__suma {
+  position: absolute;
+  left: .05em;
+  bottom: 100%;
+  padding: 0 .28em;
+  border: 1px solid var(--accent-line);
+  border-radius: 2px;
+  background: var(--surface);
+  color: var(--accent);
+  font-family: var(--f-mono);
+  font-size: .76rem;
+  font-weight: 700;
+  line-height: 1.45;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+.dosmil__meta--sube .dosmil__suma { animation: sumaSube 1s ease-out forwards; }
+.dosmil__meta--sube > b { animation: marcadorSube .34s ease-out; }
+.dosmil__meta--acento { color: var(--accent); }
+
+@keyframes sumaSube {
+  0%   { opacity: 0; transform: translateY(5px); }
+  18%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-14px); }
+}
+@keyframes marcadorSube {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.16); }
+  100% { transform: scale(1); }
+}
+
+.dosmil__estado {
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--fg-faint);
+}
+.dosmil__estado--lleno { color: var(--accent); }
+
+/* ---------------------------------------------------------------- tablero */
+
+.dosmil__tablero {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  margin-inline: auto;
+  aspect-ratio: 1 / 1;
+  padding: var(--hueco);
+  background: var(--accent-soft);
+  border-radius: var(--r-lg);
+  /* El pozo: sombra interior arriba, para que las fichas parezcan metidas
+     en el tablero y no pegadas encima, y una linea de luz abajo que
+     devuelve el canto. */
+  box-shadow:
+    inset 0 4px 9px -3px rgba(9, 30, 66, .32),
+    inset 0 -1px 0 rgba(255, 255, 255, .55),
+    0 6px 18px -10px rgba(232, 121, 63, .18),
+    0 10px 22px -12px rgba(134, 40, 158, .16),
+    0 14px 26px -14px rgba(42, 79, 208, .16),
+    var(--sh);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.dosmil__tablero:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.dosmil__celdas {
+  position: absolute;
+  inset: var(--hueco);
+  display: grid;
+  grid-template-columns: repeat(var(--lados), 1fr);
+  gap: var(--hueco);
+}
+.dosmil__hueco {
+  background: #e3eaf4;
+  border-radius: var(--esquina);
+  /* Cada casilla vacia tambien es un hueco hundido, no un cuadrado plano. */
+  box-shadow: inset 0 1px 2px rgba(9, 30, 66, .16);
+}
+
+.dosmil__fichas {
+  position: absolute;
+  inset: var(--hueco);
+}
+
+/* ------------------------------------------------------------------ ficha */
+/* La posicion va en el elemento de fuera y el salto de tamano en el de
+   dentro: en un solo elemento las dos transiciones se pelearian y la ficha
+   se moveria a saltos. */
+
+.ficha {
+  position: absolute;
+  z-index: 1;
+  width: calc((100% - (var(--lados) - 1) * var(--hueco)) / var(--lados));
+  height: calc((100% - (var(--lados) - 1) * var(--hueco)) / var(--lados));
+  left: calc((100% + var(--hueco)) * var(--i) / var(--lados));
+  top: calc((100% + var(--hueco)) * var(--j) / var(--lados));
+  transition: left .11s ease-out, top .11s ease-out;
+  pointer-events: none;
+}
+
+.ficha__caja {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--esquina);
+  font-family: var(--f-mono);
+  font-weight: 600;
+  font-size: clamp(1.1rem, 4.8vmin, 2rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+  color: #ffffff;
+  /* Cuanto pesa la ficha, de 0 a 1. Lo pone la regla de cada par de valores
+     de la rampa y de aqui sale la sombra: las de 2 y 4 casi no se apoyan en
+     nada y la de 2048 se apoya de verdad, para que el tablero gane volumen
+     sin que ninguna ficha parezca flota. */
+  --peso: .55;
+  /* El aspecto por defecto es la familia profunda, con su halo. Es tambien
+     el red de seguridad: todo lo que valga 1024 o mas -y un 2048 llega hasta
+     2 elevado a 31- cae aqui sin escribirlo valor a valor, y sigue siendo
+     legible en vez de quedarse transparente. */
+  background-color: #01040f;
+  /* El volumen: brillo arriba, sombra al pie. Vive en el fondo de imagen,
+     no en el color, para que valga igual en las tres familias.
+
+     Y aqui esta el arreglo del contraste. Con el punto de parada del brillo al
+     46 por ciento, la parte alta de las cifras quedaba sobre un fondo aclarado
+     y la ficha de 128 Bajaba a 4,07:1 medido sobre el pixel de una captura,
+     por debajo del 4,5:1. Ahora la banda clara se cierra en el 14 por ciento,
+     muy por encima de donde empieza cualquier cifra -la mas alta, la de tres
+     digitos, no baja del 30 por ciento de la ficha-, de modo que el relieve se
+     sigue leyendo entero y la tinta blanca ya no tiene contra que pelear. La
+     familia clara no usa este degradado: con tinta oscura el brillo de arriba
+     solo ayuda, y por eso lo recupera mas abajo, donde estan sus siete
+     valores. */
+  background-image: linear-gradient(180deg,
+    rgba(255, 255, 255, .30) 0%,
+    rgba(255, 255, 255, 0) 14%,
+    rgba(0, 0, 0, .12) 100%);
+  box-shadow:
+    0 0 0 1.5px rgba(126, 166, 255, .45),
+    0 calc(4px + var(--peso) * 6px) calc(11px + var(--peso) * 13px)
+      rgba(6, 22, 52, calc(.24 + var(--peso) * .26)),
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    var(--sh-sm);
+}
+
+/* El tamano de la letra depende de las cifras, no del valor: seis cifras
+   no pueden ocupar el ancho que ocupaban dos. JetBrains Mono es de ancho
+   fijo, 0,6 em por cifra, y con estos topes la ficha mas larga entra en la
+   casilla con holgura incluso a 320 px de pantalla. Una y dos cifras son el
+   tamano de la caja de arriba y no necesitan su propia regla. */
+.ficha__caja[data-c="3"] { font-size: clamp(.98rem, 4.2vmin, 1.8rem); }
+.ficha__caja[data-c="4"] { font-size: clamp(.86rem, 3.7vmin, 1.6rem); }
+.ficha__caja[data-c="5"] { font-size: clamp(.72rem, 3.1vmin, 1.35rem); }
+.ficha__caja[data-c="6"], .ficha__caja[data-c="7"],
+.ficha__caja[data-c="8"] { font-size: clamp(.6rem, 2.6vmin, 1.15rem); }
+.ficha__caja[data-c="9"], .ficha__caja[data-c="10"] { font-size: clamp(.5rem, 2.1vmin, .95rem); }
+
+/* ---------------------------------------------------------------------------
+   LA RAMPA
+   Colores exactos segun tabla.
+   --------------------------------------------------------------------------- */
+
+/* La familia clara no lleva halo: el aro es lo que separa a la profunda, y
+   por eso se lo quita despues de que la regla por defecto se lo haya
+   puesto. El relieve corto y la luz interior se quedan. */
+.ficha__caja[data-v="2"], .ficha__caja[data-v="4"], .ficha__caja[data-v="8"],
+.ficha__caja[data-v="16"], .ficha__caja[data-v="32"], .ficha__caja[data-v="64"],
+.ficha__caja[data-v="128"], .ficha__caja[data-v="256"],
+.ficha__caja[data-v="512"] {
+  box-shadow:
+    0 calc(2px + var(--peso) * 5px) calc(5px + var(--peso) * 12px)
+      rgba(6, 22, 52, calc(.12 + var(--peso) * .24)),
+    inset 0 1px 0 rgba(255, 255, 255, .65),
+    inset 0 -1px 0 rgba(10, 26, 47, .12),
+    var(--sh-sm);
+}
+
+/* El peso de cada ficha, de par en par. Solo toca --peso. */
+.ficha__caja[data-v="2"],  .ficha__caja[data-v="4"]   { --peso: .05; }
+.ficha__caja[data-v="8"],  .ficha__caja[data-v="16"]  { --peso: .22; }
+.ficha__caja[data-v="32"], .ficha__caja[data-v="64"]  { --peso: .42; }
+.ficha__caja[data-v="128"], .ficha__caja[data-v="256"] { --peso: .66; }
+.ficha__caja[data-v="512"]  { --peso: .82; }
+.ficha__caja[data-v="1024"] { --peso: .92; }
+.ficha--trofeo .ficha__caja { --peso: 1; }
+
+/* El degradado claro va para los valores con tinta oscura (hasta 64). */
+.ficha__caja[data-v="2"], .ficha__caja[data-v="4"], .ficha__caja[data-v="8"],
+.ficha__caja[data-v="16"], .ficha__caja[data-v="32"],
+.ficha__caja[data-v="64"] {
+  background-image: linear-gradient(180deg,
+    rgba(255, 255, 255, .30) 0%,
+    rgba(255, 255, 255, .06) 46%,
+    rgba(0, 0, 0, .10) 100%);
+}
+
+/* Tabla exacta de colores */
+.ficha__caja[data-v="2"]     { background-color: #f7f3e4; color: #1a1a1a; }
+.ficha__caja[data-v="4"]     { background-color: #f5e6b8; color: #1a1a1a; }
+.ficha__caja[data-v="8"]     { background-color: #f3d68a; color: #1a1a1a; }
+.ficha__caja[data-v="16"]    { background-color: #f2bd63; color: #1a1a1a; }
+.ficha__caja[data-v="32"]    { background-color: #ef9f4a; color: #1a1a1a; }
+.ficha__caja[data-v="64"]    { background-color: #e8793f; color: #1a1a1a; }
+.ficha__caja[data-v="128"]   { background-color: #c23a42; color: #ffffff; }
+.ficha__caja[data-v="256"]   { background-color: #a82f6e; color: #ffffff; }
+.ficha__caja[data-v="512"]   { background-color: #86289e; color: #ffffff; }
+.ficha__caja[data-v="1024"]  { background-color: #5b2ec0; color: #ffffff; }
+.ficha__caja[data-v="2048"]  { background-color: #2a4fd0; color: #ffffff; }
+.ficha__caja[data-v="4096"]  { background-color: #17639c; color: #ffffff; }
+.ficha__caja[data-v="8192"]  { background-color: #127078; color: #ffffff; }
+.ficha__caja[data-v="16384"] { background-color: #1a7350; color: #ffffff; }
+.ficha__caja[data-v="32768"] { background-color: #f0d36b; color: #1a1a1a; }
+.ficha__caja[data-v="65536"] { background-color: #c9e88a; color: #1a1a1a; }
+/* Valores por encima de 65536 caen en la regla por defecto */
+.ficha__caja[data-v="131072"],
+.ficha__caja[data-v="262144"],
+.ficha__caja[data-v="524288"] { background-color: #01040f; color: #ffffff; }
+
+/* El destello de la fusion va en un pseudoelemento para no pelearse con el
+   salto de tamano de la ficha ni con su degradado de fondo. */
+.ficha__caja::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 40%,
+    rgba(255, 255, 255, .95) 0%,
+    rgba(255, 255, 255, 0) 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ficha--nueva .ficha__caja { animation: fichaEntra .16s ease-out; }
+.ficha--sumada .ficha__caja { animation: fichaLate .18s ease-out; }
+.ficha--sumada .ficha__caja::after { animation: destello .34s ease-out; }
+
+/* La ficha absorbida se va encogiendo encima de la que la absorbe. Primero
+   corre los 110 ms del deslizamiento y luego se cierra, para que se vea
+   llegar y luego desaparecer. Va por debajo con el z-index para que el aro
+   de la ficha nueva quede encima. */
+.ficha--absorbida {
+  z-index: 0;
+  animation: fichaAbsorbida .18s .11s ease-in forwards;
+}
+
+/* El aro de la ultima fusion. Son dos aros superpuestos porque hace falta
+   que se lean a la vez sobre la ficha clara y sobre la profunda: el oscuro
+   se ve en el 2 y no en el 8192, el claro al reves. Entre los dos, el peor
+   caso de toda la rampa queda en 5,15:1. */
+.ficha--marcada::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--esquina);
+  box-shadow: 0 0 0 1.5px #051a3c, 0 0 0 3px rgba(255, 255, 255, .85);
+  pointer-events: none;
+}
+
+.ficha--fase .ficha__caja {
+  animation: fichaFasePulso 900ms ease-out;
+  box-shadow:
+    0 0 0 2px rgba(240, 211, 107, .9),
+    0 0 0 6px rgba(240, 211, 107, .28),
+    0 calc(4px + var(--peso) * 6px) calc(11px + var(--peso) * 13px)
+      rgba(6, 22, 52, calc(.24 + var(--peso) * .26)),
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    var(--sh-sm);
+}
+@keyframes fichaFasePulso {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* El trofeo: 2048 o mas. El halo va en un pseudoelemento con indice -1
+   dentro de la ficha, que ya es contexto de apilamiento por su z-index, para
+   que quede POR DETRAS de la caja y no encima de las cifras. Es azul
+   profundo y no blanco a proposito: el aro de la ultima fusion lleva un
+   anillo blanco en ese mismo sitio y un halo claro se lo comeria. */
+.ficha--trofeo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: var(--esquina);
+  box-shadow:
+    0 0 0 1px rgba(28, 111, 212, .30),
+    0 0 18px 4px rgba(11, 61, 145, .42);
+  pointer-events: none;
+}
+.dosmil__tablero--vivo .ficha--trofeo::before {
+  animation: trofeoHalo 2.3s ease-in-out infinite;
+}
+@keyframes trofeoHalo {
+  0%, 100% { opacity: .5;  transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.07); }
+}
+
+@keyframes fichaEntra {
+  from { transform: scale(.35); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+@keyframes fichaLate {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+@keyframes destello {
+  0%   { opacity: 0; }
+  32%  { opacity: .45; }
+  100% { opacity: 0; }
+}
+@keyframes fichaAbsorbida {
+  0%   { transform: scale(1);    opacity: 1; }
+  55%  { transform: scale(.82);  opacity: .85; }
+  100% { transform: scale(.28);  opacity: 0; }
+}
+
+/* La pista: el tablero se ilumina por el lado hacia el que conviene deslizar.
+   Antes habia una regla que ponia un borde a cada ficha; se sustituyo por
+   esta porque el jugador necesita ver la DIRECCION, no las fichas. */
+.dosmil__tablero--pista::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: var(--r-lg);
+  box-shadow: inset 0 0 0 3px var(--accent-2);
+}
+.dosmil__tablero--pista::after {
+  content: "";
+  position: absolute;
+  inset: var(--hueco);
+  pointer-events: none;
+  border-radius: var(--r);
+}
+.dosmil__tablero--pista[data-pista="izq"]::after { background: linear-gradient(to right, rgba(11, 61, 145, .20), transparent 46%); }
+.dosmil__tablero--pista[data-pista="der"]::after { background: linear-gradient(to left,  rgba(11, 61, 145, .20), transparent 46%); }
+.dosmil__tablero--pista[data-pista="arr"]::after { background: linear-gradient(to bottom, rgba(11, 61, 145, .20), transparent 46%); }
+.dosmil__tablero--pista[data-pista="abo"]::after { background: linear-gradient(to top,   rgba(11, 61, 145, .20), transparent 46%); }
+
+.dosmil__confeti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 4;
+}
+.dosmil__confeti-pieza {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  top: -10px;
+  left: 0;
+  border-radius: 1px;
+  animation: confetiCaida 1400ms linear forwards;
+}
+@keyframes confetiCaida {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(460px) rotate(720deg); opacity: 0; }
+}
+
+.dosmil__fase {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 5;
+}
+.dosmil__fase[hidden] { display: none; }
+.dosmil__fase-inner {
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 6px 30px rgba(0,0,0,.45);
+  animation: faseEntra 300ms ease-out, faseSale 300ms ease-in 1200ms forwards;
+}
+.dosmil__fase-titulo {
+  font-family: var(--f-mono);
+  letter-spacing: .24em;
+  font-size: .8rem;
+}
+.dosmil__fase-num {
+  font-family: var(--f-mono);
+  font-weight: 700;
+  font-size: clamp(2rem, 10vmin, 4rem);
+}
+@keyframes faseEntra {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes faseSale {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+.dosmil__tablero--fasebrillo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-lg);
+  pointer-events: none;
+  animation: brilloFase 600ms ease-out;
+  background: radial-gradient(circle at 50% 30%, rgba(255,255,255,.25), transparent 60%);
+}
+@keyframes brilloFase {
+  from { opacity: 0; }
+  30% { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.marcador-dots {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.marcador-dots__punto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.25);
+}
+.marcador-dots__punto--ok { background: var(--accent); box-shadow: 0 0 0 2px rgba(255,255,255,.12); }
+.marcador-dots__punto--actual { background: rgba(255,255,255,.6); }
+
+/* ==========================================================================
+   LOS EFECTOS
+   --------------------------------------------------------------------------
+   Todo lo que hay de aqui hasta el final es adorno: la logica del juego ya
+   funciona sin nada de esto y por eso estas reglas viven juntas y se apagan
+   enteras con el movimiento reducido.
+
+   Hay una sola disciplina, la misma que usa la salida de la ficha absorbida:
+   cada pieza nace de una sola llamada, avisa de su final con su propia
+   animacion y se retira por un unico sitio, con un barrido de reloj como
+   segunda via por si el navegador se ha tragado el evento.
+
+   Y hay un solo bucle en la pagina -requestAnimationFrame solo cuando hay
+   algo que dibujar, que se para en cuanto no queda-. Por eso el fondo del
+   tablero solo respira mientras hay juego: con el tablero quieto no se dibuja
+   nada, que es la unica manera de que esto no le cueste bateria a nadie.
+   ========================================================================== */
+
+/* El fondo vivo del pozo. Va ENTRE las casillas y las fichas, nunca encima
+   de una ficha: las fichas son opacas y su contraste no se entera. El brillo
+   es azul, no blanco, y su punto mas claro es un 9,5 por ciento: con mas, la
+   ficha de 128 -el peor caso de la rampa- bajaria de 4,5:1 contra la casilla
+   que tiene debajo. Asi el contraste de la ficha con su propia tinta sigue en
+   5,15:1, y ademas el borde de esa ficha contra la casilla sigue en 4,53:1.
+
+   Cubre el tablero entero, no solo las casillas: si se quedara dentro, en un
+   tablero lleno no se veria nada y el pozo dejaria de estar vivo justo cuando
+   mas lleno esta. Lo que no hay por ningun lado es una ficha encima. */
+.dosmil__brillo {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  pointer-events: none;
+  /* En reposo se queda al 85 por ciento; --aliento lo sube a 1 mientras el
+     jugador esta moviendo fichas y lo escribe el motor una vez por fotograma. */
+  opacity: calc(.85 + var(--aliento, 0) * .15);
+}
+.dosmil__brillo::before {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  background: radial-gradient(42% 42% at 50% 50%,
+    rgba(28, 111, 212, .095) 0%,
+    rgba(28, 111, 212, .05) 38%,
+    rgba(28, 111, 212, 0) 72%);
+}
+.dosmil__tablero--vivo .dosmil__brillo::before {
+  animation: pozoRespira 17s ease-in-out infinite;
+}
+@keyframes pozoRespira {
+  0%, 100% { transform: translate3d(-24%, -18%, 0) scale(1); }
+  50%      { transform: translate3d(26%, 20%, 0) scale(1.16); }
+}
+
+/* La capa de las chispas. Es la ultima del tablero para que la rafaga salga
+   POR DELANTE de la ficha que la ha soltado. El indice 2 la deja por encima
+   de las fichas, que van en 1: sin esto la particula se esconderia debajo de
+   la propia ficha y de su sombra, que en los valores altos llega a 24 px. Es
+   decoracion entera, asi que el aria-hidden va puesto en la hoja de estilo y
+   no en el motor. */
+.dosmil__chispa {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.chispa {
+  position: absolute;
+  width: var(--tam, 5px);
+  height: var(--tam, 5px);
+  margin: calc(var(--tam, 5px) * -.5) 0 0 calc(var(--tam, 5px) * -.5);
+  border-radius: 50%;
+  background: var(--c);
+  animation: chispaSale var(--dur, 440ms) cubic-bezier(.18, .7, .4, 1) forwards;
+}
+/* El brillo aguanta mas de lo que dura el viaje: si se apaga al ritmo del
+   desplazamiento, la rafaga ya no se ve cuando sale de la ficha. */
+@keyframes chispaSale {
+  0%   { transform: translate(0, 0) scale(1);   opacity: 0; }
+  12%  { opacity: 1; }
+  55%  { opacity: .85; }
+  100% { transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(.3); opacity: 0; }
+}
+
+/* La sacudida. Solo transform, y los dos extremos del recorrido son
+   translate3d(0,0,0), la identidad: el tablero vuelve exactamente a donde
+   estaba y no descuadra ni un pixel la pagina. La amplitud la pone el motor
+   en --sacudida, de 2 px en el 128 a 6 px a partir de 1024. */
+.dosmil__tablero--sacude { animation: tableroSacude .15s linear; }
+@keyframes tableroSacude {
+  0%   { transform: translate3d(0, 0, 0); }
+  14%  { transform: translate3d(calc(var(--sacudida, 3px) * -1), calc(var(--sacudida, 3px) * .35), 0); }
+  32%  { transform: translate3d(var(--sacudida, 3px), calc(var(--sacudida, 3px) * -.4), 0); }
+  52%  { transform: translate3d(calc(var(--sacudida, 3px) * -.55), calc(var(--sacudida, 3px) * .2), 0); }
+  72%  { transform: translate3d(calc(var(--sacudida, 3px) * .3), 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* El asentamiento del arranque de ronda. Tambien acaba en la identidad. */
+.dosmil__tablero--asienta { animation: tableroAsienta .26s cubic-bezier(.2, .8, .3, 1); }
+@keyframes tableroAsienta {
+  0%   { transform: translate3d(0, 4px, 0) scale(.986); }
+  60%  { transform: translate3d(0, -1px, 0) scale(1.002); }
+  100% { transform: none; }
+}
+
+/* Las dos fichas de la ronda entran con mas caracter y la segunda un poco
+   despues. El retardo lo pide el nth-child, no un temporizador: si la ficha
+   no llega a ese orden no hay retardo y no se queda colgada ninguna. */
+.dosmil__fichas--arranca .ficha--nueva {
+  animation: fichaEntraLarga .34s cubic-bezier(.18, .86, .32, 1) backwards;
+}
+.dosmil__fichas--arranca .ficha--nueva:nth-child(2) { animation-delay: .09s; }
+@keyframes fichaEntraLarga {
+  0%   { transform: scale(.18) rotate(-7deg); opacity: 0; }
+  55%  { transform: scale(1.1) rotate(1deg);  opacity: 1; }
+  100% { transform: scale(1) rotate(0deg);   opacity: 1; }
+}
+
+/* ------------------------------------------------------------------ mandos */
+
+.turno-2048__acciones { display: flex; gap: .6rem; flex-wrap: wrap; }
+.turno-2048 .boton { min-width: 168px; justify-content: center; }
+
+.dosmil__teclas {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  flex-wrap: wrap;
+  margin-top: .85rem;
+  font-family: var(--f-mono);
+  font-size: .74rem;
+  color: var(--fg-faint);
+}
+.dosmil__tecla {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 .3rem;
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  color: var(--fg-soft);
+  font-size: .72rem;
+}
+
+@media (max-width: 640px) {
+  .dosmil__barra { padding: .5rem .6rem; gap: .6rem; }
+  .dosmil__estado { font-size: .72rem; }
+  .turno-2048__acciones { width: 100%; }
+  .turno-2048__acciones .boton { flex: 1; min-width: 0; }
+}
+
+@media (max-width: 480px) {
+  .dosmil__barra { padding: .2rem .42rem; gap: .18rem .42rem; flex-wrap: wrap; justify-content: space-between; max-width: 100%; }
+  .dosmil__meta { font-size: .64rem; line-height: 1; }
+  .dosmil__meta b { font-size: .84rem; line-height: 1; }
+  .dosmil__estado { font-size: .62rem; line-height: 1; }
+  .dosmil__barra .boton--peque { padding: .3rem .55rem; font-size: .68rem; line-height: 1.2; min-height: 30px; height: auto; border-width: 1px; flex: 0 0 auto; }
+}
+
+@media (max-width: 420px) {
+  .dosmil__barra { gap: .35rem; }
+}
+
+/* --------------------------------------------------------------------------
+   MOVIMIENTO REDUCIDO
+   base.css baja la duracion de todas las animaciones a 0,001 ms, asi que el
+   salto de la ficha y el destello de la fusion ya no se ven solos. Aqui se
+   apagan del todo y se deja en su lugar lo que no es movimiento:
+
+     - el aro de la ultima fusion se queda, y es el que dice que se junto
+     - la ficha absorbida se retira ya, sin esperar el deslizamiento
+     - la suma si aparece, pero quieta: sin subir y sin latir
+   Lo que sigue entendiendo el jugador es lo mismo que antes, solo que sin
+   el movimiento encima.
+
+   Lo de aqui abajo son los efectos de la ronda nueva. Se separan en dos
+   grupos porque no son lo mismo:
+
+     INFORMACION - el aro, el destello y la suma. Se quedan, pero en version
+     quieta: sin escala, sin subir y sin latir. base.css los deja en 0,001 ms
+     y por eso hay que devolverles una duracion de verdad, con !important
+     para poder ganar a la regla global. Sin esto el jugador con movimiento
+     reducido se enteraria de que se ha juntado una pareja por el texto del
+     marcador y por nada mas.
+
+     ADORNO - chispas, sacudida, asentamiento, latido del trofeo y fondo
+     del tablero. Fuera del todo. El motor tampoco los crea: sin --vivo no
+     hay bucle de animacion en toda la pagina.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  /* Informacion, en version quieta */
+  .ficha--absorbida { animation-delay: 0s; }
+  .ficha--sumada .ficha__caja { animation: none; }
+  .ficha--sumada .ficha__caja::after {
+    animation-name: destelloQuieta;
+    animation-duration: .5s !important;
+  }
+  .dosmil__meta--sube > b { animation: none; }
+  .dosmil__meta--sube .dosmil__suma {
+    animation-name: sumaQuieta;
+    animation-duration: 1.2s !important;
+  }
+
+  /* Adorno: apagado */
+  .chispa { display: none; }
+  .dosmil__tablero--sacude { animation: none; }
+  .dosmil__tablero--asienta { animation: none; }
+  .dosmil__fichas--arranca .ficha--nueva { animation-name: fichaEntra; }
+  .ficha--trofeo::before { animation: none; }
+  .dosmil__tablero--vivo .dosmil__brillo::before { animation: none; }
+  .ficha--fase .ficha__caja { animation: none; }
+  .dosmil__fase-inner { animation: faseOpacidad 900ms ease-in-out; }
+  .dosmil__tablero--fasebrillo::after { animation: none; }
+  .dosmil__confeti { display: none; }
+  /* Sin movimiento el fondo del tablero se queda en su valor de reposo, el
+     mismo azul clarito de siempre, sin respirar. */
+  .dosmil__brillo { opacity: .85; }
+}
+@keyframes faseOpacidad {
+  0%, 100% { opacity: 0; }
+  20%, 80% { opacity: 1; }
+}
+
+/* El destello quieto: la misma luz sobre la ficha, sin el escalado que la
+   hacia saltar. Opacidad y nada mas. */
+@keyframes destelloQuieta {
+  0%   { opacity: 0; }
+  30%  { opacity: .34; }
+  100% { opacity: 0; }
+}
+
+@keyframes sumaQuieta {
+  0%, 70% { opacity: 1; }
+  100%    { opacity: 0; }
+}

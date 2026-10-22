@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2048 &mdash; juego geom&eacute;trico de Diego Bordas</title>
+<meta name="description" content="Desliza el tablero y junta las fichas que llevan el mismo n&uacute;mero: dos doses hacen un cuatro, dos cuatro hacen un ocho. Un juego donde la serie vive en el c&oacute;digo y no en tus cuentas.">
+<meta name="theme-color" content="#fcfdff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Las fuentes de Google no bloquean el dibujado: el navegador pinta la
+     pagina con las del sistema y las cambia cuando llegan. Antes esta
+     peticion estaba en el camino critico de las once paginas. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <!-- Sin JavaScript el truco de abajo no funciona: la hoja queda en
+           media="print" y las fuentes nunca se aplican. Esta linea es la
+           que las carga de verdad para quien las apagó. -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+    </noscript>
+<link rel="stylesheet" href="assets/css/base.css?v=20261021">
+<link rel="stylesheet" href="assets/css/diego.css?v=20261021">
+<link rel="stylesheet" href="assets/css/juego-2048.css?v=20261021">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230b3d91'/><text x='50' y='70' font-size='54' font-family='Georgia,serif' fill='%23ffffff' text-anchor='middle'>2</text></svg>">
+</head>
+
+<body class="tema-diego reticula">
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="nav" id="nav">
+  <div class="caja nav__inside">
+    <a class="marca" href="index.html" title="Ir a la portada">
+      <svg class="marca__logo" viewBox="0 0 40 40" aria-hidden="true">
+          <rect width="40" height="40" fill="#0b3d91"/>
+          <text x="20" y="28.5" font-size="24" font-family="Georgia, serif" fill="#17110a" text-anchor="middle">&#931;</text>
+      </svg>
+      <span class="marca__texto">
+        <span class="marca__titulo">Las Series</span>
+        <span class="marca__sub">III. Juego</span>
+      </span>
+    </a>
+
+    <button class="nav__interruptor" id="navInterruptor" aria-expanded="false"
+            aria-controls="navMenu" aria-label="Abrir el men&uacute;">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav__menu" id="navMenu">
+      <ul class="nav__enlaces">
+        <li><a href="index.html">Portada</a></li>
+        <li><a href="historia.html">I. Historia</a></li>
+        <li><a href="cuento.html">II. Cuento</a></li>
+        <li><a href="juego.html" aria-current="page">III. Juego</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a class="boton boton--acento" href="#tablero">Ir al tablero</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <section class="cab-pagina">
+    <div class="caja">
+      <span class="cab-pagina__codigo">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="9.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/></svg>
+Apartado III &middot; Juego geom&eacute;trico &middot; Diego Bordas
+      </span>
+      <h1 class="cab-pagina__titulo">2048</h1>
+      <p class="cab-pagina__bajada">
+        Un tablero de n&uacute;mero cuadrados. Deslizas hacia un lado y las fichas que
+        llevan el mismo n&uacute;mero se juntan en una del doble: dos doses hacen un
+        cuatro, dos cuatro hacen un ocho. El juego se llama as&iacute; porque su ficha
+        mayor es la de 2048, y para llegar a ella hay que pasar antes por
+        todas las de abajo. <strong>No hay que hacer ni una cuenta</strong>: solo
+        juntas parejas.
+      </p>
+      <div class="cab-pagina__pie">
+        <span>Tipo: <b>progresi&oacute;n geom&eacute;trica</b></span>
+        <span>Cuentas que tienes que hacer: <b>ninguna</b></span>
+        <span>Rondas: <b>4</b></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="juego" aria-labelledby="tituloRonda">
+    <div class="caja">
+
+      <div class="ronda-oscura mb-6">
+        <div>
+          <h2 class="ronda-oscura__titulo" id="tituloRonda">Ronda 1 de 4</h2>
+          <p class="ronda-oscura__lema" id="lemaRonda">Une parejas hasta fabricar la ficha de 128.</p>
+        </div>
+        <div class="marcador" id="marcador" role="img" aria-label="Rondas de la partida"></div>
+      </div>
+
+      <div class="dosmil">
+        <div class="dosmil__barra">
+          <span class="dosmil__meta">Puntos <b id="leerPuntos">0</b></span>
+          <span class="dosmil__estado" id="estadoTablero">Meta: 128</span>
+          <span class="dosmil__meta">Vidas <b id="leerVidas">3</b></span>
+          <span class="dosmil__meta">Cadena <b id="leerCadena">0/5</b></span>
+          <button class="boton boton--contorno boton--peque" type="button" id="btnSilencio" aria-pressed="false" aria-label="Silenciar el sonido">Sonido</button>
+        </div>
+
+        <div class="dosmil__tablero" id="tablero" tabindex="0" role="application"
+             aria-label="Tablero de 2048. Usa las flechas del teclado o desliza el tablero para mover las fichas.">
+          <div class="dosmil__celdas" id="celdas" aria-hidden="true"></div>
+          <div class="dosmil__brillo" id="brillo" aria-hidden="true"></div>
+          <div class="dosmil__fichas" id="fichas"></div>
+          <div class="dosmil__chispa" id="chispa" aria-hidden="true"></div>
+          <div class="dosmil__confeti" id="confeti" aria-hidden="true"></div>
+          <div class="dosmil__fase" id="faseHecha" aria-live="polite" aria-atomic="true" hidden>
+            <div class="dosmil__fase-inner">
+              <div class="dosmil__fase-titulo">FASE SUPERADA</div>
+              <div class="dosmil__fase-num" id="faseHechaNum">128</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="dosmil__teclas">
+          <span class="dosmil__tecla">&#8593;</span>
+          <span class="dosmil__tecla">&#8595;</span>
+          <span class="dosmil__tecla">&#8592;</span>
+          <span class="dosmil__tecla">&#8594;</span>
+          <span>para mover &middot; o desliza el tablero con el dedo o el rat&oacute;n</span>
+        </p>
+      </div>
+
+      <p class="visualmente-oculto" id="lecturaViva" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <div class="turno turno-2048" id="turno" hidden>
+        <p class="turno__texto" id="textoTurno">Ronda terminada.</p>
+        <div class="turno-2048__acciones">
+          <button class="boton boton--acento" type="button" id="btnSeguir">Ronda siguiente</button>
+          <button class="boton boton--contorno" type="button" id="btnPista" aria-expanded="false" aria-controls="pista">
+            Necesito ayuda
+          </button>
+        </div>
+      </div>
+
+      <div class="pista" id="pista" hidden>
+        <p id="textoPista"></p>
+      </div>
+
+      <div class="lectura">
+        <span>Puntos: <b id="leerPuntos2">0</b></span>
+        <span class="lectura__punto">/</span>
+        <span>Movimientos: <b id="leerMovimientos">0</b></span>
+        <span class="lectura__punto">/</span>
+        <span>Meta: <b id="leerMeta">128</b></span>
+        <span class="lectura__punto">/</span>
+        <span>Casillas libres: <b id="leerLibres">0</b></span>
+        <span class="lectura__punto">/</span>
+        <span>Estrellas de la ronda:</span>
+        <span class="estrellas" id="estrellas" role="img"></span>
+        <span class="visualmente-oculto" id="lecturaEstrellas"></span>
+      </div>
+
+      <div class="chamaco" id="chamaco" hidden>
+        <span id="chamacoIcono" aria-hidden="true"></span>
+        <span id="chamacoTexto"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       COMO SE JUEGA
+       ================================================================== -->
+  <section class="seccion seccion--alt" aria-labelledby="reglas">
+    <div class="caja caja--angosta">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Las reglas</span>
+        <h2 id="reglas">Tres cosas y ya</h2>
+      </div>
+
+      <ol class="pasos aparece">
+        <li>
+          <strong>Desliza el tablero hacia un lado.</strong> Con el dedo, con el
+          rat&oacute;n o con las flechas del teclado. Todas las fichas se van
+          hasta el borde por donde deslizaste.
+        </li>
+        <li>
+          <strong>Las parejas se juntan solas.</strong> Si dos fichas vecinas
+          llevan el mismo n&uacute;mero, se convierten en una sola con el doble:
+          dos 32 hacen un 64. Solo se juntan las parejas que quedaron
+          pegadas, y cada ficha se junta <strong>una sola vez por jugada</strong>.
+        </li>
+        <li>
+          <strong>Llega a la ficha de la ronda.</strong> Cada ronda pide una
+          ficha distinta y el tablero se reinicia. Despu&eacute;s de cada jugada
+          aparece una ficha nueva en alg&uacute;n hueco al azar.
+        </li>
+      </ol>
+
+      <div class="destacado mt-6 aparece">
+        <h3>El truco sin cuentas</h3>
+        <p>
+          No hace falta pensar la partida. Dos trucos y ya:
+          <strong>deja la ficha grande siempre en la misma esquina</strong> y
+          <strong>no llenes el centro</strong>. Los huecos libres son de donde
+          sale la ficha nueva, as&iacute; que cada hueco que dejes es una
+          jugada que todav&iacute;a no has desperdiciado.
+        </p>
+        <p>
+          Las estrellas se cuentan por movimientos: cuanto menos tardaste
+          la ronda, m&aacute;s estrellas.
+        </p>
+        <p>
+          Tambi&eacute;n entran el <strong>W, el A, el S y el D</strong>, en
+          may&uacute;sculas o en min&uacute;sculas, y un deslizamiento corto: con
+          mover el dedo <strong>catorce p&iacute;xeles</strong> ya sale la jugada,
+          que es lo que recorre un pulgar en una pantalla de tel&eacute;fono.
+          Y si pulsas dos veces seguidas, la segunda jugada <strong>espera</strong>
+          a que la primera termine de moverse: no se pierde ninguna.
+        </p>
+        <p>
+          Las fichas que acaban de juntarse quedan con un <strong>aro</strong>
+          hasta la siguiente vez que se junten dos. Es la manera que tiene el
+          tablero de decirte qu&eacute; acaba de pasar, porque por s&iacute; solo
+          no lo cuenta.
+        </p>
+      </div>
+
+      <div class="matematica mt-6 aparece">
+        <h3>Lo que est&aacute; pasando de verdad</h3>
+        <p>
+          Cada ficha vale el doble que la anterior: 2, 4, 8, 16, 32, 64, 128,
+          256, 512, 1024 y 2048. Esa es una <strong>progresi&oacute;n
+          geom&eacute;trica</strong>: una lista en la que cada t&eacute;rmino es el
+          anterior multiplicado por el mismo n&uacute;mero, aqu&iacute; por dos.
+        </p>
+        <p>
+          El marcador tambi&eacute;n es una suma de esa misma lista. Cada vez que
+          se forma una ficha, el puntaje sube lo que vale esa ficha: 4, despu&eacute;s
+          8, despu&eacute;s 16, y as&iacute; hasta donde llegues. Son las
+          <strong>sumas parciales</strong> de la progresi&oacute;n.
+        </p>
+        <p>
+          Las tres metas de la partida tambi&eacute;n son de esta familia: 128,
+          512 y 1024. Cada una es el doble o el cu&aacute;druple de la anterior,
+          y las tres son potencias de dos. Ni siquiera los n&uacute;meros que el
+          juego te pide est&aacute;n puestos al azar.
+        </p>
+        <p>
+          Y hay un detalle bonito, que es el que le da nombre al juego. Para
+          fabricar la ficha de 2048 tienes que haber pasado antes por 2, 4, 8,
+          16, 32, 64, 128, 256, 512 y 1024. Si sumas todas esas, da
+          <strong>2046</strong>. Y 2046 + 2 = 2048. El juego no se llama 2048
+          por casualidad: se llama as&iacute; porque <strong>2048 es el 2 elevado
+          a 11</strong>, y todo lo que hay debajo suma justo lo que le falta
+          para llegar a ese n&uacute;mero. La tercera ronda te deja en el 1024,
+          que es la ficha inmediatamente anterior.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cierre-juego">
+    <div class="caja">
+      <div class="autor aparece">
+        <span class="autor__inicial" aria-hidden="true">DB</span>
+        <span class="autor__datos">
+          <span class="autor__nombre">Diego Bordas</span>
+          <span class="autor__pieza">Juego geom&eacute;trico &mdash; la serie vive en el motor</span>
+        </span>
+      </div>
+    <p class="cierre-juego__texto">
+      El otro juego del apartado es <strong>Asteroides</strong>, donde en vez de
+      juntar fichas, una roca enorme se parte en dos, cada parte en dos
+      más, y así hasta ocho: 1, 2, 4 y 8. Allí la serie aritmética está
+      en las rocas de cada ronda, que son 4, 5 y 6.
+    </p>
+<div class="cierre-juego__acciones">
+        <a class="boton boton--acento" href="juego-asteroides.html">Jugar Asteroides</a>
+        <a class="boton boton--contorno" href="juego.html">Ver los dos juegos</a>
+        <a class="boton boton--contorno" href="index.html#equipo">Ver el equipo</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="caja">
+    <div class="footer__grid">
+      <div>
+        <p class="pie__titulo">Las Series Matem&aacute;ticas</p>
+        <p>Trabajo de investigación sobre series: dos historias, dos cuentos y dos juegos.</p>
+      </div>
+      <div>
+        <p class="pie__rotulo">Apartados</p>
+        <ul>
+          <li><a href="historia.html">I. Historia</a></li>
+          <li><a href="cuento.html">II. Cuento</a></li>
+          <li><a href="juego.html">III. Juego</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="pie__rotulo">Equipo</p>
+        <ul>
+          <li>Diego Bordas</li>
+          <li>Angelita Vargas</li>
+          <li>Alejandro Guerrero</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js?v=20261021" defer></script>
+<script src="assets/js/2048.js?v=20261021" defer></script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>III. Juego &mdash; Las Series Matem&aacute;ticas</title>
+<meta name="description" content="Dos juegos de series: 2048, donde cada pareja de fichas se junta en una del doble; y Asteroides, donde una roca se parte en dos y cada parte se parte en dos más. Sin saber ninguna fórmula.">
+<meta name="theme-color" content="#14181f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Las fuentes de Google no bloquean el dibujado: el navegador pinta la
+     pagina con las del sistema y las cambia cuando llegan. Antes esta
+     peticion estaba en el camino critico de las once paginas. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <!-- Sin JavaScript el truco de abajo no funciona: la hoja queda en
+           media="print" y las fuentes nunca se aplican. Esta linea es la
+           que las carga de verdad para quien las apagó. -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+    </noscript>
+<link rel="stylesheet" href="assets/css/base.css?v=20261021">
+<link rel="stylesheet" href="assets/css/portada.css?v=20261021">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2314181f'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' fill='%23c9a227' text-anchor='middle'>%CE%A3</text></svg>">
+</head>
+
+<body class="tema-portada">
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="nav" id="nav">
+  <div class="caja nav__inside">
+    <a class="marca" href="index.html" title="Ir a la portada">
+      <svg class="marca__logo" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="8" fill="#14181f"/>
+        <text x="20" y="28.5" font-size="24" font-family="Georgia, serif" fill="#c9a227" text-anchor="middle">&#931;</text>
+      </svg>
+      <span class="marca__texto">
+        <span class="marca__titulo">Las Series</span>
+        <span class="marca__sub">III. Juego</span>
+      </span>
+    </a>
+
+    <button class="nav__interruptor" id="navInterruptor" aria-expanded="false"
+            aria-controls="navMenu" aria-label="Abrir el men&uacute;">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav__menu" id="navMenu">
+      <ul class="nav__enlaces">
+        <li><a href="index.html">Portada</a></li>
+        <li><a href="historia.html">I. Historia</a></li>
+        <li><a href="cuento.html">II. Cuento</a></li>
+        <li><a href="juego.html" aria-current="page">III. Juego</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a class="boton boton--acento" href="juego-asteroides.html">Jugar ya</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <section class="cabecera reticula" style="padding-block:3.5rem 2.75rem">
+    <div class="caja">
+      <span class="eyebrow">Apartado III &middot; Juego</span>
+      <h1 class="cabecera__titulo" style="font-size:clamp(2.2rem,4vw+1rem,3.4rem);margin-top:1rem">
+        Dos juegos, dos maneras de <em>crecer</em>
+      </h1>
+      <p class="cabecera__bajada">
+    En los dos, la serie está escondida dentro del motor del juego. En
+    ninguno hace falta saber la fórmula: lo que se ve son fichas juntándose
+    en una del doble y una roca rompiéndose en pedazos. Si alguien quiere saber
+    qué está pasando por dentro, cada juego lo explica al final, aparte.
+  </p>
+    </div>
+  </section>
+
+  <section class="seccion" aria-labelledby="los-dos">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Los dos juegos</span>
+        <h2 id="los-dos">Elige cu&aacute;l quieres probar</h2>
+        <p>
+          Los dos multiplican, cada uno a su manera. Y la suma está escondida en el
+          otro lado del mismo juego: las rocas de cada ronda son 4, 5 y 6. Los dos tienen
+          tres rondas, un botón para empezar de nuevo y ninguna pantalla
+          de instrucciones obligatoria.
+        </p>
+      </div>
+
+      <div class="apartados">
+
+        <article class="apartado aparece" style="border-top:3px solid #a3496a">
+          <span class="apartado__num">JUEGO 01 &middot; ANGELITA VARGAS</span>
+          <h3 class="apartado__titulo">Asteroides</h3>
+          <p class="apartado__texto">
+            Tu nave va por el espacio y las rocas flotan. Al romper una
+            roca enorme salen <strong>dos</strong> grandes, de cada grande
+            <strong>dos</strong> medianas y de cada mediana
+            <strong>dos</strong> peque&ntilde;as. Los puntos también se
+            duplican: 20, 40, 80 y 160. Tres naves y a esquivar.
+          </p>
+          <ul class="integrante__lista" style="--persona:#a3496a;margin-top:1.1rem">
+            <li>Tres rondas con 4, 5 y 6 rocas</li>
+            <li>Un solo dedo: arrastras para girar y tocas para disparar</li>
+            <li>Pista opcional si te atoras</li>
+          </ul>
+          <div class="apartado__botones" style="margin-top:1.5rem">
+            <a class="boton boton--acento" href="juego-asteroides.html">Jugar Asteroides</a>
+            <a class="boton boton--contorno" href="cuento-angelita.html">Su cuento</a>
+          </div>
+        </article>
+
+        <article class="apartado aparece" style="border-top:3px solid #0b3d91">
+          <span class="apartado__num">JUEGO 02 &middot; DIEGO BORDAS</span>
+          <h3 class="apartado__titulo">2048</h3>
+          <p class="apartado__texto">
+            Un tablero de número cuadrados. Deslizas hacia un lado y las fichas
+            que llevan el mismo número se juntan en una del doble: dos doses
+            hacen un cuatro, dos cuatro hacen un ocho. No hay que saber ninguna
+            fórmula, solo juntas parejas. La meta es llegar a la ficha que le
+            da nombre al juego.
+          </p>
+          <ul class="integrante__lista" style="--persona:#0b3d91;margin-top:1.1rem">
+            <li>Tres rondas: llegar a 128, a 512 y a 1024</li>
+            <li>Un solo gesto: deslizar el tablero</li>
+            <li>Pista opcional si te atoras</li>
+          </ul>
+          <div class="apartado__botones" style="margin-top:1.5rem">
+            <a class="boton boton--solido" href="juego-2048.html">Jugar 2048</a>
+            <a class="boton boton--contorno" href="historia-diego.html">Su historia</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion seccion--alt" aria-labelledby="regla">
+    <div class="caja caja--angosta">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">La regla de los dos</span>
+        <h2 id="regla">Ninguno te pide saber la f&oacute;rmula</h2>
+      </div>
+
+      <div class="prose aparece">
+        <p>
+          Los dos juegos tienen la misma regla de dise4o, y es la más
+          importante de este trabajo: <strong>las f&oacute;rmulas no se escriben en
+          ning&uacute;n sitio de la pantalla mientras se juega</strong>. El motor las
+          usa por dentro para decidir si la ronda est&aacute; ganada, pero el jugador
+          solo ve dos o tres n&uacute;meros y una pila que crece o se vac&iacute;a.
+        </p>
+        <p>
+          Al final de cada p&aacute;gina de juego hay una secci&oacute;n aparte que s&iacute;
+          s&iacute; cuenta la cuenta. Est&aacute; para quien la quiera y no est&aacute;
+          en el camino de quien solo quiera jugar.
+        </p>
+        <p>
+          Quien juegue las tres rondas de 2048 verá subir las fichas por
+          2, 4, 8, 16, 32, 64 y 128; después hasta 512 y por fin hasta 1024,
+          que es la ficha de justo antes del 2048. Quien juegue las de Asteroides
+          verá partir una roca en 1, 2, 4 y 8 pedazos, sumar 20, 40, 80 y 160
+          puntos, y empezar cada ronda con una roca más: 4, 5 y 6. Ahí está la
+          aritmética, que en un juego de multiplicaciones no se espera.
+          Ninguno de los dos habría tenido que escribir la palabra
+          <em>progresión</em> para ganar.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cierre">
+    <div class="caja">
+      <h2 class="cierre__titulo">Dos juegos, un mismo truco</h2>
+      <p class="cierre__texto">
+        Los dos hacen lo mismo con la serie: no la enseñan, la usan.
+        En el 2048 la multiplicación vive en el tablero, que dobla cada ficha
+        que se junta con otra igual. En Asteroides vive en la roca, que se parte en
+        dos, y cada parte en dos otra vez. Y donde está la aritmética es en las rocas
+        de cada ronda: 4, 5 y 6, una más cada vez.
+        Jugar los dos es la manera más corta de entender por
+        qué este trabajo separa el origen de las series del legado.
+      </p>
+      <div class="cierre__acciones">
+        <a class="boton boton--solido" href="juego-asteroides.html">Empezar por Asteroides</a>
+        <a class="boton boton--contorno" href="index.html">Volver a la portada</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="caja">
+    <div class="footer__grid">
+      <div>
+        <p class="pie__titulo">Las Series Matem&aacute;ticas</p>
+        <p>Trabajo de investigación sobre series: dos historias, dos cuentos y dos juegos.</p>
+      </div>
+      <div>
+        <p class="pie__rotulo">Apartados</p>
+        <ul>
+          <li><a href="historia.html">I. Historia</a></li>
+          <li><a href="cuento.html">II. Cuento</a></li>
+          <li><a href="juego.html">III. Juego</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="pie__rotulo">Equipo</p>
+        <ul>
+          <li>Diego Bordas</li>
+          <li>Angelita Vargas</li>
+          <li>Alejandro Guerrero</li>
+        </ul>
+      </div>
+    </div>    <div class="pie__abajo">
+      <span>&copy; 2026 &middot; Diego Bordas, Angelita Vargas y Alejandro Guerrero.</span>
+      <span>P&aacute;gina construida con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js?v=20261021" defer></script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+/* ==========================================================================
+   TEMA: ANGELITA VARGAS
+   --------------------------------------------------------------------------
+   Pastel y cálido. Fondo crema, acentos suaves de rosa, verde agua y
+   lavanda, esquinas bien redondeadas y tipografía con serif. La idea es la
+   de un cuaderno de papel: tranquilo, hecho a mano, con manchas de color.
+   Se aplica con la clase .tema-angelita.
+   ========================================================================== */
+
+.tema-angelita {
+  /* Superficies */
+  --bg:          #fdf8f4;
+  --bg-2:        #f7ece7;
+  --bg-3:        #f1e0da;
+  --surface:     #fffdfb;
+  --line:        #ecd9d2;
+  --line-2:      #dbc2b9;
+
+  /* Texto */
+  --fg:          #4a3540;
+  --fg-soft:     #745c69;
+  --fg-faint:    #6b5566;
+
+  /* Acento: rosa suave */
+  --accent:      #9f4566;
+  --accent-2:    #e2a3b5;
+  --accent-fg:   #fffdfb;
+  --accent-soft: #fbe7ec;
+  --accent-line: #e2a3b5;
+
+  /* Acentos secundarios de la paleta */
+  --agua:        #2f7d73;
+  --agua-soft:   #dcefec;
+  --lavanda:     #a394c9;
+  --lavanda-soft:#eae4f6;
+
+  /* Formas: bien redondeadas */
+  --r-sm:   10px;
+  --r:      16px;
+  --r-lg:   24px;
+  --r-xl:   32px;
+
+  /* Tipografías con caracter */
+  --f-title: "Newsreader", Georgia, "Times New Roman", serif;
+  --f-body:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --f-mono:  "JetBrains Mono", "SF Mono", Consolas, monospace;
+
+  /* Sombras suaves y cálidas */
+  --sh-sm: 0 1px 2px rgba(122, 86, 103, .05);
+  --sh:    0 4px 14px rgba(122, 86, 103, .07);
+  --sh-lg: 0 10px 34px rgba(122, 86, 103, .10);
+
+  --nav-bg:        rgba(253, 248, 244, .88);
+  --nav-bg-fija:   rgba(253, 248, 244, .96);
+}
+
+/* Manchas suaves de color al fondo, como acuarela */
+.tema-angelita.manchas {
+  position: relative;
+  isolation: isolate;
+}
+.tema-angelita.manchas::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(680px 420px at 88% 4%, rgba(124, 184, 176, .20), transparent 62%),
+    radial-gradient(560px 380px at 6% 12%, rgba(226, 163, 181, .20), transparent 62%),
+    radial-gradient(520px 360px at 50% 96%, rgba(163, 148, 201, .16), transparent 62%);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Encabezados: serif, con un poco de aire
+   -------------------------------------------------------------------------- */
+.tema-angelita h1,
+.tema-angelita h2,
+.tema-angelita h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+.tema-angelita h1 { font-style: normal; }
+.tema-angelita .eyebrow {
+  color: var(--accent);
+  font-size: .72rem;
+  letter-spacing: .12em;
+}
+.tema-angelita .eyebrow::before {
+  width: 22px;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent-2), var(--agua));
+}
+
+/* Etiqueta redondeada, como una pastilla */
+.tema-angelita .sello {
+  display: inline-block;
+  padding: .35rem .8rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Tarjetas: suaves, con borde que se desvanece
+   -------------------------------------------------------------------------- */
+.tema-angelita .tarjeta {
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+.tema-angelita .tarjeta:hover {
+  border-color: var(--accent-2);
+  box-shadow: var(--sh-lg);
+  transform: translateY(-5px);
+}
+.tema-angelita .tarjeta::before {
+  height: 5px;
+  border-radius: 0 0 4px 4px;
+  background: linear-gradient(90deg, var(--accent-2), var(--agua));
+}
+
+/* --------------------------------------------------------------------------
+   Paneles
+   -------------------------------------------------------------------------- */
+.tema-angelita .panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.tema-angelita .panel__cab {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .8rem 1.2rem;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tema-angelita .panel__cab::before {
+  content: "";
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-2), var(--agua));
+  flex-shrink: 0;
+}
+.tema-angelita .panel__cuerpo { padding: 1.35rem; }
+
+/* --------------------------------------------------------------------------
+   Datos numéricos
+   -------------------------------------------------------------------------- */
+.tema-angelita .dato {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+.tema-angelita .dato--grande {
+  font-size: clamp(1.7rem, 2.2vw, 2.4rem);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--accent);
+}
+.tema-angelita .cifras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px dashed var(--line-2);
+}
+.tema-angelita .cifras > div > .dato { display: block; }
+.tema-angelita .cifras > div > span:not(.sello) {
+  display: block;
+  margin-top: .3rem;
+  font-size: .82rem;
+  color: var(--fg-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Tablas
+   -------------------------------------------------------------------------- */
+.tema-angelita .tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-mono);
+  font-size: .85rem;
+}
+.tema-angelita .tabla th,
+.tema-angelita .tabla td {
+  padding: .65rem .75rem;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+}
+.tema-angelita .tabla th:first-child,
+.tema-angelita .tabla td:first-child { text-align: left; }
+.tema-angelita .tabla thead th {
+  background: var(--bg-2);
+  color: var(--accent);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.tema-angelita .tabla tbody tr:hover { background: var(--bg-2); }
+
+/* --------------------------------------------------------------------------
+   Notas
+   -------------------------------------------------------------------------- */
+.tema-angelita .nota {
+  padding: 1.15rem 1.3rem;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent-2);
+  border-radius: 0 var(--r) var(--r) 0;
+  font-size: .88rem;
+  line-height: 1.75;
+  color: var(--fg-soft);
+}
+.tema-angelita .nota__num {
+  display: block;
+  margin-bottom: .5rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Fórmulas
+   -------------------------------------------------------------------------- */
+.tema-angelita .formula {
+  display: block;
+  margin-block: 1.5rem;
+  padding: 1.35rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  font-family: var(--f-mono);
+  font-size: 1.05rem;
+  text-align: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.tema-angelita .formula__label {
+  display: block;
+  margin-bottom: .75rem;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: left;
+}
+.tema-angelita .frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  margin-inline: .18em;
+  font-size: .95em;
+  line-height: 1.3;
+}
+.tema-angelita .frac > span:first-child { padding: 0 .3em; }
+.tema-angelita .frac > span:last-child { padding: 0 .3em; border-top: 1.2px solid currentColor; }
+
+/* --------------------------------------------------------------------------
+   Botones: bien redondeados
+   -------------------------------------------------------------------------- */
+.tema-angelita .boton { border-radius: 999px; }
+.tema-angelita .boton--solido {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+.tema-angelita .boton--acento {
+  background: var(--agua-soft);
+  color: #2f6058;
+  border-color: #a8d2cb;
+}
+.tema-angelita .boton--contorno {
+  background: var(--surface);
+  color: var(--accent);
+  border-color: var(--line-2);
+}
+.tema-angelita .boton--contorno:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent-2);
+  color: var(--accent);
+}
+.tema-angelita .flecha { color: var(--accent); }
+.tema-angelita .flecha:hover { color: var(--agua); }
+
+/* Ficha de autor */
+.tema-angelita .autor {
+  --autor-bg:    #fffdfb;
+  --autor-linea: #ecd9d2;
+  --autor-color: #a3496a;
+  --autor-fg:    #fffdfb;
+}

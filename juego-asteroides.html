@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asteroides &mdash; juego geom&eacute;trico de Angelita Vargas</title>
+<meta name="description" content="Una roca grande se parte en dos medianas y cada mediana en cuatro peque&ntilde;as. Los puntos se duplican en cada partici&oacute;n: 20, 40, 80. Un juego donde las dos series viven en el c&oacute;digo.">
+<meta name="theme-color" content="#fdf8f4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Las fuentes de Google no bloquean el dibujado: el navegador pinta la
+     pagina con las del sistema y las cambia cuando llegan. Antes esta
+     peticion estaba en el camino critico de las once paginas. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <!-- Sin JavaScript el truco de abajo no funciona: la hoja queda en
+           media="print" y las fuentes nunca se aplican. Esta linea es la
+           que las carga de verdad para quien las apago. -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+    </noscript>
+<link rel="stylesheet" href="assets/css/base.css?v=20261021">
+<link rel="stylesheet" href="assets/css/angelita.css?v=20261021">
+<link rel="stylesheet" href="assets/css/juego-asteroides.css?v=20261021">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23a3496a'/><path d='M28 34l44 32-44 12 12-22z' fill='white'/></svg>">
+</head>
+
+<body class="tema-angelita manchas">
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="nav" id="nav">
+  <div class="caja nav__inside">
+    <a class="marca" href="index.html" title="Ir a la portada">
+      <svg class="marca__logo" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="8" fill="#a3496a"/>
+        <path d="M11 14l18 13-18 5 5-9z" fill="#ffffff"/>
+      </svg>
+      <span class="marca__texto">
+        <span class="marca__titulo">Las Series</span>
+        <span class="marca__sub">III. Juego</span>
+      </span>
+    </a>
+
+    <button class="nav__interruptor" id="navInterruptor" aria-expanded="false"
+            aria-controls="navMenu" aria-label="Abrir el men&uacute;">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav__menu" id="navMenu">
+      <ul class="nav__enlaces">
+        <li><a href="index.html">Portada</a></li>
+        <li><a href="historia.html">I. Historia</a></li>
+        <li><a href="cuento.html">II. Cuento</a></li>
+        <li><a href="juego.html" aria-current="page">III. Juego</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a class="boton boton--acento" href="#campo">Ir al campo</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <section class="cab-pagina">
+    <div class="caja">
+      <span class="cab-pagina__codigo">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 1.5l2 6.5 6.5 2-6.5 2-2 6.5-2-6.5L.5 10l6.5-2z"/></svg>
+        Apartado III &middot; Juego geom&eacute;trico &middot; Angelita Vargas
+      </span>
+      <h1 class="cab-pagina__titulo">Asteroides</h1>
+      <p class="cab-pagina__bajada">
+Las rocas flotan y tu nave las esquiva. Al pegarle a una roca enorme se
+parte en <strong>dos grandes</strong>, cada grande en <strong>dos medianas</strong>,
+y cada mediana en <strong>dos pequenas</strong>. <strong>No hay que hacer
+ni una cuenta</strong>: disparas y ya.
+</p>
+      <div class="cab-pagina__pie">
+        <span>Tipo: <b>progresi&oacute;n geom&eacute;trica</b></span>
+        <span>Cuentas que tienes que hacer: <b>ninguna</b></span>
+        <span>Fases: <b>5</b></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="campo" aria-labelledby="tituloRonda">
+    <div class="caja">
+
+      <div class="ronda-oscura mb-6">
+        <div>
+          <h2 class="ronda-oscura__titulo" id="tituloRonda">Fase 1 de 5</h2>
+          <p class="ronda-oscura__lema" id="lemaRonda">Cuatro rocas enormes. Partelas y esquiva los pedazos.</p>
+        </div>
+        <div class="marcador" id="marcador" role="img" aria-label="Fases de la partida"></div>
+      </div>
+
+      <div class="astro">
+        <!-- ==============================================================
+             MENU DE INICIO. Cubre el marco mientras la pagina carga y el
+             juego no empieza hasta que se pulsa un boton. Al entrar en
+             pantalla completa el motor lo mueve DENTRO del marco, para que
+             siga cubriendo el campo entero; al salir, vuelve aqui.
+             ============================================================== -->
+        <section class="astro__menu" id="menu" aria-labelledby="menuTitulo">
+          <p class="astro__menu__codigo">Juego geom&eacute;trico &middot; Apartado III</p>
+          <h2 class="astro__menu__titulo" id="menuTitulo">Asteroides</h2>
+          <div class="astro__menu__ilustracion" aria-hidden="true">
+            <img class="astro__menu__nave" src="assets/img/juego/nave.webp" alt=""
+                 width="84" height="84" draggable="false">
+            <span class="astro__menu__llama"></span>
+            <img class="astro__menu__roca" src="assets/img/juego/roca-4-a.webp" alt=""
+                 width="120" height="120" draggable="false">
+          </div>
+          <div class="astro__menu__acciones">
+            <button class="boton boton--acento" type="button" id="btnJugarCompleta">
+              Jugar a pantalla completa
+            </button>
+            <button class="boton boton--contorno" type="button" id="btnJugarAqui">
+              Jugar aqu&iacute;
+            </button>
+          </div>
+          <ul class="astro__menu__opciones">
+            <li>
+              <label class="astro__opcion">
+                <input type="checkbox" id="opSonido" checked>
+                <span>Sonido</span>
+              </label>
+            </li>
+            <li>
+              <label class="astro__opcion">
+                <input type="checkbox" id="opVibracion" checked>
+                <span>Vibraci&oacute;n</span>
+              </label>
+            </li>
+          </ul>
+          <p class="astro__menu__teclas">
+            Girar y avanzar: <b>flechas</b> o el dedo &middot; Disparar: <b>espacio</b> o un toque
+            &middot; Pausa: <b>P</b> o <b>Esc</b>
+          </p>
+        </section>
+
+        <div class="astro__marco" id="marco">
+          <canvas class="astro__lienzo" id="lienzo" width="900" height="558" tabindex="0"
+                  role="application"
+aria-label="Campo de asteroides. Arrastra o usa las flechas para girar la nave y moverla, y pulsa la barra espaciadora o toca la pantalla para disparar. Con el dedo apoyado sobre el campo apuntas y disparas a la vez. Tecla P o Escape para pausar, tecla R para reiniciar la partida.">
+            Tu navegador no dibuja el campo, pero el juego sigue funcionando:
+            los numeros, las vidas y las rocas que quedan estan escritos abajo.
+          </canvas>
+
+          <div class="astro__fase" id="avisoFase" hidden>
+            <p class="astro__fase__rotulo" id="avisoFaseRotulo">Fase 1 de 5</p>
+            <p class="astro__fase__nombre" id="avisoFaseNombre">Cinturón interior</p>
+            <p class="astro__fase__lema" id="avisoFaseLema">Cuatro rocas enormes. Partelas y esquiva los pedazos.</p>
+          </div>
+
+          <!-- ============================================================
+               HUD: todo lo vivo del juego va DENTRO del marco, para que
+               siga viendose cuando el marco entre en pantalla completa.
+               La capa no intercepta el puntero: el jugador tiene que poder
+               apuntar y disparar por debajo de los marcadores.
+               ============================================================ -->
+          <div class="astro__hud" role="img" aria-label="Marcadores del campo">
+            <div class="astro__hud__grupo astro__hud__grupo--izq">
+              <p class="astro__hud__titular">
+                <span class="astro__hud__rotulo">Puntos</span>
+                <span class="astro__hud__cifra" id="leerPuntos">0</span>
+              </p>
+              <p class="astro__hud__linea">
+                <span class="astro__hud__rotulo">Racha</span>
+                <span class="astro__hud__cifra astro__hud__cifra--acento" id="leerRacha">&times;1</span>
+              </p>
+            </div>
+
+            <div class="astro__hud__grupo astro__hud__grupo--der">
+              <p class="astro__hud__linea">
+                <span class="astro__hud__rotulo">Vidas</span>
+                <span class="astro__hud__cifra" id="leerVidas">3</span>
+              </p>
+              <p class="astro__hud__linea">
+                <span class="astro__hud__rotulo">Oleada</span>
+                <span class="astro__hud__cifra" id="leerRonda">1</span>
+              </p>
+            </div>
+
+            <div class="astro__hud__pie" id="hudPie">
+              <span class="astro__hud__dato">
+                <span class="astro__hud__rotulo">Rocas</span>
+                <span class="astro__hud__cifra" id="leerRocas">4</span>
+              </span>
+              <span class="astro__hud__dato">
+                <span class="astro__hud__rotulo">Enormes</span>
+                <span class="astro__hud__cifra" id="leerEnormes">4</span>
+              </span>
+              <span class="astro__hud__dato">
+                <span class="astro__hud__rotulo">Grandes</span>
+                <span class="astro__hud__cifra" id="leerGrandes">4</span>
+              </span>
+              <span class="astro__hud__dato">
+                <span class="astro__hud__rotulo">Medianas</span>
+                <span class="astro__hud__cifra" id="leerMedianas">0</span>
+              </span>
+              <span class="astro__hud__dato">
+                <span class="astro__hud__rotulo">Peque&ntilde;as</span>
+                <span class="astro__hud__cifra" id="leerPequenas">0</span>
+              </span>
+              <span class="astro__hud__dato astro__hud__dato--arma">
+                <span class="astro__hud__rotulo">Arma</span>
+                <span class="astro__hud__cifra" id="leerArma">1 de 3</span>
+              </span>
+            </div>
+
+            <!-- El estado de la partida, que antes iba en la barra de arriba.
+                 Ahora vive en la esquina inferior izquierda del marco, dentro
+                 del propio HUD: avisa de la pausa y del campo despejado sin
+                 robarle sitio al campo, y comparte rejilla con los contadores
+                 para que no pueda pisarlos. -->
+            <span class="astro__estado" id="estadoCampo">Rocas en el campo: 4</span>
+          </div>
+
+          <!-- Los botones del marco: pausa, silencio y salida de pantalla
+               completa. Van arriba en el centro. Estan FUERA del HUD a
+               proposito: el HUD lleva role="img" y un nodo con ese rol no
+               expone a sus descendientes interactivos en el arbol de
+               accesibilidad, asi que los tres botones quedaban invisibles
+               para un lector de pantalla. Como hermanos del HUD siguen
+               dentro del marco, reciben el puntero y no capturan los toques
+               del campo. -->
+          <div class="astro__mandos">
+            <button class="astro__mando" type="button" id="btnPausa"
+                    aria-label="Pausar el juego" aria-pressed="false">
+              <svg viewBox="0 0 20 20" width="18" height="18" fill="currentColor" aria-hidden="true">
+                <rect x="5" y="4" width="3.6" height="12" rx="1"/>
+                <rect x="11.4" y="4" width="3.6" height="12" rx="1"/>
+              </svg>
+            </button>
+            <button class="astro__mando" type="button" id="btnSilencio"
+                    aria-label="Silenciar el sonido" aria-pressed="false">
+              <svg class="astro__mando__altavoz" viewBox="0 0 20 20" width="18" height="18"
+                   fill="none" stroke="currentColor" stroke-width="1.7"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3.5 7.5h3l4-3.2v11.4l-4-3.2h-3z"/>
+                <path class="astro__mando__onda" d="M13 7.4a4 4 0 0 1 0 5.2"/>
+                <path class="astro__mando__cruz" d="M13.2 7.6l3.6 4.8M16.8 7.6l-3.6 4.8"/>
+              </svg>
+            </button>
+            <button class="astro__mando" type="button" id="btnSalirCompleta" hidden
+                    aria-label="Salir de pantalla completa">
+              <svg viewBox="0 0 20 20" width="18" height="18" fill="none"
+                   stroke="currentColor" stroke-width="1.9" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 7V3h4M17 7V3h-4M3 13v4h4M17 13v4h-4"/>
+              </svg>
+            </button>
+          </div>
+
+          <p class="astro__efectos" id="efectos" hidden></p>
+
+          <!-- La capa de pausa, que ya estaba dentro. -->
+          <div class="astro__pausa" id="pausa" hidden>
+            <p class="astro__pausa__titulo">En pausa</p>
+            <p class="astro__pausa__nota">
+              Pulsa <b>P</b> o <b>Esc</b> para seguir, o <b>R</b> para
+              empezar la partida de cero.
+            </p>
+          </div>
+
+          <!-- ============================================================
+               LAS CUATRO CAPAS DE JUEGO, ahora dentro del marco.
+               ============================================================ -->
+
+          <div class="turno turno-astro" id="turno" hidden>
+            <p class="turno__texto" id="textoTurno">Fase terminada.</p>
+            <div class="turno-astro__acciones">
+              <button class="boton boton--acento" type="button" id="btnSeguir">Fase siguiente</button>
+              <button class="boton boton--contorno" type="button" id="btnPista" aria-expanded="false" aria-controls="pista">
+                Necesito ayuda
+              </button>
+            </div>
+          </div>
+
+          <div class="pista" id="pista" hidden>
+            <p id="textoPista"></p>
+          </div>
+
+          <div class="lectura">
+            <span>Puntos: <b id="leerPuntos2">0</b></span>
+            <span class="lectura__punto">/</span>
+            <span>Rocas: <b id="leerRocas2">0</b></span>
+            <span class="lectura__punto">/</span>
+            <span>Vidas: <b id="leerVidas2">3</b></span>
+            <span class="lectura__punto">/</span>
+            <span id="etiquetaEstrellas">Estrellas de la fase:</span>
+            <span class="estrellas" id="estrellas" role="img"></span>
+            <span class="visualmente-oculto" id="lecturaEstrellas"></span>
+          </div>
+
+          <div class="chamaco" id="chamaco" hidden>
+            <span id="chamacoIcono" aria-hidden="true"></span>
+            <span id="chamacoTexto"></span>
+          </div>
+
+          <!-- La capa de fin de partida. El motor la destapa al quedarse sin
+               naves; los dos botones reinician y vuelven al menu. -->
+          <div class="astro__fin" id="fin" hidden>
+            <p class="astro__fin__rotulo">Fin de la partida</p>
+            <p class="astro__fin__titulo" id="finTitulo">Te quedaste sin naves</p>
+            <p class="astro__fin__cifras">
+              <span><span class="astro__fin__etiqueta">Puntos</span><b id="finPuntos">0</b></span>
+              <span><span class="astro__fin__etiqueta">Oleada</span><b id="finRonda">1</b></span>
+            </p>
+            <div class="astro__fin__acciones">
+              <button class="boton boton--acento" type="button" id="btnOtraVez">Otra vez</button>
+              <button class="boton boton--contorno" type="button" id="btnMenu">Men&uacute;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           LO QUE SE QUEDA FUERA DEL MARCO: no es interfaz viva, es
+           contenido de la pagina. Al entrar en pantalla completa no
+           se pierde nada que el jugador necesite mientras juega.
+           ============================================================ -->
+      <p class="visualmente-oculto" id="lecturaViva" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <div class="astro__leyenda">
+        <span><i class="astro__punto astro__punto--e" aria-hidden="true"></i> Enorme: <b>20</b></span>
+        <span class="astro__flecha">se parte en <b>2</b></span>
+        <span><i class="astro__punto astro__punto--g" aria-hidden="true"></i> Grande: <b>40</b></span>
+        <span class="astro__flecha">se parte en <b>2</b></span>
+        <span><i class="astro__punto astro__punto--m" aria-hidden="true"></i> Mediana: <b>80</b></span>
+        <span class="astro__flecha">se parte en <b>2</b></span>
+        <span><i class="astro__punto astro__punto--p" aria-hidden="true"></i> Peque&ntilde;a: <b>160</b></span>
+      </div>
+
+      <p class="astro__leyenda astro__leyenda--botin">
+        <span><i class="astro__botin astro__botin--arma" aria-hidden="true"></i> Bot&iacute;n de <b>arma</b>: m&aacute;s balas por disparo, y vuelve a <b>1</b> al morir</span>
+        <span><i class="astro__botin astro__botin--cadencia" aria-hidden="true"></i> Bot&iacute;n de <b>cadencia</b>: disparas m&aacute;s r&aacute;pido</span>
+        <span><i class="astro__botin astro__botin--perforante" aria-hidden="true"></i> Bot&iacute;n de <b>perforante</b>: las balas atraviesan las rocas</span>
+        <span><i class="astro__botin astro__botin--escudo" aria-hidden="true"></i> Bot&iacute;n de <b>escudo</b>: las rocas no te pueden tocar</span>
+      </p>
+
+      <p class="astro__teclas">
+        <span class="astro__tecla">&#8592;</span>
+        <span class="astro__tecla">&#8594;</span>
+        <span>girar y avanzar</span>
+        <span class="astro__tecla">&#8593;</span>
+        <span>solo avanzar</span>
+        <span class="astro__tecla">espacio</span>
+        <span>disparar</span>
+        <span>&middot; o arrastra el dedo y toca para disparar</span>
+        <span class="astro__tecla">P</span>
+        <span>pausar</span>
+        <span class="astro__tecla">R</span>
+        <span>reiniciar</span>
+        <span>&middot; y con el dedo en la pantalla apuntas y disparas a la vez</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       COMO SE JUEGA
+       ================================================================== -->
+  <section class="seccion seccion--alt" aria-labelledby="reglas">
+    <div class="caja caja--angosta">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Las reglas</span>
+        <h2 id="reglas">Tres cosas y ya</h2>
+      </div>
+
+      <ol class="pasos aparece">
+        <li>
+          <strong>La nave empuja mientras la llevas.</strong> Con las flechas
+          apretadas gira y avanza; con la de arriba solo avanza. Con el dedo,
+          arrastra para girar y para mover. Al soltar, la nave sigue a
+          deriva y frena sola.
+        </li>
+        <li>
+          <strong>Dispara con la barra espaciadora o tocando.</strong> Cada bala
+          desaparece a los poquito segundos, asi que hay que apuntar.
+        </li>
+        <li>
+          <strong>Las rocas se parten solas.</strong> Al romper una enorme salen
+          dos grandes, al romper una grande salen dos medianas y al romper una
+          mediana salen dos peque&ntilde;as. La
+          fase se gana cuando no queda ninguna roca en el campo. Tienes
+          <strong>tres naves</strong>: cada una que toques, una menos.
+        </li>
+      </ol>
+
+      <p class="astro__parrafo mt-6 aparece">
+        <strong>Y se puede parar.</strong> Con <strong>P</strong> o con
+        <strong>Esc</strong> el juego se queda congelado en el punto exacto en
+        que estaba: ni las rocas avanzan ni gastas ni una nave. Con
+        <strong>R</strong> se vuelve al principio, a la fase 1 y con las tres
+        naves enteras.
+      </p>
+
+      <div class="destacado mt-6 aparece">
+        <h3>El truco sin cuentas</h3>
+        <p>
+          Las rocas <strong>se van por los bordes y vuelven por el otro lado</strong>:
+          la pantalla es un aro, no una caja. Si una sale por la derecha,
+          reaparece por la izquierda. Por eso una bala puede acertar a una roca
+          que ni se ve.
+        </p>
+        <p>
+          Y cada vez que reapareces tienes un ratito de escudo en el que las
+          rocas no te pueden tocar. Ese ratito se ve porque la nave parpadea.
+        </p>
+      </div>
+
+      <div class="matematica mt-6 aparece">
+        <h3>Lo que est&aacute; pasando de verdad</h3>
+        <p>
+          Una roca enorme se parte en <strong>dos</strong> grandes, cada grande en
+          <strong>dos</strong> medianas y cada mediana en <strong>dos</strong> peque&ntilde;as.
+          Los n&uacute;meros de rocas de cada tama&ntilde;o van as&iacute;:
+          <strong>1, 2, 4, 8</strong>. Cada
+          t&eacute;rmino es el anterior por dos, y eso es una
+          <strong>progresi&oacute;n geom&eacute;trica</strong> de raz&oacute;n 2.
+        </p>
+        <p>
+          Los puntos hacen lo mismo pero al reves: una enorme vale
+          <strong>20</strong>, una grande <strong>40</strong>, una mediana
+          <strong>80</strong> y una peque&ntilde;a <strong>160</strong>. Cada uno es el doble
+          del anterior. Y si sumas una cadena entera,
+          20 + 40 + 80 + 160 da <strong>300</strong>: eso es sumar a mano
+          los t&eacute;rminos de otra progresi&oacute;n geom&eacute;trica.
+        </p>
+        <p>
+          Y hay una aritm&eacute;tica escondida. Las fases empiezan con
+          <strong>4, 5, 5, 6 y 3</strong> rocas enormes, que es la
+          <strong>progresi&oacute;n aritm&eacute;tica</strong> de diferencia 1 en
+          las cuatro primeras, y la &uacute;ltima, la del Centinela, rompe la
+          cuenta a prop&oacute;sito. As&iacute; que este juego lleva las dos
+          series, cada una en un sitio distinto.
+        </p>
+        <p>
+          Un detalle para quien quiera llegar lejos: si destruyes una sola roca
+          enorme y toda su descendencia, habr&aacute;s roto <strong>15 rocas</strong> en
+          total y habr&aacute;s hecho <strong>300 puntos</strong>. Porque 1 + 2 + 4 + 8
+          = 15, y 20 + 40 + 80 + 160 = 300.
+        </p>
+      </div>
+
+      <div class="matematica mt-6 aparece">
+        <h3>Lo que cae de una roca</h3>
+        <p>
+          Al partir una roca puede caer un <strong>bot&iacute;n</strong> donde
+          estaba, y se recoge <strong>toc&aacute;ndolo con la nave</strong>.
+          Flota nueve segundos, y en los dos &uacute;ltimos parpadea para que se
+          vea que se va en vez de desaparecer de golpe. Cuanto m&aacute;s grande
+          era la roca, m&aacute;s probable: una enorme suelta algo el
+          <strong>28&nbsp;%</strong> de las veces, una grande el
+          <strong>16&nbsp;%</strong>, una mediana el <strong>8&nbsp;%</strong> y
+          una peque&ntilde;a el <strong>3&nbsp;%</strong>.
+        </p>
+        <p>
+          <strong>Arma</strong>: primero una bala, luego dos paralelas, luego
+          tres en abanico. No se acaba sola; <strong>se pierde al morir</strong>,
+          y por eso es lo que m&aacute;s compensa.
+          <strong>Cadencia</strong>: disparas m&aacute;s r&aacute;pido.
+          <strong>Perforante</strong>: las balas atraviesan las rocas y siguen
+          de largo. <strong>Escudo</strong>: las rocas no te pueden tocar y se
+          ve un anillo alrededor de la nave. Los tres &uacute;ltimos son relojes
+          de ocho o nueve segundos, y el marcador los va descontando y avisa
+          antes de que se acaben.
+        </p>
+        <p>
+          Y de vez en cuando entra un <strong>platillo</strong> por un lado,
+          cruza el campo en zigzag dispar&aacute;ndote con punter&iacute;a y se
+          va por el otro. Vale <strong>300 puntos</strong> y se derriba de un
+          balazo, pero si te toca te quita una nave como si fuera una roca. No
+          sale en cada fase, pero cada vez sale m&aacute;s: el dado por roca
+          rota es del <strong>6&nbsp;%</strong> en la primera fase, del
+          <strong>10&nbsp;%</strong> en la segunda, del <strong>18&nbsp;%</strong>
+          en la tercera y del <strong>24&nbsp;%</strong> en la cuarta. Y aunque
+          salga, no pueden
+         arse dos: solo hay uno en el campo y, cuando se va, hay que esperar
+          cinco segundos antes de que entre otro.
+        </p>
+        <p>
+          Y no todo lo que cruza el campo se derriba. Los <strong>cometas</strong>
+          son rocas de hielo que pasan de lado a lado y <strong>no se pueden
+          destruir</strong>: las balas los atraviesan sin hacerles nada. Cuando
+          uno entra, el juego avisa con un pitido y parpadea un instante antes de
+          cruzar, as&iacute; que la &uacute;nica jugada es <strong>apartarse</strong>.
+          Si te pilla, te quita una nave como una roca. Aparecen a partir de la
+          segunda fase, y en el campo de hielo caen un poco m&aacute;s.
+        </p>
+        <p>
+          Y por &uacute;ltimo la <strong>racha</strong>. Si rompes otra roca
+          antes de que pasen <strong>tres segundos</strong>, el multiplicador
+          sube: <strong>&times;1, &times;2, &times;3, &times;4</strong>. Se
+          corta si dejas pasar esos tres segundos o si te dan, y los puntos de
+          cada roca se multiplican por el n&uacute;mero que tengas en ese
+          momento. Con el arma de nivel 3 partes rocas mucho m&aacute;s r&aacute;pido,
+          y por eso ah&iacute; es donde la racha rinde. Ojo con la cuenta de
+          arriba: los <strong>300 puntos</strong> de una cadena entera son sin
+          multiplicador; con la racha al m&aacute;ximo esa misma cadena vale
+          <strong>1200</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cierre-juego">
+    <div class="caja">
+      <div class="autor aparece">
+        <span class="autor__inicial" aria-hidden="true">AV</span>
+        <span class="autor__datos">
+          <span class="autor__nombre">Angelita Vargas</span>
+          <span class="autor__pieza">Juego geom&eacute;trico &mdash; la serie vive en el motor</span>
+        </span>
+      </div>
+    <p class="cierre-juego__texto">
+      El otro juego del apartado es <strong>2048</strong>, donde las parejas de
+      fichas se juntan en una del doble. Ahi la progresion es la misma
+      que la de las rocas: 2, 4, 8, 16 y asi hasta 1024.
+    </p>
+<div class="cierre-juego__acciones">
+        <a class="boton boton--acento" href="juego-2048.html">Jugar 2048</a>
+        <a class="boton boton--contorno" href="juego.html">Ver los dos juegos</a>
+        <a class="boton boton--contorno" href="index.html#equipo">Ver el equipo</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="caja">
+    <div class="footer__grid">
+      <div>
+        <p class="pie__titulo">Las Series Matem&aacute;ticas</p>
+        <p>Trabajo de investigaci&oacute;n sobre series: dos historias, dos cuentos y dos juegos.</p>
+      </div>
+      <div>
+        <p class="pie__rotulo">Apartados</p>
+        <ul>
+          <li><a href="historia.html">I. Historia</a></li>
+          <li><a href="cuento.html">II. Cuento</a></li>
+          <li><a href="juego.html">III. Juego</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="pie__rotulo">Equipo</p>
+        <ul>
+          <li>Diego Bordas</li>
+          <li>Angelita Vargas</li>
+          <li>Alejandro Guerrero</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js?v=20261021" defer></script>
+<script src="assets/js/asteroides.js?v=20261021" defer></script>
+</body>
+</html>

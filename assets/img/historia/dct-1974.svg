@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 250" role="img">
+  <!-- La transformada discreta del coseno, 1974: un bloque de ocho por ocho pixeles se
+     descompone en ocho ondas de coseno. Las primeras llevan la imagen; las ultimas
+     salen casi en cero y se pueden tirar. De ahi sale el JPEG. -->
+  <!-- El unico color literal es el de la tinta sobre el papel de las laminas, el
+       de la variable hist-papel-tinta de historia.css, declarado una vez en la raiz de
+       este propio SVG. Va ahi y no en cada elemento porque un archivo cargado con
+       img no hereda ni el currentColor ni las variables CSS de la pagina que lo
+       muestra: a partir de esa raiz, todo el dibujo se pinta con currentColor. El
+       fondo no lleva ninguno: se ve a traves, y el papel lo aporta la lamina. -->
+  <style>
+    svg { color: #2a2317; }
+
+    .pixel { fill: currentColor; }
+    .marco { fill: none; stroke: currentColor; stroke-width: 1.2; }
+    .eje { fill: none; stroke: currentColor; stroke-width: .7; stroke-dasharray: 3 3; opacity: .35; }
+    .onda { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round; }
+    .flecha { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; }
+    .rotulo {
+      fill: currentColor;
+      font-family: Inter, "Segoe UI", sans-serif;
+      font-size: 9.5px;
+    }
+    .rotulo--fuerte { font-weight: 700; }
+  </style>
+
+  <!-- El bloque: ocho por ocho pixeles, con su luz para que se vea que es un
+       trozo de imagen y no una tabla. Los tonos no son una foto real: solo
+       marcan que el bloque lleva la informacion repartida. -->
+  <rect class="pixel" x="8" y="70" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="17" y="70" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="26" y="70" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="35" y="70" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="44" y="70" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="53" y="70" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="62" y="70" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="71" y="70" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="8" y="79" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="17" y="79" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="26" y="79" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="35" y="79" width="9" height="9" fill-opacity="0.13"/>
+  <rect class="pixel" x="44" y="79" width="9" height="9" fill-opacity="0.16"/>
+  <rect class="pixel" x="53" y="79" width="9" height="9" fill-opacity="0.17"/>
+  <rect class="pixel" x="62" y="79" width="9" height="9" fill-opacity="0.14"/>
+  <rect class="pixel" x="71" y="79" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="8" y="88" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="17" y="88" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="26" y="88" width="9" height="9" fill-opacity="0.15"/>
+  <rect class="pixel" x="35" y="88" width="9" height="9" fill-opacity="0.22"/>
+  <rect class="pixel" x="44" y="88" width="9" height="9" fill-opacity="0.27"/>
+  <rect class="pixel" x="53" y="88" width="9" height="9" fill-opacity="0.27"/>
+  <rect class="pixel" x="62" y="88" width="9" height="9" fill-opacity="0.23"/>
+  <rect class="pixel" x="71" y="88" width="9" height="9" fill-opacity="0.16"/>
+  <rect class="pixel" x="8" y="97" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="17" y="97" width="9" height="9" fill-opacity="0.10"/>
+  <rect class="pixel" x="26" y="97" width="9" height="9" fill-opacity="0.21"/>
+  <rect class="pixel" x="35" y="97" width="9" height="9" fill-opacity="0.30"/>
+  <rect class="pixel" x="44" y="97" width="9" height="9" fill-opacity="0.37"/>
+  <rect class="pixel" x="53" y="97" width="9" height="9" fill-opacity="0.38"/>
+  <rect class="pixel" x="62" y="97" width="9" height="9" fill-opacity="0.32"/>
+  <rect class="pixel" x="71" y="97" width="9" height="9" fill-opacity="0.22"/>
+  <rect class="pixel" x="8" y="106" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="17" y="106" width="9" height="9" fill-opacity="0.12"/>
+  <rect class="pixel" x="26" y="106" width="9" height="9" fill-opacity="0.23"/>
+  <rect class="pixel" x="35" y="106" width="9" height="9" fill-opacity="0.34"/>
+  <rect class="pixel" x="44" y="106" width="9" height="9" fill-opacity="0.45"/>
+  <rect class="pixel" x="53" y="106" width="9" height="9" fill-opacity="0.47"/>
+  <rect class="pixel" x="62" y="106" width="9" height="9" fill-opacity="0.36"/>
+  <rect class="pixel" x="71" y="106" width="9" height="9" fill-opacity="0.26"/>
+  <rect class="pixel" x="8" y="115" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="17" y="115" width="9" height="9" fill-opacity="0.11"/>
+  <rect class="pixel" x="26" y="115" width="9" height="9" fill-opacity="0.22"/>
+  <rect class="pixel" x="35" y="115" width="9" height="9" fill-opacity="0.32"/>
+  <rect class="pixel" x="44" y="115" width="9" height="9" fill-opacity="0.41"/>
+  <rect class="pixel" x="53" y="115" width="9" height="9" fill-opacity="0.42"/>
+  <rect class="pixel" x="62" y="115" width="9" height="9" fill-opacity="0.34"/>
+  <rect class="pixel" x="71" y="115" width="9" height="9" fill-opacity="0.24"/>
+  <rect class="pixel" x="8" y="124" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="17" y="124" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="26" y="124" width="9" height="9" fill-opacity="0.17"/>
+  <rect class="pixel" x="35" y="124" width="9" height="9" fill-opacity="0.26"/>
+  <rect class="pixel" x="44" y="124" width="9" height="9" fill-opacity="0.31"/>
+  <rect class="pixel" x="53" y="124" width="9" height="9" fill-opacity="0.32"/>
+  <rect class="pixel" x="62" y="124" width="9" height="9" fill-opacity="0.27"/>
+  <rect class="pixel" x="71" y="124" width="9" height="9" fill-opacity="0.19"/>
+  <rect class="pixel" x="8" y="133" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="17" y="133" width="9" height="9" fill-opacity="0.08"/>
+  <rect class="pixel" x="26" y="133" width="9" height="9" fill-opacity="0.10"/>
+  <rect class="pixel" x="35" y="133" width="9" height="9" fill-opacity="0.17"/>
+  <rect class="pixel" x="44" y="133" width="9" height="9" fill-opacity="0.21"/>
+  <rect class="pixel" x="53" y="133" width="9" height="9" fill-opacity="0.21"/>
+  <rect class="pixel" x="62" y="133" width="9" height="9" fill-opacity="0.18"/>
+  <rect class="pixel" x="71" y="133" width="9" height="9" fill-opacity="0.11"/>
+  <rect class="marco" x="8" y="70" width="72" height="72"/>
+  <text class="rotulo rotulo--fuerte" x="44" y="62" text-anchor="middle">bloque 8 &#215; 8</text>
+
+  <!-- La flecha: lo que hace la transformada es cambiar de pregunta. -->
+  <path class="flecha" d="M92 106 H 101 M 97 102 L 101 106 L 97 110"/>
+
+  <!-- Las ocho ondas de coseno. Las de arriba son lentas y anchas; las de abajo
+       salen cada vez mas pequenas, y esas son las que despues se tiran. -->
+  <line class="eje" x1="112" y1="40" x2="190" y2="40"/>
+  <path class="onda" d="M 112.0 33.0 L 113.8 33.1 L 115.5 33.3 L 117.3 33.6 L 119.1 34.1 L 120.9 34.7 L 122.6 35.4 L 124.4 36.2 L 126.2 37.1 L 128.0 38.0 L 129.7 39.0 L 131.5 40.0 L 133.3 41.0 L 135.0 42.0 L 136.8 42.9 L 138.6 43.8 L 140.4 44.6 L 142.1 45.3 L 143.9 45.9 L 145.7 46.4 L 147.5 46.7 L 149.2 46.9 L 151.0 47.0 L 152.8 46.9 L 154.5 46.7 L 156.3 46.4 L 158.1 45.9 L 159.9 45.3 L 161.6 44.6 L 163.4 43.8 L 165.2 42.9 L 167.0 42.0 L 168.7 41.0 L 170.5 40.0 L 172.3 39.0 L 174.0 38.0 L 175.8 37.1 L 177.6 36.2 L 179.4 35.4 L 181.1 34.7 L 182.9 34.1 L 184.7 33.6 L 186.5 33.3 L 188.2 33.1 L 190.0 33.0"/>
+  <line class="eje" x1="112" y1="59" x2="190" y2="59"/>
+  <path class="onda" d="M 112.0 52.0 L 113.8 52.3 L 115.5 53.1 L 117.3 54.4 L 119.1 56.1 L 120.9 58.0 L 122.6 60.0 L 124.4 61.9 L 126.2 63.6 L 128.0 64.9 L 129.7 65.7 L 131.5 66.0 L 133.3 65.7 L 135.0 64.9 L 136.8 63.6 L 138.6 61.9 L 140.4 60.0 L 142.1 58.0 L 143.9 56.1 L 145.7 54.4 L 147.5 53.1 L 149.2 52.3 L 151.0 52.0 L 152.8 52.3 L 154.5 53.1 L 156.3 54.4 L 158.1 56.1 L 159.9 58.0 L 161.6 60.0 L 163.4 61.9 L 165.2 63.6 L 167.0 64.9 L 168.7 65.7 L 170.5 66.0 L 172.3 65.7 L 174.0 64.9 L 175.8 63.6 L 177.6 61.9 L 179.4 60.0 L 181.1 58.0 L 182.9 56.1 L 184.7 54.4 L 186.5 53.1 L 188.2 52.3 L 190.0 52.0"/>
+  <line class="eje" x1="112" y1="78" x2="190" y2="78"/>
+  <path class="onda" d="M 112.0 72.5 L 113.8 73.0 L 115.5 74.4 L 117.3 76.5 L 119.1 78.8 L 120.9 81.0 L 122.6 82.6 L 124.4 83.4 L 126.2 83.3 L 128.0 82.2 L 129.7 80.3 L 131.5 78.0 L 133.3 75.7 L 135.0 73.8 L 136.8 72.7 L 138.6 72.6 L 140.4 73.4 L 142.1 75.0 L 143.9 77.2 L 145.7 79.5 L 147.5 81.6 L 149.2 83.0 L 151.0 83.5 L 152.8 83.0 L 154.5 81.6 L 156.3 79.5 L 158.1 77.2 L 159.9 75.0 L 161.6 73.4 L 163.4 72.6 L 165.2 72.7 L 167.0 73.8 L 168.7 75.7 L 170.5 78.0 L 172.3 80.3 L 174.0 82.2 L 175.8 83.3 L 177.6 83.4 L 179.4 82.6 L 181.1 81.0 L 182.9 78.8 L 184.7 76.5 L 186.5 74.4 L 188.2 73.0 L 190.0 72.5"/>
+  <line class="eje" x1="112" y1="97" x2="190" y2="97"/>
+  <path class="onda" d="M 112.0 93.0 L 113.8 93.6 L 115.5 95.3 L 117.3 97.6 L 119.1 99.6 L 120.9 100.8 L 122.6 100.8 L 124.4 99.6 L 126.2 97.6 L 128.0 95.3 L 129.7 93.6 L 131.5 93.0 L 133.3 93.6 L 135.0 95.3 L 136.8 97.6 L 138.6 99.6 L 140.4 100.8 L 142.1 100.8 L 143.9 99.6 L 145.7 97.6 L 147.5 95.3 L 149.2 93.6 L 151.0 93.0 L 152.8 93.6 L 154.5 95.3 L 156.3 97.6 L 158.1 99.6 L 159.9 100.8 L 161.6 100.8 L 163.4 99.6 L 165.2 97.6 L 167.0 95.3 L 168.7 93.6 L 170.5 93.0 L 172.3 93.6 L 174.0 95.3 L 175.8 97.6 L 177.6 99.6 L 179.4 100.8 L 181.1 100.8 L 182.9 99.6 L 184.7 97.6 L 186.5 95.3 L 188.2 93.6 L 190.0 93.0"/>
+  <line class="eje" x1="112" y1="116" x2="190" y2="116"/>
+  <path class="onda" d="M 112.0 113.4 L 113.8 114.0 L 115.5 115.6 L 117.3 117.4 L 119.1 118.5 L 120.9 118.4 L 122.6 117.1 L 124.4 115.3 L 126.2 113.8 L 128.0 113.4 L 129.7 114.3 L 131.5 116.0 L 133.3 117.7 L 135.0 118.6 L 136.8 118.2 L 138.6 116.7 L 140.4 114.9 L 142.1 113.6 L 143.9 113.5 L 145.7 114.6 L 147.5 116.4 L 149.2 118.0 L 151.0 118.6 L 152.8 118.0 L 154.5 116.4 L 156.3 114.6 L 158.1 113.5 L 159.9 113.6 L 161.6 114.9 L 163.4 116.7 L 165.2 118.2 L 167.0 118.6 L 168.7 117.7 L 170.5 116.0 L 172.3 114.3 L 174.0 113.4 L 175.8 113.8 L 177.6 115.3 L 179.4 117.1 L 181.1 118.4 L 182.9 118.5 L 184.7 117.4 L 186.5 115.6 L 188.2 114.0 L 190.0 113.4"/>
+  <line class="eje" x1="112" y1="135" x2="190" y2="135"/>
+  <path class="onda" d="M 112.0 133.2 L 113.8 133.8 L 115.5 135.3 L 117.3 136.5 L 119.1 136.7 L 120.9 135.7 L 122.6 134.3 L 124.4 133.3 L 126.2 133.5 L 128.0 134.7 L 129.7 136.2 L 131.5 136.8 L 133.3 136.2 L 135.0 134.7 L 136.8 133.5 L 138.6 133.3 L 140.4 134.3 L 142.1 135.7 L 143.9 136.7 L 145.7 136.5 L 147.5 135.3 L 149.2 133.8 L 151.0 133.2 L 152.8 133.8 L 154.5 135.3 L 156.3 136.5 L 158.1 136.7 L 159.9 135.7 L 161.6 134.3 L 163.4 133.3 L 165.2 133.5 L 167.0 134.7 L 168.7 136.2 L 170.5 136.8 L 172.3 136.2 L 174.0 134.7 L 175.8 133.5 L 177.6 133.3 L 179.4 134.3 L 181.1 135.7 L 182.9 136.7 L 184.7 136.5 L 186.5 135.3 L 188.2 133.8 L 190.0 133.2"/>
+  <line class="eje" x1="112" y1="154" x2="190" y2="154"/>
+  <path class="onda" d="M 112.0 152.8 L 113.8 153.4 L 115.5 154.5 L 117.3 155.2 L 119.1 154.8 L 120.9 153.7 L 122.6 152.8 L 124.4 153.1 L 126.2 154.2 L 128.0 155.1 L 129.7 155.0 L 131.5 154.0 L 133.3 153.0 L 135.0 152.9 L 136.8 153.8 L 138.6 154.9 L 140.4 155.2 L 142.1 154.3 L 143.9 153.2 L 145.7 152.8 L 147.5 153.5 L 149.2 154.6 L 151.0 155.2 L 152.8 154.6 L 154.5 153.5 L 156.3 152.8 L 158.1 153.2 L 159.9 154.3 L 161.6 155.2 L 163.4 154.9 L 165.2 153.8 L 167.0 152.9 L 168.7 153.0 L 170.5 154.0 L 172.3 155.0 L 174.0 155.1 L 175.8 154.2 L 177.6 153.1 L 179.4 152.8 L 181.1 153.7 L 182.9 154.8 L 184.7 155.2 L 186.5 154.5 L 188.2 153.4 L 190.0 152.8"/>
+  <line class="eje" x1="112" y1="173" x2="190" y2="173"/>
+  <path class="onda" d="M 112.0 172.2 L 113.8 172.7 L 115.5 173.5 L 117.3 173.8 L 119.1 173.1 L 120.9 172.3 L 122.6 172.3 L 124.4 173.1 L 126.2 173.8 L 128.0 173.5 L 129.7 172.7 L 131.5 172.2 L 133.3 172.7 L 135.0 173.5 L 136.8 173.8 L 138.6 173.1 L 140.4 172.3 L 142.1 172.3 L 143.9 173.1 L 145.7 173.8 L 147.5 173.5 L 149.2 172.7 L 151.0 172.2 L 152.8 172.7 L 154.5 173.5 L 156.3 173.8 L 158.1 173.1 L 159.9 172.3 L 161.6 172.3 L 163.4 173.1 L 165.2 173.8 L 167.0 173.5 L 168.7 172.7 L 170.5 172.2 L 172.3 172.7 L 174.0 173.5 L 175.8 173.8 L 177.6 173.1 L 179.4 172.3 L 181.1 172.3 L 182.9 173.1 L 184.7 173.8 L 186.5 173.5 L 188.2 172.7 L 190.0 172.2"/>
+
+  <text class="rotulo" x="4" y="14">casi toda la imagen cabe en unas pocas ondas</text>
+  <text class="rotulo" x="151" y="234" text-anchor="middle">las demas casi valen cero</text>
+</svg>

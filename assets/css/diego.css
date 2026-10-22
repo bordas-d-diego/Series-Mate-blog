@@ -1,0 +1,329 @@
+/* ==========================================================================
+   TEMA: DIEGO BORDAS
+   --------------------------------------------------------------------------
+   Claro, académico y técnico. La referencia es una sala de control:
+   fondo blanco, azul profundo, retícula de fondo, casi sin esquinas
+   redondeadas, tipografía de instrumento y mucho aire.
+   Se aplica con la clase .tema-diego en cualquier contenedor.
+   ========================================================================== */
+
+.tema-diego {
+  /* Superficies */
+  --bg:          #fcfdff;
+  --bg-2:        #f2f5f9;
+  --bg-3:        #e8eef6;
+  --surface:     #ffffff;
+  --line:        #d5dfec;
+  --line-2:      #b4c4d8;
+
+  /* Texto */
+  --fg:          #0a1a2f;
+  --fg-soft:     #43587a;
+  --fg-faint:    #54688a;
+
+  /* Acento: azul NASA */
+  --accent:      #0b3d91;
+  --accent-2:    #1c6fd4;
+  --accent-fg:   #ffffff;
+  --accent-soft: #dbe8fb;
+  --accent-line: #1c6fd4;
+
+  /* Formas: casi rectas */
+  --r-sm:   2px;
+  --r:      3px;
+  --r-lg:   4px;
+  --r-xl:   6px;
+
+  /* Tipografías de instrumento */
+  --f-title: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --f-body:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --f-mono:  "JetBrains Mono", "SF Mono", Consolas, monospace;
+
+  /* Sombras discretas, nada difuminado */
+  --sh-sm: 0 1px 0 rgba(10, 26, 47, .06);
+  --sh:    0 2px 0 rgba(10, 26, 47, .08);
+  --sh-lg: 0 8px 24px rgba(10, 26, 47, .10);
+
+  --nav-bg:        rgba(252, 253, 255, .88);
+  --nav-bg-fija:   rgba(252, 253, 255, .96);
+
+  --grid-line: rgba(11, 61, 145, .055);
+}
+
+/* --------------------------------------------------------------------------
+   Textura de retícula: el detalle que da el aire de plano técnico
+   -------------------------------------------------------------------------- */
+.tema-diego.reticula {
+  position: relative;
+  isolation: isolate;
+}
+.tema-diego.reticula::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 20%, transparent 80%);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Encabezados: peso y tracking de informe
+   -------------------------------------------------------------------------- */
+.tema-diego h1,
+.tema-diego h2,
+.tema-diego h3,
+.tema-diego h4 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.tema-diego h2 { letter-spacing: -0.025em; }
+
+/* El título de sección lleva numeración, como un capítulo de manual */
+.tema-diego .seccion-cab .eyebrow {
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  letter-spacing: .18em;
+  color: var(--accent);
+}
+.tema-diego .seccion-cab .eyebrow::before {
+  content: "//";
+  width: auto;
+  height: auto;
+  background: none;
+  font-weight: 700;
+  opacity: .65;
+}
+
+/* Etiqueta técnica con fondo, estilo chapa de identificación */
+.tema-diego .sello {
+  display: inline-block;
+  padding: .3rem .6rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--accent-line);
+  border-radius: 2px;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   Tarjetas: borde marcado en vez de sombra difusa
+   -------------------------------------------------------------------------- */
+.tema-diego .tarjeta {
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+.tema-diego .tarjeta:hover {
+  border-color: var(--accent);
+  box-shadow: 3px 3px 0 rgba(11, 61, 145, .10);
+  transform: translateY(-2px);
+}
+.tema-diego .tarjeta::before {
+  height: 2px;
+  background: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Paneles: cajas técnicas con cabecera
+   -------------------------------------------------------------------------- */
+.tema-diego .panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  box-shadow: none;
+  overflow: hidden;
+}
+.tema-diego .panel__cab {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .7rem 1rem;
+  background: var(--bg-3);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tema-diego .panel__cab::before {
+  content: "";
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+.tema-diego .panel__cuerpo { padding: 1.25rem; }
+
+/* --------------------------------------------------------------------------
+   Datos numéricos: siempre en monoespaciada, con cifras tabulares
+   -------------------------------------------------------------------------- */
+.tema-diego .dato {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.tema-diego .dato--grande {
+  font-size: clamp(1.8rem, 2.4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+}
+
+/* Fila de cifras destacadas */
+.tema-diego .cifras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.tema-diego .cifras > div > .dato { display: block; }
+.tema-diego .cifras > div > span:not(.sello) {
+  display: block;
+  margin-top: .3rem;
+  font-size: .82rem;
+  color: var(--fg-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Tablas de datos
+   -------------------------------------------------------------------------- */
+.tema-diego .tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-mono);
+  font-size: .85rem;
+}
+.tema-diego .tabla th,
+.tema-diego .tabla td {
+  padding: .6rem .75rem;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+}
+.tema-diego .tabla th:first-child,
+.tema-diego .tabla td:first-child { text-align: left; }
+.tema-diego .tabla thead th {
+  background: var(--bg-3);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.tema-diego .tabla tbody tr:hover { background: var(--bg-2); }
+
+/* --------------------------------------------------------------------------
+   Notas al pie
+   -------------------------------------------------------------------------- */
+.tema-diego .nota {
+  padding: 1.1rem 1.2rem;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-sm);
+  font-size: .88rem;
+  line-height: 1.7;
+  color: var(--fg-soft);
+}
+.tema-diego .nota__num {
+  display: block;
+  margin-bottom: .5rem;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Fórmulas: caja técnica con canal para la notación
+   -------------------------------------------------------------------------- */
+.tema-diego .formula {
+  display: block;
+  margin-block: 1.5rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--accent);
+  border-radius: var(--r-sm);
+  font-family: var(--f-mono);
+  font-size: 1.1rem;
+  text-align: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.tema-diego .formula__label {
+  display: block;
+  margin-bottom: .75rem;
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: left;
+}
+
+/* Fracciones escritas sin librerías */
+.tema-diego .frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  margin-inline: .18em;
+  font-size: .95em;
+  line-height: 1.25;
+}
+.tema-diego .frac > span:first-child { padding: 0 .3em; }
+.tema-diego .frac > span:last-child { padding: 0 .3em; border-top: 1.2px solid currentColor; }
+
+/* --------------------------------------------------------------------------
+   Botones: rectangulares, con borde marcado
+   -------------------------------------------------------------------------- */
+.tema-diego .boton {
+  border-radius: 3px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+.tema-diego .boton--solido {
+  background: var(--accent);
+  color: #fff;
+}
+.tema-diego .boton--acento {
+  background: var(--bg-3);
+  color: var(--accent);
+  border-color: var(--accent-line);
+}
+.tema-diego .boton--contorno { border-radius: 3px; }
+
+/* --------------------------------------------------------------------------
+   Enlaces con flecha
+   -------------------------------------------------------------------------- */
+.tema-diego .flecha {
+  font-family: var(--f-mono);
+  font-size: .8rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.tema-diego .flecha:hover { color: var(--accent-2); }
+
+/* --------------------------------------------------------------------------
+   Ficha de autor con el color de Diego
+   -------------------------------------------------------------------------- */
+.tema-diego .autor {
+  --autor-bg:    #ffffff;
+  --autor-linea: #b4c4d8;
+  --autor-color: #0b3d91;
+  --autor-fg:    #ffffff;
+}

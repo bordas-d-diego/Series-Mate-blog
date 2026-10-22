@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Para qu&eacute; sirven las series &mdash; Alejandro Guerrero</title>
+<meta name="description" content="Las series en la vida diaria: planear cantidades, medir lo que crece, la advertencia de la serie arm&oacute;nica y lo que pasa si la raz&oacute;n supera al uno.">
+<meta name="theme-color" content="#0d0f13">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Las fuentes de Google no bloquean el dibujado: el navegador pinta la
+     pagina con las del sistema y las cambia cuando llegan. Antes esta
+     peticion estaba en el camino critico de las once paginas. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&family=STIX+Two+Math&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&family=STIX+Two+Math&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&family=STIX+Two+Math&display=swap"></noscript>
+<link rel="stylesheet" href="assets/css/base.css?v=20261021">
+<link rel="stylesheet" href="assets/css/alejandro.css?v=20261021">
+<link rel="stylesheet" href="assets/css/historia-alejandro.css?v=20261021">
+<link rel="stylesheet" href="assets/css/historia.css?v=20261021">
+  <link rel="stylesheet" href="assets/css/ecuaciones.css?v=20261021">
+<!-- El indice va justo debajo de la cabecera y antes del <main>, que es donde
+     lo pone el encargo. historia.css lo dibuja como columna lateral a partir de
+     1200px, y una columna lateral no cabe ahi sin apartar las secciones, que
+     son de fondo completo y no se pueden recortar. Este bloque es el unico
+     andamiaje que anade la pagina: pone el indice en fila, pegado bajo la barra
+     de navegacion, y le devuelve el alto a su contenido. No toca ningun color
+     ni ninguna medida del componente, y se puede borrar entero. -->
+<style>
+  @media (min-width: 1200px) {
+    html { scroll-padding-top: calc(var(--nav-h) + 4rem); }
+    .hist__indice {
+      top: var(--nav-h);
+      z-index: 90;
+      max-height: none;
+      overflow-y: visible;
+      width: 100%;
+      max-width: var(--w);
+      margin-inline: auto;
+      padding: 0 1.5rem .85rem;
+      border-left: 0;
+      border-bottom: 2px solid var(--line);
+      background: var(--bg);
+    }
+    .hist__indice ol { display: flex; flex-wrap: wrap; gap: .15rem .3rem; }
+  }
+  /* La lista de referencias. La clase .refs vive en piezas-diego.css, que esta
+     pagina no carga: sin estas dos reglas las fuentes saldrian con el numero
+     del navegador, sin el aire del resto de la pagina y con la tinta del tema
+     equivocado. Van aqui por el mismo motivo que el bloque de arriba. */
+  .refs {
+    padding-left: 1.5em;
+    display: grid;
+    gap: .8rem;
+    font-size: .9rem;
+    line-height: 1.7;
+    color: var(--fg-soft);
+  }
+  .refs li::marker { font-family: var(--f-mono); font-size: .85rem; color: var(--accent); font-weight: 600; }
+</style>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d0f13'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' fill='%23f0a91e' text-anchor='middle'>%CE%A3</text></svg>">
+</head>
+
+<body class="tema-alejandro">
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="nav" id="nav">
+  <div class="caja nav__inside">
+    <a class="marca" href="index.html" title="Ir a la portada">
+      <svg class="marca__logo" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="9" fill="#f0a91e"/>
+        <text x="20" y="28.5" font-size="24" font-family="Georgia, serif" fill="#fffdfb" text-anchor="middle">&#931;</text>
+      </svg>
+      <span class="marca__texto">
+        <span class="marca__titulo">Las Series</span>
+        <span class="marca__sub">I. Historia</span>
+      </span>
+    </a>
+
+    <button class="nav__interruptor" id="navInterruptor" aria-expanded="false"
+            aria-controls="navMenu" aria-label="Abrir el men&uacute;">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav__menu" id="navMenu">
+      <ul class="nav__enlaces">
+        <li><a href="index.html">Portada</a></li>
+        <li><a href="historia.html" aria-current="page">I. Historia</a></li>
+        <li><a href="cuento.html">II. Cuento</a></li>
+        <li><a href="juego.html">III. Juego</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a class="boton boton--acento" href="#usos">Ver los usos</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- La barra de lectura esta siempre; el indice lateral solo aparece a partir
+     de 1200px, que es cuando hay ancho de sobra para una columna. Los dos los
+     pone historia.css: aqui va solo el markup. -->
+<div class="hist__progreso" aria-hidden="true"><span></span></div>
+
+<nav class="hist__indice" aria-label="&Iacute;ndice de la p&aacute;gina">
+  <ol>
+    <li><a href="#usos">1. Los cuatro usos</a></li>
+    <li><a href="#advertencia">2. La advertencia</a></li>
+    <li><a href="#razon-uno">3. La raz&oacute;n 1</a></li>
+    <li><a href="#presente">4. De 1801 a 1974</a></li>
+    <li><a href="#hoy">5. D&oacute;nde est&aacute; esto hoy</a></li>
+    <li><a href="#dinero">6. Las cuentas del dinero</a></li>
+    <li><a href="#cromos">7. Los cromos del &aacute;lbum</a></li>
+    <li><a href="#ficha">8. Las cinco series</a></li>
+    <li><a href="#fuentes">9. Fuentes</a></li>
+  </ol>
+</nav>
+
+<main id="contenido">
+
+  <!-- ==================================================================
+       CABECERA DE LA PAGINA
+       ================================================================== -->
+  <section class="cab-alejandro">
+    <div class="caja">
+      <span class="cab-alejandro__sello">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12.5 6 7l3 3 4.5-7"/></svg>
+        Parte 2 de 2 &middot; Alejandro Guerrero
+      </span>
+      <h1 class="cab-alejandro__titulo">Para qu&eacute; <em>sirven</em> las series</h1>
+      <p class="cab-alejandro__bajada">
+        La otra mitad de la historia no mira hacia atr&aacute;s: mira hacia lo que pasa
+        en la vida de todos los d&iacute;as. Las series aparecen cuando hay que sumar
+        muchas cantidades parecidas, cuando algo crece sin que lo controlemos, y
+        cuando una advertencia matem&aacute;tica dice que ya no podemos seguir.
+      </p>
+      <div class="cab-alejandro__pie">
+        <span class="cab-alejandro__dato"><b>4</b> usos de cada d&iacute;a</span>
+        <span class="cab-alejandro__dato"><b>3</b> casos con raz&oacute;n 1</span>
+        <span class="cab-alejandro__dato"><b>1</b> advertencia inevitable</span>
+        <span class="cab-alejandro__dato"><b>7</b> hitos de 1801 a 1974</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       1. LOS USOS
+       ================================================================== -->
+  <section class="seccion" id="usos" aria-labelledby="usos-titulo">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Cuatro lugares</span>
+        <h2 id="usos-titulo">Donde una serie aparece sin que nadie la llame as&iacute;</h2>
+        <p>
+          Ninguno de estos cuatro casos se resolvi&oacute; en clase. Se resolvieron en
+          un mercado, un banco, una bodega y una compra a plazos. La matem&aacute;tica
+          estaba igual, solo que nadie le puso el nombre.
+        </p>
+      </div>
+
+      <div class="usos">
+
+        <!-- 1 -->
+        <article class="uso aparece">
+          <div>
+            <span class="uso__num">1</span>
+            <h3 class="uso__titulo">Planear cantidades que se repiten</h3>
+            <p class="uso__texto">
+              La primera utilidad de una serie es la m&aacute;s b&aacute;sica y la m&aacute;s
+              frecuente: hay que a&ntilde;adir muchos n&uacute;meros parecidos y
+              no alcanza con sumarlos uno por uno.
+            </p>
+            <p class="uso__texto">
+              Un ejemplo de todos los d&iacute;as: si en un puesto del mercado se
+              venden 8 j&iacute;caras el lunes, 12 el martes, 15 el mi&eacute;rcoles, y as&iacute;
+              hasta el 20 el viernes, la pregunta &laquo;&iquest;cu&aacute;nto vendimos en la
+              semana?&raquo; tiene cinco sumandos. Cuando la lista llega a cincuenta
+              d&iacute;as, la cuenta a mano ya no sirve.
+            </p>
+          </div>
+          <div class="uso__ejemplo">
+            <p class="uso__ejemplo-rotulo">Las gradas del estadio</p>
+            <div class="barra-fila">
+              <span>1&ordm;</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:10%"></span></span>
+              <span class="barra-fila__valor">20</span>
+            </div>
+            <div class="barra-fila">
+              <span>2&ordm;</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:15%"></span></span>
+              <span class="barra-fila__valor">30</span>
+            </div>
+            <div class="barra-fila">
+              <span>3&ordm;</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:20%"></span></span>
+              <span class="barra-fila__valor">40</span>
+            </div>
+            <div class="barra-fila">
+              <span>4&ordm;</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:25%"></span></span>
+              <span class="barra-fila__valor">50</span>
+            </div>
+            <div class="barra-fila">
+              <span>5&ordm;</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:30%"></span></span>
+              <span class="barra-fila__valor">60</span>
+            </div>
+            <div class="barra-fila barra-fila--acento">
+              <span>Total</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:100%"></span></span>
+              <span class="barra-fila__valor">200</span>
+            </div>
+            <p class="pasta__texto" style="margin-top:1rem">
+              Cada fila tiene 10 butacas m&aacute;s que la anterior. Sumar las cinco
+              a mano da 200; la f&oacute;rmula da lo mismo en un segundo:
+              <math><mrow><mfrac><mrow><mn>5</mn><mo>&times;</mo><mo>(</mo><mn>20</mn><mo>+</mo><mn>60</mn><mo>)</mo></mrow><mn>2</mn></mfrac><mo>=</mo><mn>200</mn></mrow></math>
+            </p>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="uso aparece">
+          <div>
+            <span class="uso__num">2</span>
+            <h3 class="uso__titulo">Medir lo que crece por multiplicaci&oacute;n</h3>
+            <p class="uso__texto">
+              Hay cantidades que no suman, se multiplican. Cada
+              <abbr class="hist__term" tabindex="0" title="T&eacute;rmino: cada uno de los n&uacute;meros que se suman en una serie. El que ocupa el lugar n se llama t&eacute;rmino n, y el primero es el t&eacute;rmino 1.">t&eacute;rmino</abbr> sale del
+              anterior multipli&eacute;ndolo por una
+              <abbr class="hist__term" tabindex="0" title="Raz&oacute;n: el n&uacute;mero fijo por el que se multiplica un t&eacute;rmino para obtener el siguiente. En una progresi&oacute;n geom&eacute;trica es la misma en todos los pasos; si vale 1, ning&uacute;n t&eacute;rmino cambia.">raz&oacute;n</abbr>
+              fija, y eso abre la puerta
+              a preguntas muy distintas: &iquest;cu&aacute;ndo se duplica? &iquest;cu&aacute;nto
+              ser&aacute; dentro de un a&ntilde;o?
+            </p>
+            <p class="uso__texto">
+              El ahorro que se pone en un banco con 1000 c&oacute;rdobas al 4% anual es el
+              ejemplo limpio. Al cabo de un a&ntilde;o hay 1040, y el inter&eacute;s del
+              segundo a&ntilde;o no se calcula sobre los 1000 originales sino sobre los 1040.
+              Los n&uacute;meros se apilan, y cada capa se calcula sobre la anterior.
+            </p>
+          </div>
+          <div class="uso__ejemplo">
+            <p class="uso__ejemplo-rotulo">Mil c&oacute;rdobas al 4%</p>
+            <div class="barra-fila">
+              <span>a&ntilde;0</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:67.6%"></span></span>
+              <span class="barra-fila__valor">1 000</span>
+            </div>
+            <div class="barra-fila">
+              <span>a&ntilde;1</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:70.3%"></span></span>
+              <span class="barra-fila__valor">1 040</span>
+            </div>
+            <div class="barra-fila">
+              <span>a&ntilde;2</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:73.1%"></span></span>
+              <span class="barra-fila__valor">1 082</span>
+            </div>
+            <div class="barra-fila">
+              <span>a&ntilde;3</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:76%"></span></span>
+              <span class="barra-fila__valor">1 125</span>
+            </div>
+            <div class="barra-fila barra-fila--acento">
+              <span>a&ntilde;10</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:100%"></span></span>
+              <span class="barra-fila__valor">1 480</span>
+            </div>
+            <p class="pasta__texto" style="margin-top:1rem">
+              Diez a&ntilde;os de crecer parejo y el capital casi se ha multiplicado.
+              Eso no es magia del banco: es una progresi&oacute;n geom&eacute;trica de
+              raz&oacute;n 1.04.
+            </p>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="uso aparece">
+          <div>
+            <span class="uso__num">3</span>
+            <h3 class="uso__titulo">Saber cu&aacute;ndo algo ya no cabe</h3>
+            <p class="uso__texto">
+              La tercera utilidad es la m&aacute;s importante y la m&aacute;s
+              olvidada. Las series no solo dicen cu&aacute;nto hay: dicen cu&aacute;ndo se acaba el
+              espacio disponible.
+            </p>
+            <p class="uso__texto">
+              Si una bodega recibe 10 sacos extra cada d&iacute;a y ya tiene 50, los n&uacute;meros son
+              50, 60, 70, 80&hellip; La serie aritm&eacute;tica responde: al s&eacute;ptimo d&iacute;a
+              habr&aacute; 120 sacos. Si la bodega solo cabe 100, ya sabemos exactamente en
+              qu&eacute; d&iacute;a se pas&oacute; la medida. Ese d&iacute;a es el 6.
+            </p>
+          </div>
+          <div class="uso__ejemplo">
+            <p class="uso__ejemplo-rotulo">Una bodega con 100 lugares</p>
+            <div class="barra-fila">
+              <span>d&iacute;a 1</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:54.5%"></span></span>
+              <span class="barra-fila__valor">60</span>
+            </div>
+            <div class="barra-fila">
+              <span>d&iacute;a 2</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:63.6%"></span></span>
+              <span class="barra-fila__valor">70</span>
+            </div>
+            <div class="barra-fila">
+              <span>d&iacute;a 3</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:72.7%"></span></span>
+              <span class="barra-fila__valor">80</span>
+            </div>
+            <div class="barra-fila">
+              <span>d&iacute;a 4</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:81.8%"></span></span>
+              <span class="barra-fila__valor">90</span>
+            </div>
+            <div class="barra-fila barra-fila--acento">
+              <span>d&iacute;a 5</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:90.9%"></span></span>
+              <span class="barra-fila__valor">100</span>
+            </div>
+            <div class="barra-fila">
+              <span>d&iacute;a 6</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:100%;background:var(--accent)"></span></span>
+              <span class="barra-fila__valor">110</span>
+            </div>
+            <p class="pasta__texto" style="margin-top:1rem">
+              El d&iacute;a 6 ya no cabe. Saberlo un d&iacute;a antes es toda la diferencia.
+            </p>
+          </div>
+        </article>
+
+
+        <!-- 4 -->
+        <article class="uso aparece">
+          <div>
+            <span class="uso__num">4</span>
+            <h3 class="uso__titulo">Poner dos cuentas sobre la mesa y compararlas</h3>
+            <p class="uso__texto">
+              La &uacute;ltima utilidad es la que hace &uacute;tiles en la vida
+              corriente: decidir. Para comparar dos opciones hace falta mirar cu&aacute;nto
+              se ha pagado en cada momento, no solo el total final. Y esa mirada es
+              justamente una serie.
+            </p>
+            <p class="uso__texto">
+              En el mercado de Managua es una decisi&oacute;n de todos los d&iacute;as:
+              pagar un aparato de 9 500 c&oacute;rdobas de contado, o doce cuotas de 800. Los
+              dos n&uacute;meros casi no se distinguen &mdash; 9 500 contra 9 600 &mdash; pero
+              no son el mismo. El total se ve r&aacute;pido; lo que se siente mes a mes
+              solo aparece si uno apila las cuotas.
+            </p>
+          </div>
+          <div class="uso__ejemplo">
+            <p class="uso__ejemplo-rotulo">Doce cuotas de 800 c&oacute;rdobas</p>
+            <div class="barra-fila">
+              <span>m1</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:8.3%"></span></span>
+              <span class="barra-fila__valor">800</span>
+            </div>
+            <div class="barra-fila">
+              <span>m2</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:16.7%"></span></span>
+              <span class="barra-fila__valor">1 600</span>
+            </div>
+            <div class="barra-fila">
+              <span>m3</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:25%"></span></span>
+              <span class="barra-fila__valor">2 400</span>
+            </div>
+            <div class="barra-fila">
+              <span>m6</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:50%"></span></span>
+              <span class="barra-fila__valor">4 800</span>
+            </div>
+            <div class="barra-fila">
+              <span>m12</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:100%"></span></span>
+              <span class="barra-fila__valor">9 600</span>
+            </div>
+            <div class="barra-fila barra-fila--acento">
+              <span>Contado</span>
+              <span class="barra-fila__pista"><span class="barra-fila__relleno" style="width:99%"></span></span>
+              <span class="barra-fila__valor">9 500</span>
+            </div>
+            <p class="pasta__texto" style="margin-top:1rem">
+              La cuenta de contado gana por 100 c&oacute;rdobas, pero solo si el dinero
+              estaba disponible. Las dos columnas son series: la primera de raz&oacute;n 800,
+              la segunda de raz&oacute;n cero con un solo t&eacute;rmino. Compararlas es
+              comparar series.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <aside class="hist__nota hist__nota--uso">
+        <span class="hist__nota-rotulo">Esto se usa en&hellip;</span>
+        <p class="hist__nota-texto">
+          En el juego de la clase, Asteroides, el campo se llena como una bodega:
+          cada ronda empieza con una roca grande m&aacute;s que la anterior, 4, 5 y 6.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       2. LA ADVERTENCIA
+       ================================================================== -->
+  <section class="seccion seccion--alt" aria-labelledby="advertencia">
+    <div class="caja caja--angosta">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">La advertencia</span>
+        <h2 id="advertencia">Cuando a&ntilde;adir cosas peque&ntilde;as nunca termina</h2>
+        <p>
+          Hay una serie que parece la m&aacute;s inofensiva del mundo y es la m&aacute;s
+          traicionera. Es la que aparece en mi cuento: la cuenta que no cuadra.
+        </p>
+      </div>
+
+      <div class="advertencia aparece">
+        <h3 class="advertencia__titulo">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3.6 2.6 20h18.8L12 3.6z"/><path d="M12 10v4.4M12 17.4h.01"/>
+          </svg>
+          La serie arm&oacute;nica
+        </h3>
+        <p>
+          <math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math>
+        </p>
+        <p>
+          Cada t&eacute;rmino es m&aacute;s peque&ntilde;o que el anterior, y esa es la
+          intuici&oacute;n que enga&ntilde;a: si cada n&uacute;mero se acerca a cero, la
+          suma deber&iacute;a acabarse. No es cierto. La suma de esta serie es
+          <strong>infinita</strong>.
+        </p>
+        <p>
+          La raz&oacute;n se entiende agrupando. Los primeros 1 000 t&eacute;rminos suman
+          menos de 8, as&iacute; que hasta ah&iacute; todo parece tranquilo. Pero a partir
+          de ah&iacute; cada bloque nuevo aporta al menos otra mitad. Del t&eacute;rmino
+          1 001 al 2 000 hay 1 000 n&uacute;meros, y cada uno es al menos <math><mfrac><mn>1</mn><mtext>2 000</mtext></mfrac></math>: esa
+          parte sola suma al menos medio. Del 2 001 al 4 000 hay 2 000 n&uacute;meros, cada
+          uno al menos <math><mfrac><mn>1</mn><mtext>4 000</mtext></mfrac></math>: esa parte sola suma al menos otra mitad. Del 4 001 al
+          8 000, otra mitad. Y as&iacute; hasta el infinito, duplicando el rango cada
+          vez. Nunca se llega al final, y cada bloque nuevo empuja el total un poco
+          m&aacute;s lejos.
+        </p>
+        <p>
+          Quien suma t&eacute;rminos sueltos ve una curva que sube despacio y concluye
+          que no llegar&aacute; muy lejos. Quien los agrupa ve que cada bloque dobla el
+          total. Las dos cuentas son correctas; lo que cambia es el pedazo que se mira.
+        </p>
+      </div>
+
+      <div class="prose mt-5">
+        <p>
+          Esta es la raz&oacute;n por la que la matem&aacute;tica moderna pas&oacute; casi
+          dos siglos buscando criterios precisos para decidir si una serie
+          <abbr class="hist__term" tabindex="0" title="Convergencia: que las sumas parciales se acerquen a un n&uacute;mero fijo y se queden ah&iacute;. Decir que una serie converge es decir que ese n&uacute;mero existe; si no existe, la serie diverge.">converge</abbr> o no. Un ejemplo t&iacute;cnico: la serie
+          <math><mrow><mn>1</mn><mo>&minus;</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>&minus;</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math> usa
+          exactamente los mismos sumandos que la arm&oacute;nica,
+          <math><mrow><mfrac><mn>1</mn><mi>n</mi></mfrac></mrow></math>, pero
+          alternando el signo: uno suma, el siguiente resta, y as&iacute; hasta
+          el final. Los t&eacute;rminos no son ni m&aacute;s grandes ni m&aacute;s
+          peque&ntilde;os que los de la arm&oacute;nica; lo &uacute;nico que cambia es el
+          signo. Y eso solo ya basta para que la suma se quede quieta: converge a
+          <math><mrow><mi mathvariant="normal">ln</mi><mn>2</mn><mo>=</mo><mn>0,6931471805599453&hellip;</mn></mrow></math>.
+          La arm&oacute;nica, con los mismos t&eacute;rminos y sin alternar los signos,
+          se va al infinito.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       3. RAZON 1
+       ================================================================== -->
+  <section class="seccion" aria-labelledby="razon-uno">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">El caso intermedio</span>
+        <h2 id="razon-uno">Cuando la raz&oacute;n es justo 1</h2>
+        <p>
+          Entre el crecimiento que se calma (raz&oacute;n menor que 1) y el que se
+          dispara (raz&oacute;n mayor que 1) hay un caso l&iacute;mite, y es el m&aacute;s
+          ignorado. All&iacute; el t&eacute;rmino nunca cambia, la serie es plana, y el
+          total solo depende de cu&aacute;ntos t&eacute;rminos haya.
+        </p>
+      </div>
+
+      <div class="pastas aparece">
+        <article class="pasta">
+          <h3 class="pasta__titulo">Un mercado que siempre tiene lo mismo</h3>
+          <p class="pasta__valor">q = 1</p>
+          <p class="pasta__texto">
+            Si el mercado trabaja igual todos los d&iacute;as, cada hora pasa el
+            mismo n&uacute;mero de carros: 24, 24, 24, 24&hellip; Al cabo de 5 horas
+            hay 120 carros, 5 &times; 24; con 50 horas, 1 200. El total sube, pero
+            cada t&eacute;rmino es el mismo, y eso es justo lo que significa raz&oacute;n
+            1. Una progresi&oacute;n de raz&oacute;n 1 es constante, su
+            <abbr class="hist__term" tabindex="0" title="Suma parcial: lo que llevas sumado cuando llegas al t&eacute;rmino n. Es un n&uacute;mero finito y se calcula de una vez; la suma de la serie es el l&iacute;mite de esas sumas parciales.">suma parcial</abbr>
+            es
+            a &times; n, y no converge salvo que todos sus t&eacute;rminos sean cero.
+          </p>
+        </article>
+        <article class="pasta">
+          <h3 class="pasta__titulo">El inter&eacute;s del banco</h3>
+          <p class="pasta__valor">q = 1</p>
+          <p class="pasta__texto">
+            Un cr&eacute;dito que paga exactamente el 100% de lo que se debe y nunca
+            m&aacute;s. El capital nunca crece: cada a&ntilde;o se repone lo gastado. La
+            cuenta da el mismo n&uacute;mero cada a&ntilde;o, y eso es una serie con
+            raz&oacute;n 1.
+          </p>
+        </article>
+        <article class="pasta">
+          <h3 class="pasta__titulo">La semilla que no germina</h3>
+          <p class="pasta__valor">q = 1</p>
+          <p class="pasta__texto">
+            Un germen echado en tierra f&eacute;rtil donde nunca llueve. Cada semana la
+            planta mide lo mismo. La serie de alturas es constante y la suma final
+            depende solo de las semanas que pasaron.
+          </p>
+        </article>
+      </div>
+
+      <div class="prose mt-6 aparece">
+        <p>
+          Vale la pena notar por qu&eacute; este caso merece su propia
+          secci&oacute;n: en la f&oacute;rmula de la progresi&oacute;n geom&eacute;trica
+          aparece el denominador <math><mrow><mn>1</mn><mo>&minus;</mo><mi>q</mi></mrow></math>. Cuando
+          <em>q</em> vale 1, ese denominador es cero y la f&oacute;rmula se rompe. No
+          es un error del libro: es una se&ntilde;al matem&aacute;tica que dice que este caso
+          se tiene que tratar aparte.
+        </p>
+      </div>
+
+      <!-- Las dos sumas parciales del encabezado, dibujadas. Los valores son
+           exactos: la serie de razón 1/2 que empieza en 1/2 suma
+           1 - (1/2)^n, y la de razón 1 que empieza en 1 suma n. -->
+      <figure class="hist__grafica">
+        <svg class="hist__grafica-svg" viewBox="0 0 680 340" preserveAspectRatio="xMidYMid meet"
+             role="img" aria-labelledby="titulo-grafica-razon1 descripcion-grafica-razon1">
+          <title id="titulo-grafica-razon1">Sumas parciales de la serie de raz&oacute;n 1/2 y de la serie de raz&oacute;n 1</title>
+          <desc id="descripcion-grafica-razon1">Eje horizontal: n, de 1 a 10. Eje vertical: la suma
+            parcial, de 0 a 10. La curva de raz&oacute;n 1/2 arranca en 0,5 y sube a 0,75, 0,875
+            y 0,9375 hasta quedar pegada a la l&iacute;nea de l&iacute;mite 1, marcada con una
+            l&iacute;nea discontinua. La curva de raz&oacute;n 1 sale de 1 y sube en l&iacute;nea recta
+            hasta 10: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, sin acercarse a ning&uacute;n n&uacute;mero.</desc>
+
+          <!-- rejilla -->
+          <g class="g-rejilla" stroke="currentColor" stroke-width="1">
+            <line x1="60" y1="238" x2="640" y2="238"/>
+            <line x1="60" y1="186" x2="640" y2="186"/>
+            <line x1="60" y1="134" x2="640" y2="134"/>
+            <line x1="60" y1="82"  x2="640" y2="82"/>
+          </g>
+
+          <!-- ejes -->
+          <g class="g-eje" stroke="currentColor" stroke-width="1.4">
+            <line x1="60" y1="30" x2="60" y2="290"/>
+            <line x1="52" y1="290" x2="648" y2="290"/>
+          </g>
+
+          <!-- marcas del eje vertical -->
+          <g class="g-texto" fill="currentColor" font-size="11" text-anchor="end"
+             font-family="JetBrains Mono, ui-monospace, monospace">
+            <text x="52" y="294">0</text>
+            <text x="52" y="242">2</text>
+            <text x="52" y="190">4</text>
+            <text x="52" y="138">6</text>
+            <text x="52" y="86">8</text>
+            <text x="52" y="34">10</text>
+          </g>
+
+          <!-- marcas del eje horizontal -->
+          <g class="g-texto" fill="currentColor" font-size="11" text-anchor="middle"
+             font-family="JetBrains Mono, ui-monospace, monospace">
+            <text x="60"    y="308">1</text>
+            <text x="124.4" y="308">2</text>
+            <text x="188.9" y="308">3</text>
+            <text x="253.3" y="308">4</text>
+            <text x="317.8" y="308">5</text>
+            <text x="382.2" y="308">6</text>
+            <text x="446.7" y="308">7</text>
+            <text x="511.1" y="308">8</text>
+            <text x="575.6" y="308">9</text>
+            <text x="640"   y="308">10</text>
+            <text x="350" y="330" font-family="Inter, sans-serif">t&eacute;rminos n</text>
+            <text transform="translate(20 160) rotate(-90)" font-family="Inter, sans-serif">suma parcial</text>
+          </g>
+
+          <!-- el limite de la curva de razon 1/2 -->
+          <line class="g-eje" x1="52" y1="264" x2="648" y2="264"
+                stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 5"/>
+          <text class="g-texto" x="644" y="254" fill="currentColor" font-size="11"
+                text-anchor="end" font-family="JetBrains Mono, ui-monospace, monospace">l&iacute;mite = 1</text>
+
+          <!-- la de razon 1/2: sube y se queda pegada al limite -->
+          <polyline class="g-curva-a" fill="none" stroke="currentColor" stroke-width="2.4"
+                    stroke-linejoin="round"
+                    points="60,277 124.4,270.5 188.9,267.25 253.3,265.63 317.8,264.81 382.2,264.41 446.7,264.2 511.1,264.1 575.6,264.05 640,264.03"/>
+
+          <!-- la de razon 1: sube en linea recta y no se detiene -->
+          <polyline class="g-curva-b" fill="none" stroke="currentColor" stroke-width="2.6"
+                    stroke-dasharray="7 5" stroke-linejoin="round"
+                    points="60,264 124.4,238 188.9,212 253.3,186 317.8,160 382.2,134 446.7,108 511.1,82 575.6,56 640,30"/>
+          <g class="g-curva-b" fill="currentColor">
+            <circle cx="60"    cy="264" r="3.2"/>
+            <circle cx="124.4" cy="238" r="3.2"/>
+            <circle cx="188.9" cy="212" r="3.2"/>
+            <circle cx="253.3" cy="186" r="3.2"/>
+            <circle cx="317.8" cy="160" r="3.2"/>
+            <circle cx="382.2" cy="134" r="3.2"/>
+            <circle cx="446.7" cy="108" r="3.2"/>
+            <circle cx="511.1" cy="82"  r="3.2"/>
+            <circle cx="575.6" cy="56"  r="3.2"/>
+            <circle cx="640"   cy="30"  r="4.4"/>
+          </g>
+        </svg>
+
+        <figcaption class="hist__grafica-pie">
+          Cada punto es la suma de los primeros n t&eacute;rminos. La de raz&oacute;n
+          1/2 arranca en 0,5 y a partir de la cuarta ya casi no se distingue de la
+          l&iacute;nea discontinua, que es su l&iacute;mite: se peg&oacute; al 1. La de
+          raz&oacute;n 1 sale de 1 y sube en l&iacute;nea recta hasta 10 sin acercarse a
+          nada. Las dos son series como las de arriba; lo &uacute;nico que cambia es si
+          esa recta acaba en alg&uacute;n sitio.
+        </figcaption>
+
+        <div class="hist__grafica-leyenda">
+          <span><i class="hist__muestra hist__muestra--a"></i> Suma parcial de la serie de raz&oacute;n 1/2</span>
+          <span><i class="hist__muestra hist__muestra--b"></i> Suma parcial de la serie de raz&oacute;n 1</span>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       4. DE 1801 A HOY
+       ================================================================== -->
+  <section class="seccion seccion--alt" id="presente" aria-labelledby="t-presente">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Del origen a hoy</span>
+        <h2 id="t-presente">De 1801 a 1974: la serie entra en las m&aacute;quinas</h2>
+        <p>
+          La otra mitad del apartado se queda en 1859. Lo que sigue es el mismo
+          camino desde el otro lado: las mismas sumas, pero escritas para que las
+          haga una m&aacute;quina. Al final de esta l&iacute;nea de tiempo ya no hay
+          cuaderno ni papel &mdash; hay un collar de tarjetas y un circuito.
+        </p>
+      </div>
+
+      <ol class="hist__linea">
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/telar-jacquard.jpg"
+                 alt="Telar de Jacquard con su mecanismo de ganchos y las cadenas de tarjetas perforadas que lo controlan."
+                 width="600" height="932" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Mahlum, 14 de diciembre de 2008. Wikimedia Commons. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1801</span>
+            <h3 class="hist__hito-titulo">El telar de Jacquard: la m&aacute;quina que lee una lista</h3>
+            <p class="hist__hito-texto">
+              El telar sigue un collar de tarjetas perforadas: un agujero y un
+              hilo que sube. Es la primera vez que una m&aacute;quina obedece a una
+              lista guardada fuera de ella. Jacquard lo present&oacute; en 1801 en
+              la Exposici&oacute;n de productos de la industria de Par&iacute;s, y la
+              patente lleg&oacute; en 1804.
+            </p>
+            <span class="hist__hito-etiqueta">La lista manda</span>
+          </div>
+        </li>
+
+        <li class="hist__hito hist__hito--invertido aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/fourier.jpg"
+                 alt="Grabado de Fourier con el pelo rizado, la corbata anudada al cuello y la firma del grabador en el margen."
+                 width="300" height="367" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Am&eacute;d&eacute;e F&eacute;lix Barth&eacute;lemy Geille, a partir de un original de Boilly, c. 1823. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1822</span>
+            <h3 class="hist__hito-titulo">Fourier: cualquier curva, con ondas</h3>
+            <p class="hist__hito-texto">
+              En la <em>Th&eacute;orie analytique de la chaleur</em> (Par&iacute;s, 1822)
+              Fourier sostiene que <strong>cualquier</strong> funci&oacute;n
+              &mdash;incluidas las que tienen esquinas&mdash; se puede escribir como
+              suma de senos y cosenos. La idea la hab&iacute;a presentado al Instituto
+              de Par&iacute;s el 21 de diciembre de 1807. La ecuaci&oacute;n que estaba
+              resolviendo es la del calor,
+              <math><mrow><mfrac><mrow><mo>&#8706;</mo><mi>u</mi></mrow><mrow><mo>&#8706;</mo><mi>t</mi></mrow></mfrac><mo>=</mo><mi>&#945;</mi><mfrac><mrow><msup><mo>&#8706;</mo><mn>2</mn></msup><mi>u</mi></mrow><mrow><mo>&#8706;</mo><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac></mrow></math>,
+              y la respuesta a esa ecuaci&oacute;n es justamente una suma de esas ondas.
+            </p>
+            <span class="hist__hito-etiqueta">Una funci&oacute;n es una suma</span>
+          </div>
+        </li>
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/babbage.jpg"
+                 alt="Grabado de Babbage dentro de una corona de hojas de laurel, con el r&oacute;tulo C. Babbage, mathematicus."
+                 width="300" height="375" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Autor y fecha sin identificar. Wikimedia Commons. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1834</span>
+            <h3 class="hist__hito-titulo">Babbage: la m&aacute;quina anal&iacute;tica</h3>
+            <p class="hist__hito-texto">
+              Babbage toma la idea de la tarjeta y dise&ntilde;a una m&aacute;quina con
+              &laquo;almac&eacute;n&raquo; y &laquo;molino&raquo;. No lleg&oacute; a construirse,
+              pero la idea de que un c&aacute;lculo es una lista de pasos que se ejecutan
+              ya est&aacute; ah&iacute;.
+            </p>
+            <span class="hist__hito-etiqueta">Un c&aacute;lculo es una lista</span>
+          </div>
+        </li>
+
+        <li class="hist__hito hist__hito--invertido aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/tarjeta-perforada.jpg"
+                 alt="Tarjeta perforada de 1895 con la rejilla de 80 columnas numeradas del 1 al 45 y las letras de la A a la O."
+                 width="800" height="359" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Tarjeta perforada de 1895. Library of Congress. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1895</span>
+            <h3 class="hist__hito-titulo">Hollerith: la tarjeta que cuenta personas</h3>
+            <p class="hist__hito-texto">
+              La tarjeta mec&aacute;nica pasa del telar al censo. Contar un pa&iacute;s
+              entero deja de ser una suma a mano.
+            </p>
+            <span class="hist__hito-etiqueta">Del telar al censo</span>
+          </div>
+        </li>
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/eniac.jpg"
+                 alt="Sala del ENIAC en el Laboratorio Bal&iacute;stico del Ej&eacute;rcito de los Estados Unidos, con dos t&eacute;cnicos ajustando los paneles."
+                 width="800" height="611" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">U.S. Army, Ballistic Research Laboratory. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1945</span>
+            <h3 class="hist__hito-titulo">El ENIAC: la primera computadora electr&oacute;nica</h3>
+            <p class="hist__hito-texto">
+              30 toneladas y 18 000 v&aacute;lvulas para calcular trayectorias de
+              artiller&iacute;a. Cada operaci&oacute;n que hace es una suma de muchos
+              t&eacute;rminos.
+            </p>
+
+            <aside class="hist__nota hist__nota--ojo">
+              <span class="hist__nota-rotulo">Aviso</span>
+              <p class="hist__nota-texto">
+                Es una fotograf&iacute;a del ej&eacute;rcito estadounidense y est&aacute; en
+                dominio p&uacute;blico, as&iacute; que se puede usar sin pedir permiso.
+              </p>
+            </aside>
+
+            <span class="hist__hito-etiqueta">Cada operaci&oacute;n es una suma</span>
+          </div>
+        </li>
+
+        <li class="hist__hito hist__hito--invertido aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/cooley-tukey-1965.svg"
+                 alt="Esquema del mariposeo: ocho entradas a la izquierda se combinan de dos en dos hasta un nodo central y despu&eacute;s se recombinan hasta ocho salidas."
+                 width="200" height="250" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Esquema propio.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1965</span>
+            <h3 class="hist__hito-titulo">Cooley y Tukey: sumar m&aacute;s r&aacute;pido</h3>
+            <p class="hist__hito-texto">
+              Su art&iacute;culo &laquo;An Algorithm for the Machine Calculation of
+              Complex Fourier Series&raquo;, en <em>Mathematics of Computation</em>
+              19(90), abril de 1965, p&aacute;ginas 297-301, ense&ntilde;a a calcular la
+              misma
+              <abbr class="hist__term" tabindex="0" title="Transformada: un cambio de coordenadas que reescribe una funci&oacute;n como una suma de otras m&aacute;s sencillas, sobre todo senos y cosenos, y que tambi&eacute;n permite deshacerlo.">transformada</abbr>
+              con much&iacute;simas menos operaciones. Gauss
+              hab&iacute;a hecho algo parecido hacia <strong>1805</strong>, pero no lo
+              public&oacute;; su trabajo apareci&oacute; p&oacute;stumo en
+              <strong>1866</strong>.
+            </p>
+            <span class="hist__hito-etiqueta">El mismo resultado, menos operaciones</span>
+          </div>
+        </li>
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/dct-1974.svg"
+                 alt="Esquema de un bloque de ocho por ocho p&iacute;xeles que se descompone en ocho ondas de coseno: las primeras anchas y las &uacute;ltimas casi planas."
+                 width="200" height="250" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Esquema propio.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1974</span>
+            <h3 class="hist__hito-titulo">Ahmed, Natarajan y Rao: la transformada que acab&oacute; en tus fotos</h3>
+            <p class="hist__hito-texto">
+              Definen la <strong>transformada discreta del coseno</strong> en
+              <em>IEEE Transactions on Computers</em> C-23(1), enero de 1974,
+              p&aacute;ginas 90-92. Una foto se parte en bloques de 8 &times; 8, cada
+              bloque en cosenos, casi todos los coeficientes salen casi cero y se
+              tiran. De ah&iacute; sale el JPEG.
+            </p>
+            <span class="hist__hito-etiqueta">De ah&iacute; sale el JPEG</span>
+          </div>
+        </li>
+
+      </ol>
+
+      <p class="hito__creditos">
+        Las cinco fotograf&iacute;as de la l&iacute;nea de tiempo &mdash;el telar, el
+        grabado de Fourier, el de Babbage, la tarjeta perforada y la sala del
+        ENIAC&mdash; est&aacute;n en <strong>dominio p&uacute;blico</strong>, es decir, que
+        se pueden usar sin pedir permiso. Los dos esquemas de Cooley-Tukey y de la
+        transformada del coseno est&aacute;n dibujados a mano para este sitio.
+        Origen de las im&aacute;genes: Wikimedia Commons y Library of Congress.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       5. DONDE ESTA ESTO HOY
+       ================================================================== -->
+  <section class="seccion" id="hoy" aria-labelledby="t-hoy">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Hacia el presente</span>
+        <h2 id="t-hoy">D&oacute;nde est&aacute; esto hoy</h2>
+        <p>
+          Las sumas de Fourier ya no se usan solo para cuadrar un &aacute;rea: se
+          usan todos los d&iacute;as, dentro de cosas que nadie llama
+          matem&aacute;tica. Estos son ocho de esos sitios, con la serie que hay debajo
+          de cada uno.
+        </p>
+      </div>
+
+      <div class="hist__tabla">
+        <table class="hist__tabla-tabla">
+          <caption class="hist__tabla-titulo">Ocho lugares donde la misma cuenta sigue trabajando</caption>
+          <thead>
+            <tr>
+              <th scope="col">D&oacute;nde</th>
+              <th scope="col">Qu&eacute; serie aparece</th>
+              <th scope="col">Qu&eacute; hace all&iacute;</th>
+              <th scope="col">Un dato comprobable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">JPEG</th>
+              <td>Coseros, en bloques de 8 &times; 8 (transformada discreta del coseno)</td>
+              <td>Guarda la imagen con menos n&uacute;meros, tirando los coeficientes que casi no aportan</td>
+              <td>El est&aacute;ndar es ITU-T T.81 / ISO/IEC 10918-1, aprobado en 1992</td>
+            </tr>
+            <tr>
+              <th scope="row">MP3 y AAC</th>
+              <td>Una variante de la misma transformada (MDCT)</td>
+              <td>Comprime el sonido por subbandas</td>
+              <td>La MDCT es la transformada del coseno de tipo IV</td>
+            </tr>
+            <tr>
+              <th scope="row">Resonancia magn&eacute;tica</th>
+              <td>Fourier en dos dimensiones</td>
+              <td>Reconstruye la imagen a partir del espacio-k</td>
+              <td>La imagen es la transformada de Fourier 2D inversa del espacio-k</td>
+            </tr>
+            <tr>
+              <th scope="row">TAC</th>
+              <td>La transformada de Radon</td>
+              <td>Reconstruye un corte a partir de muchas proyecciones</td>
+              <td>Johann Radon la public&oacute; en 1917; la reconstrucci&oacute;n usa retroproyecci&oacute;n filtrada</td>
+            </tr>
+            <tr>
+              <th scope="row">Sismolog&iacute;a</th>
+              <td>Series de Fourier</td>
+              <td>Separa las
+                <abbr class="hist__term" tabindex="0" title="Frecuencia: cu&aacute;ntas veces se repite una onda por unidad de tiempo. En una suma de Fourier cada sumando es una frecuencia distinta, y separar unas de otras es justo lo que hace la transformada.">frecuencias</abbr>
+                de un temblor</td>
+              <td>&mdash;</td>
+            </tr>
+            <tr>
+              <th scope="row">Sat&eacute;lites y telecomunicaciones</th>
+              <td>Series y transformadas</td>
+              <td>Comprimen y modulan la se&ntilde;al que va y vuelve</td>
+              <td>&mdash;</td>
+            </tr>
+            <tr>
+              <th scope="row">Matem&aacute;tica financiera</th>
+              <td>La serie geom&eacute;trica</td>
+              <td>Calcula cuotas, anualidades e intereses</td>
+              <td>&mdash;</td>
+            </tr>
+            <tr>
+              <th scope="row">La hip&oacute;tesis de Riemann</th>
+              <td>La funci&oacute;n zeta</td>
+              <td>&mdash;</td>
+              <td>Es uno de los siete Problemas del Milenio, convocados por el Clay Mathematics Institute y anunciados en Par&iacute;s el 24 de mayo de 2000; el premio es de un mill&oacute;n de d&oacute;lares</td>
+            </tr>
+          </tbody>
+          <tfoot class="hist__tabla-fuente">
+            <tr>
+              <td colspan="4">
+                Las cuatro primeras filas salen de la l&iacute;nea de tiempo de arriba:
+                la transformada discreta del coseno de 1974 es la del JPEG. La
+                transformada de Radon est&aacute; en <strong>Radon, J.</strong>
+                &laquo;&Uuml;ber die Bestimmung von Funktionen durch ihre Integralwerte
+                l&auml;ngs gewisser Mannigfaltigkeiten&raquo;, <em>Berichte der K&ouml;nigl.
+                S&auml;chsischen Gesellschaft der Wissenschaften</em> 69, Leipzig, 1917. Los
+                siete Problemas del Milenio los convoc&oacute; el <strong>Clay Mathematics
+                Institute</strong> y se anunciaron en Par&iacute;s el 24 de mayo de 2000.
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- No es una cita literal en espanol: es la formulacion oficial del
+           problema de Riemann tal como la publica el Clay Mathematics
+           Institute, traducida al espanol. Por eso el pie lo dice. -->
+      <div class="prose mt-6 aparece">
+        <p>
+          La &uacute;ltima fila de la tabla nombra el problema; la manera en que qued&oacute;
+          escrito, la que se public&oacute; en 2000, es la que sigue.
+        </p>
+      </div>
+
+      <figure class="hist__cita">
+        <p class="hist__cita-texto">
+          Todos los ceros no triviales de la funci&oacute;n zeta tienen parte real 1/2.
+        </p>
+        <figcaption class="hist__cita-autor">
+          <b>Clay Mathematics Institute</b>, <em>Millennium Prize Problems</em>, 2000.
+          Es la formulaci&oacute;n oficial del problema, traducida al espa&ntilde;ol: no
+          una frase que se haya escrito en espa&ntilde;ol.
+        </figcaption>
+      </figure>
+
+      <figure class="hist__lamina hist__lamina--ampliable" style="max-width: 30rem">
+        <button class="hist__lamina-zoom" type="button">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" aria-hidden="true">
+            <circle cx="6.8" cy="6.8" r="4.6"/>
+            <path d="M10.2 10.2 14 14M4.8 6.8h4M6.8 4.8v4"/>
+          </svg>
+          Ampliar
+        </button>
+        <img src="assets/img/historia/resonancia-magnetica.jpg"
+             alt="Equipo de resonancia magn&eacute;tica con su mesa de paciente, en una sala de hospital."
+             width="736" height="916" loading="lazy" decoding="async">
+        <figcaption class="hist__lamina-pie">
+          Aqu&iacute; no se suman im&aacute;genes: se suman ondas. El equipo mide en el
+          espacio-k y la transformada de Fourier en dos dimensiones devuelve la
+          imagen.
+        </figcaption>
+        <p class="hist__lamina-credito">
+          Fatimah Bello, 8 de abril de 2025. Wikimedia Commons. CC0.
+        </p>
+
+        <dialog class="hist__lamina-dialogo" aria-label="Equipo de resonancia magn&eacute;tica, ampliado">
+          <img class="hist__lamina-amplia" src="assets/img/historia/resonancia-magnetica.jpg"
+               alt="Equipo de resonancia magn&eacute;tica con su mesa de paciente, en una sala de hospital."
+               width="736" height="916">
+          <button class="hist__lamina-cerrar" type="button">Cerrar</button>
+        </dialog>
+      </figure>
+
+      <figure class="hist__lamina hist__lamina--ampliable" style="max-width: 30rem">
+        <button class="hist__lamina-zoom" type="button">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" aria-hidden="true">
+            <circle cx="6.8" cy="6.8" r="4.6"/>
+            <path d="M10.2 10.2 14 14M4.8 6.8h4M6.8 4.8v4"/>
+          </svg>
+          Ampliar
+        </button>
+        <img src="assets/img/historia/sismografo.jpg"
+             alt="Sism&oacute;grafo de tambor que conserva el sismograma del terremoto de la bah&iacute;a de Plenty, del 2 de marzo de 1987."
+             width="640" height="892" loading="lazy" decoding="async">
+        <figcaption class="hist__lamina-pie">
+          El sismograma es una sola curva, pero es la suma de todas las frecuencias
+          del temblor a la vez. Separarlas es otra transformada de Fourier.
+        </figcaption>
+        <p class="hist__lamina-credito">
+          Daderot, 1 de noviembre de 2024. Faraday Museum of Technology, Napier,
+          Nueva Zelanda. CC0.
+        </p>
+
+        <dialog class="hist__lamina-dialogo" aria-label="Sism&oacute;grafo de tambor, ampliado">
+          <img class="hist__lamina-amplia" src="assets/img/historia/sismografo.jpg"
+               alt="Sism&oacute;grafo de tambor que conserva el sismograma del terremoto de la bah&iacute;a de Plenty, del 2 de marzo de 1987."
+               width="640" height="892">
+          <button class="hist__lamina-cerrar" type="button">Cerrar</button>
+        </dialog>
+      </figure>
+
+      <figure class="hist__lamina hist__lamina--ampliable" style="max-width: 30rem">
+        <button class="hist__lamina-zoom" type="button">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" aria-hidden="true">
+            <circle cx="6.8" cy="6.8" r="4.6"/>
+            <path d="M10.2 10.2 14 14M4.8 6.8h4M6.8 4.8v4"/>
+          </svg>
+          Ampliar
+        </button>
+        <img src="assets/img/historia/satelite.jpg"
+             alt="Sat&eacute;lite de comunicaciones ACTS sobre la capa de nubes de la Tierra."
+             width="560" height="556" loading="lazy" decoding="async">
+        <figcaption class="hist__lamina-pie">
+          Lo que sube por el enlace es una se&ntilde;al comprimida y modulada con
+          series: sin eso, el mismo dibujo tendr&iacute;a que ocupar la l&iacute;nea
+          entera.
+        </figcaption>
+        <p class="hist__lamina-credito">
+          NASA, 12 de septiembre de 1993 (STS051-71-054). Dominio p&uacute;blico.
+        </p>
+
+        <dialog class="hist__lamina-dialogo" aria-label="Sat&eacute;lite de comunicaciones, ampliado">
+          <img class="hist__lamina-amplia" src="assets/img/historia/satelite.jpg"
+               alt="Sat&eacute;lite de comunicaciones ACTS sobre la capa de nubes de la Tierra."
+               width="560" height="556">
+          <button class="hist__lamina-cerrar" type="button">Cerrar</button>
+        </dialog>
+      </figure>
+
+      <div class="prose mt-6 aparece">
+        <p>
+          Un &uacute;ltimo dato para medir hasta d&oacute;nde lleg&oacute; esto: el r&eacute;cord
+          de d&iacute;gitos de <em>&pi;</em> lo tiene hoy
+          <strong>314 000 000 000 000 d&iacute;gitos</strong> (314 billones),
+          conseguido por StorageReview y Micron Technology el <strong>18 de
+          noviembre de 2025</strong> con la f&oacute;rmula de Chudnovsky y el programa
+          y-cruncher, en <strong>110 d&iacute;as</strong> de c&aacute;lculo. Cada d&iacute;gito
+          de ese n&uacute;mero sale de la misma idea que esta p&aacute;gina: escribir una
+          funci&oacute;n como una suma y quedarse con los primeros t&eacute;rminos.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       6. LAS CUENTAS DEL DINERO
+       ================================================================== -->
+  <section class="seccion seccion--alt" id="dinero" aria-labelledby="t-dinero">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Cerrar el cr&eacute;dito</span>
+        <h2 id="t-dinero">Las cuentas del dinero</h2>
+        <p>
+          El cuarto de los usos se quedaba en la comparaci&oacute;n de dos n&uacute;meros
+          casi iguales. Aqu&iacute; se cierra del todo: lo que hace falta para saber
+          qu&eacute; tasa lleva dentro un cr&eacute;dito de doce cuotas, y por qu&eacute;
+          esa tasa es la diferencia de verdad.
+        </p>
+      </div>
+
+      <div class="hist__comparador aparece">
+        <div class="hist__comparador-lado">
+          <h3 class="hist__comparador-titulo">Pagar de contado</h3>
+          <ul class="hist__comparador-lista">
+            <li>Un solo pago de 9 500 c&oacute;rdobas</li>
+            <li>El dinero sale entero, en el acto</li>
+            <li>La serie tiene un solo t&eacute;rmino</li>
+            <li>Si algo sale mal, no queda nada que devolver</li>
+          </ul>
+          <p class="hist__comparador-resultado">
+            Total: <b>9 500</b> c&oacute;rdobas
+          </p>
+        </div>
+
+        <div class="hist__comparador-lado">
+          <h3 class="hist__comparador-titulo">Pagar en doce cuotas</h3>
+          <ul class="hist__comparador-lista">
+            <li>Doce pagos de 800 c&oacute;rdobas</li>
+            <li>Cada mes solo hace falta una parte del dinero</li>
+            <li>La serie suma doce t&eacute;rminos</li>
+            <li>Si algo sale mal, ya qued&oacute; parte pagada</li>
+          </ul>
+          <p class="hist__comparador-resultado">
+            Total: <b>9 600</b> c&oacute;rdobas
+          </p>
+        </div>
+      </div>
+
+      <p class="prose mt-6 aparece">
+        Lo que convierte esa comparaci&oacute;n en matem&aacute;tica es una sola pregunta:
+        &iquest;qu&eacute; <strong>tasa</strong> del cr&eacute;dito hace que doce pagos de 800
+        valgan 9 500 de contado? La respuesta es una
+        <abbr class="hist__term" tabindex="0" title="Anualidad: una serie de pagos iguales separados por un tiempo fijo. Es la serie geom&eacute;trica aplicada a un pr&eacute;stamo.">anualidad</abbr>,
+        y la f&oacute;rmula de la
+        <abbr class="hist__term" tabindex="0" title="Tasa mensual: el inter&eacute;s que se aplica durante un mes, escrito como porcentaje del capital. La tasa anual efectiva es la de un a&ntilde;o entero de pagos.">tasa mensual</abbr>
+        sale sola si se resuelve al rev&eacute;s, porque el cr&eacute;dito se vende a
+        <em>i</em> mismo.
+      </p>
+
+      <div class="hist__formula aparece">
+        <div class="hist__formula-caja">
+          <math><mrow><mi>VA</mi><mo>=</mo><mi>C</mi><mo>&#183;</mo><mfrac><mrow><mn>1</mn><mo>&#8722;</mo><msup><mrow><mo>(</mo><mn>1</mn><mo>+</mo><mi>i</mi><mo>)</mo></mrow><mrow><mo>&#8722;</mo><mn>12</mn></mrow></msup></mrow><mi>i</mi></mfrac></mrow></math>
+        </div>
+        <p class="hist__formula-lectura">
+          <strong>VA</strong> es el valor actual: lo que la cosa cuesta de contado.
+          <strong>C</strong> es la cuota, los 800 c&oacute;rdobas de cada mes. La
+          <strong>i</strong> es la tasa mensual, y el <strong>12</strong> son los doce
+          meses del cr&eacute;dito. Como
+          <math><mrow><msup><mrow><mo>(</mo><mn>1</mn><mo>+</mo><mi>i</mi><mo>)</mo></mrow><mrow><mo>&#8722;</mo><mn>12</mn></mrow></msup></mrow></math>
+          es lo que queda de un c&oacute;rdoba invertido durante esos doce meses, al
+          restarlo de <math><mrow><mn>1</mn></mrow></math> sale la parte de ese
+          c&oacute;rdoba que todav&iacute;a no se ha gastado. Esa parte, dividida entre la
+          tasa y multiplicada por la cuota, da exactamente lo que hay que
+          adelantar hoy.
+        </p>
+        <p class="hist__formula-nota">
+          Resolviendo 9 500 = 800 &middot; (1 &minus; (1 + i)&minus;12) / i sale una
+          tasa mensual de <strong>0,161465736599 %</strong>, que a un a&ntilde;o equivale
+          a una tasa efectiva de <strong>1,9549 %</strong>. Si la primera cuota se
+          pagara en el acto en vez de un mes despu&eacute;s de firmar, las dos tasas
+          subir&iacute;an: 0,190963679856 % mensual y 2,3158 % anual efectiva.
+        </p>
+      </div>
+
+      <aside class="hist__nota hist__nota--ojo">
+        <span class="hist__nota-rotulo">Ojo con esto</span>
+        <p class="hist__nota-texto">
+          Cien c&oacute;rdobas sobre nueve mil quinientos son poco dinero: eso es lo
+          que se ve en el total. Lo que no se ve es la tasa que va por dentro. El
+          total casi igual no quiere decir que el dinero valga lo mismo &mdash; quiere
+          decir que la diferencia cabe en dos d&iacute;gitos de la tercera cifra.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       7. LOS CROMOS DEL ALBUM
+       ================================================================== -->
+  <section class="seccion" id="cromos" aria-labelledby="t-cromos">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Un problema de la vida real</span>
+        <h2 id="t-cromos">Los cromos del &aacute;lbum</h2>
+        <p>
+          Hay un n&uacute;mero en la vida diaria que se calcula con la serie que
+          acabamos de ver como la que nunca converge. La misma, ni m&aacute;s ni menos.
+        </p>
+      </div>
+
+      <div class="prose">
+        <p>
+          El problema es el de siempre: hay <em>n</em> cromos distintos, cada
+          sobre trae uno al azar, y hay que saber cu&aacute;ntos sobres hay que
+          comprar para tener la colecci&oacute;n completa. Lo que sale no es un n&uacute;mero
+          de la serie geom&eacute;trica, que habr&iacute;a sido f&aacute;cil, sino el
+          <strong>valor esperado</strong> del n&uacute;mero de sobres, y ese sale de la
+          serie arm&oacute;nica.
+        </p>
+      </div>
+
+      <div class="hist__formula aparece">
+        <div class="hist__formula-caja">
+          <math><mrow><mi>E</mi><mo>(</mo><mi>T</mi><mo>)</mo><mo>=</mo><mi>n</mi><mo>&#183;</mo><msub><mi>H</mi><mi>n</mi></msub></mrow></math>
+        </div>
+        <p class="hist__formula-lectura">
+          <strong>E</strong> es lo que se espera gastar, <strong>T</strong> es el
+          n&uacute;mero de sobres comprados hasta completar el &aacute;lbum, y
+          <em>n</em> es el n&uacute;mero de cromos distintos. La
+          <strong>H<sub>n</sub></strong> es la suma de los primeros
+          <em>n</em> t&eacute;rminos de la serie arm&oacute;nica &mdash;la misma de la
+          advertencia, la que no converge. Que salga una serie
+          <abbr class="hist__term" tabindex="0" title="Divergencia: que las sumas parciales no se acerquen a ning&uacute;n n&uacute;mero fijo y sigan creciendo. Una serie divergente no tiene suma finita: por eso la de los cromos sale grande.">divergente</abbr>
+          aqu&iacute;
+          no es una casualidad: justamente porque no converge, el n&uacute;mero de
+          sobres sale grande.
+        </p>
+        <p class="hist__formula-nota">
+          Nadie suma mil t&eacute;rminos cada vez que quiere saberlo. Se usa la
+          aproximaci&oacute;n
+          <math><mrow><mi>n</mi><mo>&#183;</mo><mi mathvariant="normal">ln</mi><mi>n</mi><mo>+</mo><mi>&#947;</mi><mo>&#183;</mo><mi>n</mi><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></mrow></math>,
+          con
+          <math><mrow><mi>&#947;</mi><mo>=</mo><mn>0,5772156649&hellip;</mn></mrow></math>,
+          la constante de Euler-Mascheroni.
+        </p>
+      </div>
+
+      <div class="hist__tabla">
+        <table class="hist__tabla-tabla">
+          <caption class="hist__tabla-titulo">Cu&aacute;ntos sobres hay que comprar con 1 000 cromos distintos</caption>
+          <thead>
+            <tr>
+              <th scope="col">C&oacute;mo se calcula</th>
+              <th scope="col" class="hist__num">Sobres</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Exacto: <em>n</em> &middot; H<sub>1 000</sub></th>
+              <td class="hist__num">1 000 &times; 7,4854708606 = <strong>7 485,4708605503</strong></td>
+            </tr>
+            <tr>
+              <th scope="row">Aproximado: <em>n</em> ln <em>n</em> + &gamma;<em>n</em> + &frac12;</th>
+              <td class="hist__num"><strong>7 485,4709438821</strong></td>
+            </tr>
+            <tr class="hist__fila--total">
+              <th scope="row">Diferencia</th>
+              <td class="hist__num"><strong>0,000083</strong></td>
+            </tr>
+          </tbody>
+          <tfoot class="hist__tabla-fuente">
+            <tr>
+              <td colspan="2">
+                Las dos primeras filas salen de las dos expresiones con los mismos
+                1 000: la suma exacta de los 1 000 primeros t&eacute;rminos de la
+                serie arm&oacute;nica, y la aproximaci&oacute;n con
+                &gamma; = 0,5772156649&hellip;
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <aside class="hist__nota hist__nota--atajo">
+        <span class="hist__nota-rotulo">Atajo</span>
+        <p class="hist__nota-texto">
+          Que la aproximaci&oacute;n se equivoque en ocho diezmil&eacute;simas para mil
+          cromos es toda la raz&oacute;n por la que se usa en vez de la suma exacta: la
+          suma exacta obliga a sumar mil n&uacute;meros uno por uno, y la
+          aproximaci&oacute;n es una l&iacute;nea con un logaritmo y una constante. Esa
+          diferencia es la que hace que un ni&ntilde;o pueda saber, en el momento de
+          comprar el sobre, cu&aacute;ntos le faltan.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       8. FICHA DE DATOS
+       ================================================================== -->
+  <section class="seccion" id="ficha" aria-labelledby="t-ficha">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Resumen num&eacute;rico</span>
+        <h2 id="t-ficha">Las cinco series de la p&aacute;gina, de un vistazo</h2>
+        <p>
+          Todas las series que han salido en estas p&aacute;ginas, ordenadas en una
+          sola tabla: qu&eacute; hacen y d&oacute;nde te la puedes encontrar sin saberlo.
+        </p>
+      </div>
+
+      <div class="hist__tabla">
+        <table class="hist__tabla-tabla">
+          <caption class="hist__tabla-titulo">Las cinco series de la p&aacute;gina, de un vistazo</caption>
+          <thead>
+            <tr>
+              <th scope="col">Serie</th>
+              <th scope="col">Su forma</th>
+              <th scope="col">Qu&eacute; hace</th>
+              <th scope="col">D&oacute;nde la usas sin saberlo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Arm&oacute;nica</th>
+              <td><math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math></td>
+              <td>Diverge: crece sin tope</td>
+              <td>&mdash;</td>
+            </tr>
+            <tr>
+              <th scope="row">Serie <em>p</em> con <em>p</em> = 2</th>
+              <td><math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>9</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>16</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math></td>
+              <td>Converge a <math><mrow><mfrac><msup><mi>&pi;</mi><mn>2</mn></msup><mn>6</mn></mfrac><mo>=</mo><mn>1,6449340668&hellip;</mn></mrow></math></td>
+              <td>&mdash;</td>
+            </tr>
+            <tr>
+              <th scope="row">Geom&eacute;trica de raz&oacute;n <em>r</em>, con |<em>r</em>| &lt; 1</th>
+              <td><math><mrow><mi>a</mi><mo>+</mo><mi>a</mi><mi>r</mi><mo>+</mo><mi>a</mi><msup><mi>r</mi><mn>2</mn></msup><mo>+</mo><mo>&hellip;</mo></mrow></math></td>
+              <td>Converge a <math><mrow><mfrac><mi>a</mi><mrow><mn>1</mn><mo>&#8722;</mo><mi>r</mi></mrow></mfrac></mrow></math></td>
+              <td>Cuotas y anualidades</td>
+            </tr>
+            <tr>
+              <th scope="row">Alternada</th>
+              <td><math><mrow><mn>1</mn><mo>&#8722;</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>&#8722;</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math></td>
+              <td>Converge a <math><mrow><mi mathvariant="normal">ln</mi><mn>2</mn><mo>=</mo><mn>0,6931471805599453&hellip;</mn></mrow></math></td>
+              <td>&mdash;</td>
+            </tr>
+            <tr>
+              <th scope="row">Exponencial</th>
+              <td><math><mrow><mn>1</mn><mo>+</mo><mi>x</mi><mo>+</mo><mfrac><msup><mi>x</mi><mn>2</mn></msup><mrow><mn>2</mn><mo>!</mo></mrow></mfrac><mo>+</mo><mfrac><msup><mi>x</mi><mn>3</mn></msup><mrow><mn>3</mn><mo>!</mo></mrow></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math></td>
+              <td>Converge a <math><mrow><msup><mi>e</mi><mi>x</mi></msup></mrow></math></td>
+              <td>El inter&eacute;s compuesto de Jakob Bernoulli</td>
+            </tr>
+          </tbody>
+          <tfoot class="hist__tabla-fuente">
+            <tr>
+              <td colspan="4">
+                Las cuatro primeras salen de las secciones de arriba: la arm&oacute;nica y
+                la alternada son las dos mitades de la advertencia, y la geom&eacute;trica
+                es la de las cuotas y de los cromos. La exponencial no aparece
+                expl&iacute;citamente en ninguna secci&oacute;n de esta p&aacute;gina: es la que est&aacute;
+                detr&aacute;s de todo inter&eacute;s compuesto. Los dos valores num&eacute;ricos
+                se comprueban sumando los primeros t&eacute;rminos.
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       9. FUENTES
+       ================================================================== -->
+  <section class="seccion seccion--alt" id="fuentes" aria-labelledby="t-fuentes">
+    <div class="caja caja--angosta">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Respaldo</span>
+        <h2 id="t-fuentes">Fuentes consultadas</h2>
+        <p>
+          Las fechas y los datos de esta parte se verificaron en las fuentes
+          siguientes.
+        </p>
+      </div>
+
+      <ol class="refs aparece">
+        <li><strong>Boyer, Carl B.; Merzbach, Uta C.</strong> <em>A History of Mathematics</em>. 3.&ordf; ed. John Wiley &amp; Sons, 2011.</li>
+        <li><strong>Katz, Victor J.</strong> <em>A History of Mathematics: An Introduction</em>. Addison-Wesley (Pearson), 3.&ordf; ed.</li>
+        <li><strong>Fourier, J.</strong> <em>Th&eacute;orie analytique de la chaleur</em>. Par&iacute;s: Firmin Didot, 1822.</li>
+        <li><strong>Cooley, J. W.; Tukey, J. W.</strong> &laquo;An Algorithm for the Machine Calculation of Complex Fourier Series&raquo;, <em>Mathematics of Computation</em> 19(90), abril de 1965, pp. 297-301.</li>
+        <li><strong>Ahmed, N.; Natarajan, T.; Rao, K. R.</strong> &laquo;Discrete Cosine Transform&raquo;, <em>IEEE Transactions on Computers</em> C-23(1), enero de 1974, pp. 90-92.</li>
+        <li><strong>ITU-T.</strong> Recomendaci&oacute;n T.81 / ISO/IEC 10918-1 (JPEG), 1992-1994.</li>
+        <li><strong>Radon, J.</strong> &laquo;&Uuml;ber die Bestimmung von Funktionen durch ihre Integralwerte l&auml;ngs gewisser Mannigfaltigkeiten&raquo;, <em>Berichte der K&ouml;nigl. S&auml;chsischen Gesellschaft der Wissenschaften</em> 69, Leipzig, 1917.</li>
+        <li><strong>Clay Mathematics Institute.</strong> <em>Millennium Prize Problems</em>, anunciados en Par&iacute;s el 24 de mayo de 2000.</li>
+        <li><strong>Ap&eacute;ry, R.</strong> &laquo;Irrationalit&eacute; de &zeta;(2) et &zeta;(3)&raquo;, <em>Ast&eacute;risque</em> 61 (1979), pp. 11-13.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       10. CIERRE
+       ================================================================== -->
+  <section class="cierre-alejandro">
+    <div class="caja">
+      <div class="autor aparece">
+        <span class="autor__inicial" aria-hidden="true">AG</span>
+        <span class="autor__datos">
+          <span class="autor__nombre">Alejandro Guerrero</span>
+          <span class="autor__pieza">Historia, parte 2 de 2 &mdash; el legado y los usos</span>
+        </span>
+      </div>
+      <p class="cierre-alejandro__texto">
+        Ahora las series ya no son un s&iacute;mbolo raro: son la manera de contar
+        personas en unas gradas, de saber cu&aacute;ndo se llena una bodega y de
+        entender por qu&eacute; hay sumas que nunca terminan. La otra mitad del apartado
+        la escribi&oacute; Diego Bordas y cuenta c&oacute;mo se construyeron.
+      </p>
+<div class="cierre-alejandro__acciones">
+        <a class="boton boton--solido" href="historia-diego.html">Leer el origen</a>
+        <a class="boton boton--contorno" href="historia.html">Ver las dos historias</a>
+        <a class="boton boton--contorno" href="index.html#equipo">Ver el equipo</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="caja">
+    <div class="footer__grid">
+      <div>
+        <p class="pie__titulo">Las Series Matem&aacute;ticas</p>
+        <p>Trabajo de investigaci&oacute;n sobre series: dos historias, dos cuentos y dos juegos.</p>
+      </div>
+      <div>
+        <p class="pie__rotulo">Apartados</p>
+        <ul>
+          <li><a href="historia.html">I. Historia</a></li>
+          <li><a href="cuento.html">II. Cuento</a></li>
+          <li><a href="juego.html">III. Juego</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="pie__rotulo">Equipo</p>
+        <ul>
+          <li>Diego Bordas</li>
+          <li>Angelita Vargas</li>
+          <li>Alejandro Guerrero</li>
+        </ul>
+      </div>
+    </div>    <div class="pie__abajo">
+      <span>&copy; 2026 &middot; Diego Bordas, Angelita Vargas y Alejandro Guerrero.</span>
+      <span>P&aacute;gina construida con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js?v=20261021" defer></script>
+<script src="assets/js/historia.js?v=20261021" defer></script>
+</body>
+</html>

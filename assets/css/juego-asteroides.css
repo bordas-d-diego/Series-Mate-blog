@@ -1,0 +1,970 @@
+/* ==========================================================================
+   ASTEROIDES - juego de Angelita Vargas
+   Una roca grande se parte en dos medianas, y cada mediana en dos pequenas.
+   Los puntos se duplican en cada particion. Todo eso esta en el motor; aqui
+   solo hay un visor negro y el panel de instrumentos de alrededor.
+   ========================================================================== */
+
+/* Las fichas propias de la hoja. El campo es el mismo negro del visor en su
+   version normal y en la de pantalla completa, asi que se declara una vez.
+   La llama del menu son tres paradas de un degradado, tambien fichas. */
+:root {
+  --astro-campo: #1a1219;
+  --astro-borde: #43303c;
+  --astro-llama-alta: #fff6e2;
+  --astro-llama-media: #f2c98a;
+  --astro-llama-baja: #e8936a;
+}
+
+/* ==========================================================================
+   TEXTO SOBRE EL CAMPO OSCURO
+   --------------------------------------------------------------------------
+   Dentro de .astro__marco y del menu todo texto va sobre negro, pero la
+   pagina es de tema claro: --fg es ciruela oscuro (#4a3540) y no se lee
+   sobre el campo. Cada nodo de texto de aqui dentro declara su propio color
+   claro y no hereda el del documento. Los tonos escogidos pasan todos el
+   4,5:1 medido sobre el pixel recortado de la captura; el titular del menu,
+   que es titular grande, pasa el 7:1.
+
+   Los tokens --hud-* no existian en ninguna hoja, asi que cada var() caia
+   siempre en su literal. Se declaran aqui una vez para que el color del HUD
+   este en un unico sitio y no repartido en dieciseis literales sueltos.
+   ========================================================================== */
+.astro {
+  --hud-rotulo: #e7d3da;
+  --hud-cifra: #fff4f7;
+  --hud-texto: #e3cdd5;
+  --hud-panel: rgba(26, 18, 25, .72);
+}
+
+.astro {
+  display: block;
+}
+
+/* El visor: negro, con el borde del panel de control alrededor. El lienzo lo
+   ocupa entero en todos los anchos: el campo logico se limita a 940 para que
+   las rocas no se vuelvan diminutas, y despues se dibuja escalado hasta el
+   ancho que da el marco. */
+.astro__marco {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background: var(--astro-campo);
+  border: 1px solid var(--astro-borde);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--sh);
+}
+
+.astro__fase {
+  position: absolute;
+  left: 50%;
+  top: 26%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .3rem;
+  text-align: center;
+  padding: .6rem 1rem;
+  max-width: 84%;
+  width: max-content;
+  background: var(--hud-panel, rgba(26, 18, 25, .72));
+  border: 1px solid rgba(226, 163, 181, .25);
+  border-radius: var(--r, 10px);
+  font-family: var(--f-mono);
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  text-shadow: 0 1px 3px rgba(14, 8, 13, .9);
+}
+.astro__fase[hidden] { display: none; }
+.astro__fase__rotulo {
+  margin: 0;
+  font-size: .58rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--hud-rotulo, #e7d3da);
+}
+.astro__fase__nombre {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--hud-cifra, #fff4f7);
+}
+.astro__fase__lema {
+  margin: 0;
+  max-width: 48ch;
+  font-size: .72rem;
+  color: var(--hud-texto, #e3cdd5);
+}
+@media (max-width: 520px) {
+  .astro__fase { max-width: 84%; padding: .5rem .8rem; }
+  .astro__fase__nombre { font-size: 1.05rem; }
+  .astro__fase__lema { font-size: .68rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .astro__fase { transition: none; }
+}
+
+/* El vineteado: el centro claro y los bordes en sombra, para que la vista
+   vaya al centro. Va aqui y no pintado en el lienzo a proposito: el marco
+   puede ser mas ancho que el campo, y un vineteado pintado dentro del
+   lienzo dejaria una costura vertical justo en el borde del campo. Como
+   capa del marco cubre las dos cosas a la vez y no se nota el empalme.
+
+   No intercepta el puntero: el jugador tiene que poder apuntar y disparar
+   en cualquier punto del visor. */
+.astro__marco::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse farthest-corner at 50% 50%,
+    rgba(14, 8, 13, 0) 26%,
+    rgba(14, 8, 13, .16) 55%,
+    rgba(14, 8, 13, .48) 82%,
+    rgba(14, 8, 13, .82) 100%);
+}
+
+/* El lienzo nunca lleva alto fijo: manda la proporcion que le pone el motor
+   en sus propios atributos. Asi el dibujo no se deforma en pantallas
+   estrechas.
+
+   El ancho es SIEMPRE el 100 % del marco, y el motor ya no lo reescribe con
+   pixeles. Antes si lo hacia, con el campo topado en 940: a 1440 de ventana el
+   marco mide 1130 y el lienzo se quedaba en 940, con 96 px de fondo muerto a
+   cada lado. Ahora el campo logico sigue midiendo 940, que es lo que decide
+   la jugabilidad, pero se pinta escalado hasta el ancho completo del marco y
+   el bitmap cubre los pixeles que el lienzo ocupa de verdad en pantalla. Con
+   max-width: 100 % sigue cabiendo siempre, y si el JavaScript no llegara a
+   correr el lienzo se queda dentro del marco en vez de desbordarlo. */
+.astro__lienzo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  margin-inline: auto;
+  touch-action: none;
+  cursor: crosshair;
+}
+.astro__lienzo:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: -3px;
+}
+
+/* La sacudida se aplica con transform en el lienzo, y el motor lo pone a
+   cadena al acabarse: no hay transicion, para que el rect del visor vuelva
+   exactamente al pixel. Con movimiento reducido el motor no la pone nunca, y
+   esta regla es la red de seguridad por si acaso. */
+@media (prefers-reduced-motion: reduce) {
+  .astro__lienzo { transform: none !important; }
+}
+
+/* El aviso de pausa va encima del visor y no pintado dentro del lienzo: asi
+   lo anuncian los lectores de pantalla, y sale con los tipos de la pagina sin
+   tener que reimplementar el texto en el canvas. Los colores son tokens que ya
+   tenia la hoja; el fondo translucido es el propio negro del visor, para que
+   se vea el campo congelado detras. */
+.astro__pausa {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  gap: .55rem;
+  padding: 1.25rem;
+  text-align: center;
+  background: rgba(26, 18, 25, .82);
+  font-family: var(--f-mono);
+}
+/* El marco es position:relative y recorta, asi que esto cubre justo el
+   visor. Con display:grid hay que devolver el hidden a su sitio: el
+   navegador lo pone en display:none y una regla de flujo lo pisa. */
+.astro__pausa[hidden] { display: none; }
+
+.astro__pausa__titulo {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+.astro__pausa__nota {
+  margin: 0;
+  max-width: 34ch;
+  font-size: .78rem;
+  line-height: 1.55;
+  color: var(--accent-soft);
+}
+.astro__pausa__nota b { font-weight: 600; }
+
+/* La nota de pausa y reinicio de la seccion de reglas. Lleva clase propia en
+   vez de tomar prestada una de la pagina: lo que explica aqui es como se
+   maneja el juego, no matematica, y asi no depende de como este pintado el
+   resto de los recuadros de la seccion. */
+.astro__parrafo {
+  max-width: 62ch;
+  margin-bottom: 0;
+  color: var(--fg-soft);
+  line-height: 1.8;
+}
+.astro__parrafo strong { color: var(--fg); font-weight: 600; }
+
+/* --------------------------------------------------------- instrumentos */
+
+/* La leyenda de los puntos: aqui se ve que cada tamano vale el doble. */
+.astro__leyenda {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: .65rem .8rem;
+  margin-top: .8rem;
+  background: var(--bg-3);
+  border-radius: var(--r);
+  font-family: var(--f-mono);
+  font-size: .74rem;
+  color: var(--fg-soft);
+}
+.astro__leyenda span { display: inline-flex; align-items: center; gap: .4rem; }
+.astro__leyenda b { color: var(--fg); font-weight: 600; }
+.astro__punto {
+  width: 13px; height: 13px;
+  border-radius: 3px;
+  border: 1.5px solid currentColor;
+  flex: 0 0 auto;
+}
+/* Cuatro tonos distintos para los cuatro tamanos de roca. El mas grande es
+   el mas azul: el ojo los separa de un vistazo, que es lo que hace falta
+   para leer la serie sin leer un numero. */
+.astro__punto--e { color: #5b8aa8; }
+.astro__punto--g { color: #4f9d8f; }
+.astro__punto--m { color: #a394c9; }
+.astro__punto--p { color: #d18aa0; }
+.astro__flecha { color: var(--fg-faint); }
+
+.astro__teclas {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  flex-wrap: wrap;
+  margin-top: .85rem;
+  font-family: var(--f-mono);
+  font-size: .74rem;
+  color: var(--fg-faint);
+}
+.astro__tecla {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 22px;
+  padding: 0 .4rem;
+  background: var(--surface);
+  border: 1px solid var(--line-2);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+  color: var(--fg-soft);
+  font-size: .7rem;
+}
+
+/* ------------------------------------------------------ arma, racha, efectos */
+
+/* Cuando la racha acaba de subir, la cifra se pone en el color de texto fuerte
+   durante seis decimas de segundo. El motor anade la clase desde JS; el color
+   fuerte pasa de sobra el 4,5:1 sobre el fondo. */
+.astro__cifra--sube { color: var(--fg); }
+
+/* La barra de efectos: que llevas puesto y cuanto te queda. El motor la
+   escribe entera de una vez y solo cuando el texto cambia. */
+.astro__efectos {
+  display: flex;
+  align-items: center;
+  gap: .4rem .9rem;
+  flex-wrap: wrap;
+  margin: 0 0 .55rem;
+  padding: .45rem .7rem;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+  font-family: var(--f-mono);
+  font-size: .74rem;
+  color: var(--fg-soft);
+}
+/* Con display:flex hay que devolver el hidden a su sitio: el navegador lo
+   pone en display:none y una regla de flujo lo pisa. */
+.astro__efectos[hidden] { display: none; }
+
+.astro__efecto {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+}
+.astro__efecto b {
+  font-weight: 600;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+/* Los ultimos segundos: el aviso de que se acaba va en el mismo rojo que ya
+   usa la pagina para los estados de fallo de la caja. */
+.astro__efecto--alerta { color: #9c3520; }
+.astro__efecto--alerta b { color: #9c3520; }
+
+/* El testigo de cada botin. Dentro del campo el color es el del botin, pero
+   aqui el papel es crema y no negro, asi que el testigo va en el mismo tono
+   oscurecido: los cuatro pasan el 3:1 sobre --bg-3. */
+.astro__botin {
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  flex: 0 0 auto;
+}
+.astro__botin--arma { color: #a8791f; }
+.astro__botin--cadencia { color: #1f7d76; }
+.astro__botin--perforante { color: #b34572; }
+.astro__botin--escudo { color: #6a4f96; }
+
+/* La leyenda de los botines es la misma tira que la de las rocas. */
+.astro__leyenda--botin { margin-top: .45rem; }
+
+.turno-astro__acciones { display: flex; gap: .6rem; flex-wrap: wrap; }
+.turno-astro .boton { min-width: 168px; justify-content: center; }
+
+/* El texto del cartel de ronda y de las otras capas que van DENTRO del marco.
+   .turno__texto no tenia regla en ninguna hoja, asi que heredaba --fg -el
+   ciruela oscuro del tema claro- y quedaba a 1,5:1 sobre el campo negro.
+   Aqui dentro el color es claro y propio. Los botones no lo necesitan: ya
+   traen su propio color del .boton de base.css sobre su propio fondo. */
+.turno__texto,
+.astro__marco .pista,
+.astro__marco .chamaco {
+  color: var(--hud-texto, #e3cdd5);
+}
+.astro__marco .chamaco strong,
+.astro__marco .pista strong {
+  color: var(--hud-cifra, #fff4f7);
+}
+
+/* A partir de aqui las acciones del cartel de turno pasan a ancho completo en pantallas estrechas. */
+@media (max-width: 780px) {
+  .turno-astro__acciones { width: 100%; }
+  .turno-astro__acciones .boton { flex: 1; min-width: 0; }
+}
+
+/* ==========================================================================
+   HUD DENTRO DEL MARCO
+   --------------------------------------------------------------------------
+   Todo lo vivo del juego -marcadores, oleada, vidas, arma, avisos, pausa y el
+   cartel de fin- va superpuesto al visor, para que siga viendose cuando el
+   marco ocupe la pantalla entera. Los tokens de texto son claros a proposito:
+   el campo es negro y hay que llegar a 4,5:1 sobre el. Los ratios calculados
+   de cada combinacion estan en el informe de la tarea.
+   ========================================================================== */
+
+.astro {
+  position: relative;
+}
+
+/* El HUD es una rejilla de tres columnas por dos filas que ocupa el marco
+   entero. Coloca cada zona en su celda:
+
+        [puntos/racha]  [mandos]        [vidas/oleada]
+        [estado/aviso]  [contadores]    [libre]
+
+   La rejilla no intercepta el puntero: se apunta y se dispara por debajo. Los
+   unicos nodos que si lo reciben son los botones, y llevan pointer-events a
+   auto mas abajo. Las cifras de las esquinas van pegadas al borde de arriba;
+   los contadores, en la fila de abajo centrados; el estado, en la esquina
+   inferior izquierda. Nada de esto se solapa porque cada zona vive en su
+   celda. */
+.astro__hud {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  align-items: start;
+  /* El hueco de abajo es el sitio que ocupa la linea de lectura, que vive
+     pegada al borde inferior. Se reserva un poco mas de lo que mide la linea
+     para que los contadores y el estado queden claramente por encima de ella
+     y los dos se lean sin tocarse. */
+  padding: .7rem .85rem 2.8rem;
+  pointer-events: none;
+  font-family: var(--f-mono);
+  text-shadow: 0 1px 3px rgba(14, 8, 13, .85);
+}
+
+.astro__hud__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  min-width: 0;
+}
+.astro__hud__grupo--izq { grid-column: 1; grid-row: 1; }
+.astro__hud__grupo--der { grid-column: 3; grid-row: 1; align-items: flex-end; text-align: right; }
+
+.astro__hud__titular,
+.astro__hud__linea {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  margin: 0;
+}
+.astro__hud__titular {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.astro__hud__rotulo {
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--hud-rotulo, #e7d3da);
+}
+
+.astro__hud__cifra {
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--hud-cifra, #fff4f7);
+  font-variant-numeric: tabular-nums;
+}
+.astro__hud__titular .astro__hud__cifra { font-size: 1.9rem; }
+.astro__hud__cifra--acento { color: var(--accent-2); }
+/* La misma senal que tenia el panel de abajo: la racha se pone en el color de
+   texto fuerte durante seis decimas de segundo al subir. */
+.astro__hud__cifra.astro__cifra--sube { color: var(--hud-cifra, #fff4f7); }
+
+/* Los contadores de rocas y el arma: en el centro de la fila de abajo. Seis
+   cifras en una rejilla de seis columnas, cada una en su celda, para que no
+   puedan pisarse entre ellas. */
+.astro__hud__pie {
+  grid-column: 2;
+  grid-row: 3;
+  align-self: end;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  justify-items: center;
+  gap: .2rem .55rem;
+  max-width: min(560px, calc(100vw - 1.5rem));
+  padding: .4rem .8rem;
+  border-radius: var(--r, 10px);
+  background: var(--hud-panel, rgba(26, 18, 25, .72));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.astro__hud__dato {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  min-width: 0;
+}
+.astro__hud__dato .astro__hud__rotulo {
+  font-size: .54rem;
+  letter-spacing: .1em;
+  white-space: nowrap;
+}
+.astro__hud__dato .astro__hud__cifra { font-size: 1rem; }
+/* El arma lleva un texto mas largo ("1 de 3"): se le da su propia pista para
+   que no se apriete ni se salga de su celda. */
+.astro__hud__dato--arma .astro__hud__cifra { font-size: .82rem; white-space: nowrap; }
+
+/* El estado de partida, abajo a la izquierda, con el aviso pasajero debajo. */
+.astro__estado {
+  grid-column: 1;
+  grid-row: 3;
+  align-self: end;
+  justify-self: start;
+  max-width: 100%;
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--hud-rotulo, #e7d3da);
+  text-shadow: 0 1px 3px rgba(14, 8, 13, .85);
+  pointer-events: none;
+}
+
+/* La barra de efectos, ahora dentro del marco y colgando del borde derecho. */
+.astro__efectos {
+  position: absolute;
+  top: 4.2rem;
+  right: .85rem;
+  z-index: 3;
+  margin: 0;
+  max-width: 60%;
+  justify-content: flex-end;
+  background: var(--hud-panel, rgba(26, 18, 25, .72));
+  border-color: transparent;
+  color: var(--hud-texto, #e3cdd5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Los tres mandos de arriba al centro: pausa, silencio y salir de pantalla
+   completa. Viven FUERA del HUD -que lleva role="img" y ocultaria los botones
+   del arbol de accesibilidad-, como hermanos dentro del marco. Se colocan
+   absolutos para caer exactamente donde caian dentro de la rejilla del HUD:
+   arriba al centro, a la altura del padding de arriba del HUD (.7rem, y .9rem
+   en pantalla completa), sin tapar las cifras de las esquinas. El contenedor
+   no intercepta el puntero; solo los botones, con pointer-events: auto. */
+.astro__mandos {
+  position: absolute;
+  top: .7rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  gap: .4rem;
+  pointer-events: none;
+}
+.astro__mandos .astro__mando { pointer-events: auto; }
+.astro__mando {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(226, 163, 181, .5);
+  border-radius: 50%;
+  background: var(--hud-panel, rgba(26, 18, 25, .72));
+  color: var(--accent-2);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.astro__mando:hover { border-color: var(--accent-2); }
+.astro__mando:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 2px;
+}
+.astro__mando[hidden] { display: none; }
+
+/* El dibujo del altavoz cambia con el estado: la onda suena y la cruz esta
+   silenciado. El motor alterna la clase .astro__mando--mudo. */
+.astro__mando__onda,
+.astro__mando__cruz { display: none; }
+.astro__mando:not(.astro__mando--mudo) .astro__mando__onda { display: inline; }
+.astro__mando--mudo .astro__mando__cruz { display: inline; }
+
+/* --------------------------------------------------- las capas de juego */
+
+/* Las capas de juego cubren el marco, cada una en su estado. El cartel de
+   turno, la pista, el chamaco y el fin van centrados y por debajo de los
+   mandos, para no pisar ni las cifras de arriba ni la linea de lectura. */
+.turno-astro,
+.pista,
+.chamaco,
+.astro__fin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  width: min(560px, calc(100% - 1.5rem));
+  margin: 0;
+}
+.turno-astro[hidden],
+.pista[hidden],
+.lectura[hidden],
+.chamaco[hidden],
+.astro__fin[hidden] { display: none; }
+
+/* Los dos nodos del HUD que llevan display propio -la rejilla del HUD y la
+   fila de mandos- tienen que devolver el hidden a su sitio: una regla de
+   flujo con display pisa el display:none que el navegador le pone a
+   [hidden]. Sin esto, el motor marcaba el HUD como oculto y se seguia
+   pintando igual: las cifras fantasma encima del menu y del fin. Los demas
+   -pausa, efectos y mando- ya tenian su reset mas arriba. */
+.astro__hud[hidden],
+.astro__mandos[hidden] { display: none; }
+
+/* La linea de lectura va pegada al borde INFERIOR del marco, aparte del
+   cartel de turno, que vive en el centro. Asi los dos no pueden pisarse: uno
+   esta arriba de la zona media y el otro abajo del todo. */
+.lectura {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: .3rem .6rem;
+  background: rgba(14, 8, 13, .72);
+  border-top: 1px solid rgba(226, 163, 181, .22);
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  color: var(--hud-texto, #e3cdd5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.lectura b { color: var(--hud-cifra, #fff4f7); font-weight: 600; }
+.lectura .estrellas { display: inline-flex; gap: .1rem; }
+.lectura .estrella { width: 14px; height: 14px; fill: rgba(255, 244, 247, .28); }
+.lectura .estrella--ganada { fill: var(--accent-2); }
+
+/* Las capas que ya traian fondo crema del tema llevan encima un desenfoque,
+   porque aqui van sobre el campo oscuro y el texto tiene que seguir leyendose. */
+.turno-astro,
+.pista,
+.chamaco {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--sh-lg);
+}
+
+/* Los botones del turno y del fin heredan el estilo de los botones de la
+   pagina; lo unico propio es el ancho minimo para que se pulsen con el dedo. */
+.astro__fin {
+  display: grid;
+  gap: .55rem;
+  padding: 1.4rem 1.5rem;
+  text-align: center;
+  background: rgba(26, 18, 25, .92);
+  border: 1px solid rgba(226, 163, 181, .35);
+  border-radius: var(--r, 10px);
+  font-family: var(--f-mono);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--sh-lg);
+}
+.astro__fin__rotulo {
+  margin: 0;
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--hud-rotulo, #e7d3da);
+}
+.astro__fin__titulo {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--hud-cifra, #fff4f7);
+}
+.astro__fin__cifras {
+  display: flex;
+  justify-content: center;
+  gap: 2.2rem;
+  margin: .1rem 0 .5rem;
+}
+.astro__fin__cifras > span {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+.astro__fin__etiqueta {
+  font-size: .58rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--hud-rotulo, #e7d3da);
+}
+.astro__fin__cifras b {
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--accent-2);
+  font-variant-numeric: tabular-nums;
+}
+.astro__fin__acciones {
+  display: flex;
+  gap: .6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.astro__fin__acciones .boton { min-width: 150px; justify-content: center; }
+
+/* ==========================================================================
+   MENU DE INICIO
+   ========================================================================== */
+
+.astro__menu {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: .85rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background:
+    radial-gradient(ellipse farthest-corner at 50% 42%,
+      rgba(26, 18, 25, .78) 0%,
+      rgba(14, 8, 13, .94) 78%);
+}
+.astro__menu[hidden] { display: none; }
+
+.astro__menu__codigo {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+.astro__menu__titulo {
+  margin: 0;
+  font-family: var(--f-title);
+  font-size: clamp(2.6rem, 6vw + 1rem, 4.4rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--hud-cifra, #fff4f7);
+}
+
+/* El titular del menu es un h2, y el tema de la pagina pinta TODOS los h2 con
+   .tema-angelita h2 { color: var(--fg) }, que gana por especificidad (una
+   clase mas un tipo) a la regla de arriba, que solo lleva clase. El resultado
+   era un ciruela oscuro sobre el campo negro, a 1,7:1. Estas reglas llevan la
+   clase del tema mas la clase propia, asi que ganan en cualquier orden de
+   carga. Se ancla en .astro__menu y no en .astro__marco: el menu es hermano
+   del marco, no hijo suyo. */
+.tema-angelita .astro__menu__titulo {
+  color: var(--hud-cifra, #fff4f7);
+}
+.tema-angelita .astro__menu__codigo {
+  color: var(--accent-2);
+}
+.tema-angelita .astro__menu__teclas {
+  color: var(--hud-texto, #e3cdd5);
+}
+.tema-angelita .astro__menu__teclas b {
+  color: var(--hud-cifra, #fff4f7);
+}
+.tema-angelita .astro__menu__opciones {
+  color: var(--hud-texto, #e3cdd5);
+}
+
+/* La ilustracion: la nave quieta con su llama parpadeando y el asteroide
+   girando despacio. Nada de parallax ni de particulas. */
+.astro__menu__ilustracion {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+  margin: .4rem 0 .9rem;
+}
+.astro__menu__nave {
+  width: 66px;
+  height: auto;
+}
+.astro__menu__llama {
+  width: 12px;
+  height: 22px;
+  margin-left: -4.6rem;
+  align-self: flex-end;
+  margin-bottom: .9rem;
+  border-radius: 50% 50% 45% 45%;
+  background: radial-gradient(circle at 50% 30%,
+    var(--astro-llama-alta, #fff6e2) 0%,
+    var(--astro-llama-media, #f2c98a) 42%,
+    var(--astro-llama-baja, #e8936a) 72%,
+    rgba(232, 147, 106, 0) 100%);
+  animation: astro-llama 1.1s ease-in-out infinite;
+}
+.astro__menu__roca {
+  width: 104px;
+  height: auto;
+  animation: astro-girar 26s linear infinite;
+}
+
+@keyframes astro-llama {
+  0%, 100% { transform: scaleY(.72) scaleX(.9); opacity: .72; }
+  50% { transform: scaleY(1.12) scaleX(1.04); opacity: 1; }
+}
+@keyframes astro-girar {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.astro__menu__acciones {
+  display: flex;
+  gap: .7rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.astro__menu__acciones .boton { min-width: 220px; justify-content: center; }
+
+.astro__menu__teclas {
+  margin: .3rem 0 0;
+  max-width: 46ch;
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  line-height: 1.6;
+  color: var(--hud-texto, #e3cdd5);
+}
+.astro__menu__teclas b { color: var(--hud-cifra, #fff4f7); font-weight: 600; }
+
+/* Sin animacion no se mueve ni la llama ni la roca. */
+@media (prefers-reduced-motion: reduce) {
+  .astro__menu__llama,
+  .astro__menu__roca { animation: none; }
+  .astro__menu__llama { opacity: .9; }
+}
+
+@media (max-width: 520px) {
+  .astro__menu__ilustracion { gap: 2.4rem; }
+  .astro__menu__nave { width: 54px; }
+  .astro__menu__roca { width: 84px; }
+  .astro__menu__acciones .boton { min-width: 0; width: 100%; }
+  .astro__hud__grupo { gap: .2rem; }
+  .astro__hud__titular .astro__hud__cifra { font-size: 1.5rem; }
+  .astro__hud__cifra { font-size: 1rem; }
+  /* En 375 los seis contadores no caben en una fila sin pisarse. Se reparten
+     en una rejilla compacta de dos filas de tres, con el tipo mas pequeno,
+     cada uno en su celda: no pueden solaparse porque los separa la rejilla. */
+  .astro__hud__pie {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .18rem .5rem;
+    padding: .3rem .5rem;
+  }
+  .astro__hud__dato .astro__hud__cifra { font-size: .84rem; }
+  .astro__hud__dato .astro__hud__rotulo { font-size: .48rem; letter-spacing: .04em; }
+  .astro__hud__dato--arma .astro__hud__cifra { font-size: .72rem; }
+  /* El estado deja de caber al lado de la linea de lectura: se esconde a la
+     vista, pero sigue en el documento para los lectores de pantalla, que ya
+     tienen la misma cifra en el HUD. */
+  .astro__estado {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+  /* En 375 la linea de lectura se parte en dos renglones y mide bastante
+     mas: hay que reservarle su alto real debajo de los contadores o la
+     segunda fila de la rejilla compacta cae encima de ella. */
+  .astro__hud { padding-bottom: 4.4rem; }
+  .astro__efectos { top: 3.4rem; }
+  .turno-astro, .pista, .chamaco, .astro__fin { width: calc(100% - 1.2rem); }
+}
+
+/* Las opciones de sonido y vibracion del menu: dos casillas en una fila. */
+.astro__menu__opciones {
+  display: flex;
+  gap: 1.4rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: .2rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--f-mono);
+  font-size: .74rem;
+  color: var(--hud-texto, #e3cdd5);
+}
+.astro__opcion {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  cursor: pointer;
+}
+.astro__opcion input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent-2);
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   PANTALLA COMPLETA
+   --------------------------------------------------------------------------
+   La hoja cuelga de la clase .astro--completa que pone el motor al escuchar
+   fullscreenchange, y NO del selector :fullscreen. Asi funciona igual con los
+   prefijos de Safari, se puede probar sin navegador real y no depende de que
+   el navegador soporte el selector. El marco pasa a medir la pantalla entera
+   y el lienzo se reajusta: de eso se encarga medir() en el motor.
+
+   Aviso de contenedor: base.css pone content-visibility:auto en
+   main > .seccion, y esa propiedad crea bloque contenedor para los
+   descendientes en posicion fija. Un marco fixed colgaria de la esquina de
+   la seccion, no de la ventana, y quedaria a media pagina. El motor marca
+   la raiz con .astro--pantalla mientras dura la pantalla completa y aqui se
+   apaga ese rendimiento en las secciones de la pagina. Se apaga en todas y no
+   solo en la del juego a proposito: el selector :has no hace falta, esta
+   pagina es corta y el ahorro que se pierde mientras se juega no se nota.
+   ========================================================================== */
+
+.astro--pantalla main > .seccion {
+  content-visibility: visible;
+}
+
+.astro--completa {
+  position: fixed;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 0;
+  /* Por encima de la barra de navegacion, que es sticky y va en 100: si no,
+     asoma por el borde de arriba del marco y deja una franja clara. */
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: block;
+  /* El navegador deja el fondo blanco detras del elemento a pantalla completa:
+     se tine para que no asome ni un borde claro. */
+  background: var(--astro-campo);
+}
+
+/* Con el marco llenando la pantalla, el menu se mueve dentro y cubre todo. */
+.astro--completa .astro__menu {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+}
+
+/* En pantalla completa el HUD se separa un poco mas de los bordes: en un
+   telefono el pulgar apoya cerca del canto y los botones tienen que quedar
+   por encima de la zona de gestos. El hueco de abajo reserva el sitio de la
+   linea de lectura, que sube con el safe-area. */
+.astro--completa .astro__hud { padding: .9rem 1rem 2.9rem; }
+/* En pantalla completa el HUD se separa .9rem de arriba: los mandos, que ya no
+   viven dentro de el, tienen que separarse lo mismo para quedarse en su sitio. */
+.astro--completa .astro__mandos { top: .9rem; }
+.astro--completa .lectura {
+  bottom: env(safe-area-inset-bottom);
+  padding-bottom: max(.35rem, env(safe-area-inset-bottom));
+}
+
+/* El marco admite que el canvas no llene el alto: la clase decide como se
+   coloca, y el motor le da al lienzo la proporcion que toque. */
+.astro--completa .astro__lienzo {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+/* Va al final a proposito: en un telefono la linea de lectura se parte en dos
+   renglones y mide mas que en escritorio, asi que la reserva de abajo del HUD
+   tiene que crecer tambien EN PANTALLA COMPLETA. Esta regla necesita ganarle a
+   .astro--completa .astro__hud de mas arriba, y solo lo consigue por orden:
+   misma especificidad, mas tarde. */
+@media (max-width: 520px) {
+  .astro--completa .astro__hud { padding-bottom: 4.5rem; }
+}

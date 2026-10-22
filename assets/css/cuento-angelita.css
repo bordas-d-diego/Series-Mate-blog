@@ -1,0 +1,281 @@
+/* ==========================================================================
+   CUENTO DE ANGELITA — "La cuenta que no cuadra"
+   --------------------------------------------------------------------------
+   Una página para leer de corrido. Columna ancha de medida corta, entradas
+   de capítulo, puntos suspensivos como separadores y una tipografía que no
+   se cansa a la tercera página.
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* LA CABECERA DEL CUENTO                                                     */
+/* -------------------------------------------------------------------------- */
+.cab-cuento {
+  position: relative;
+  isolation: isolate;
+  padding-block: 4.5rem 3.5rem;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  text-align: center;
+}
+.cab-cuento::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(620px 400px at 88% 6%, rgba(124, 184, 176, .24), transparent 64%),
+    radial-gradient(560px 380px at 8% 16%, rgba(226, 163, 181, .26), transparent 64%),
+    radial-gradient(480px 340px at 50% 98%, rgba(163, 148, 201, .16), transparent 64%);
+}
+.cab-cuento__sello {
+  display: inline-block;
+  padding: .4rem .95rem;
+  background: var(--surface);
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--accent);
+  box-shadow: var(--sh-sm);
+}
+.cab-cuento__titulo {
+  margin-top: 1.3rem;
+  font-size: clamp(2.4rem, 4.5vw + 1rem, 4rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.cab-cuento__bajada {
+  max-width: 54ch;
+  margin: 1.25rem auto 0;
+  font-size: clamp(1.08rem, .3vw + 1rem, 1.24rem);
+  line-height: 1.8;
+  color: var(--fg-soft);
+}
+.cab-cuento__firma {
+  margin-top: 1.75rem;
+  font-size: .95rem;
+  color: var(--fg-faint);
+}
+.cab-cuento__firma b { color: var(--accent); font-weight: 600; }
+
+/* -------------------------------------------------------------------------- */
+/* EL TEXTO                                                                  */
+/* -------------------------------------------------------------------------- */
+.relato {
+  max-width: 640px;
+  margin-inline: auto;
+  font-size: 1.12rem;
+  line-height: 1.9;
+  color: var(--fg);
+}
+.relato > * + * { margin-top: 1.35rem; }
+.relato p { text-wrap: pretty; }
+.relato strong { font-weight: 600; }
+.relato em { font-style: italic; }
+
+.relato--abre::first-letter {
+  float: left;
+  margin: .12em .12em 0 0;
+  font-family: var(--f-title);
+  font-size: 3.5em;
+  line-height: .82;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Separador de escena */
+.pausa {
+  margin: 2.6rem 0;
+  text-align: center;
+  letter-spacing: .8em;
+  color: var(--accent-2);
+  font-size: 1rem;
+}
+
+/* Entrada de capítulo */
+.capitulo {
+  margin: 3.5rem 0 1.6rem;
+  text-align: center;
+}
+.capitulo__num {
+  display: inline-block;
+  margin-bottom: .6rem;
+  padding: .25rem .8rem;
+  background: var(--agua-soft);
+  color: #3f7a72;
+  border-radius: 999px;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.capitulo__titulo {
+  font-size: 1.6rem;
+  color: var(--fg);
+}
+
+/* Diálogo */
+.relato blockquote {
+  margin: 1.75rem 0;
+  padding: 1rem 1.35rem;
+  background: var(--bg-2);
+  border-left: 4px solid var(--accent-2);
+  border-radius: 0 var(--r) var(--r) 0;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--fg-soft);
+}
+.relato blockquote p + p { margin-top: .8rem; }
+
+/* Lo que el personaje piensa */
+.pensamiento {
+  margin: 1.75rem 0;
+  padding: 1.1rem 1.35rem;
+  background: var(--lavanda-soft);
+  border-radius: var(--r-lg);
+  font-size: 1.02rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: #5f5291;
+}
+
+/* La frase que resume el cuento */
+.lema {
+  margin: 3rem 0;
+  padding: 2rem 1.75rem;
+  background: var(--surface);
+  border: 2px solid var(--accent-2);
+  border-radius: var(--r-xl);
+  text-align: center;
+  box-shadow: var(--sh);
+}
+.lema p {
+  font-family: var(--f-title);
+  font-size: clamp(1.25rem, 1.6vw + .9rem, 1.7rem);
+  line-height: 1.4;
+  color: var(--accent);
+}
+.lema span {
+  display: block;
+  margin-top: 1rem;
+  font-family: var(--f-body);
+  font-size: .82rem;
+  color: var(--fg-faint);
+}
+
+/* -------------------------------------------------------------------------- */
+/* LAS NOTAS DEL CUENTO                                                      */
+/* -------------------------------------------------------------------------- */
+.notas {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+.nota-cuento {
+  padding: 1.25rem 1.4rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+.nota-cuento__num {
+  display: inline-block;
+  margin-bottom: .6rem;
+  padding: .2rem .65rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.nota-cuento h4 {
+  font-size: 1.1rem;
+  margin-bottom: .5rem;
+  color: var(--fg);
+}
+.nota-cuento p {
+  font-size: .95rem;
+  line-height: 1.75;
+  color: var(--fg-soft);
+}
+
+/* -------------------------------------------------------------------------- */
+/* LA CAJA DE LA SERIE                                                      */
+/* -------------------------------------------------------------------------- */
+.caja-serie {
+  margin: 2.25rem 0;
+  padding: 1.6rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm);
+}
+.caja-serie__rotulo {
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.caja-serie__linea {
+  font-family: var(--f-mono);
+  font-size: 1.05rem;
+  line-height: 2;
+  color: var(--fg);
+  word-spacing: .3em;
+}
+.caja-serie__total {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--line-2);
+  font-family: var(--f-mono);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.caja-serie__nota {
+  margin-top: .5rem;
+  font-size: .84rem;
+  line-height: 1.65;
+  color: var(--fg-soft);
+  font-family: var(--f-body);
+}
+
+/* -------------------------------------------------------------------------- */
+/* EL CUERPO DE MATEMÁTICAS DE LA PÁGINA                                     */
+/* -------------------------------------------------------------------------- */
+.matematica {
+  padding: 2rem 1.75rem;
+  background: var(--bg-2);
+  border-radius: var(--r-xl);
+}
+.matematica h3 {
+  font-size: 1.35rem;
+  margin-bottom: .9rem;
+  color: var(--fg);
+}
+.matematica > * + * { margin-top: 1.1rem; }
+.matematica p { line-height: 1.8; color: var(--fg-soft); }
+.matematica strong { color: var(--fg); }
+.matematica .formula {
+  background: var(--surface);
+  border-color: var(--line);
+}
+
+/* Cierre */
+.cierre-cuento {
+  padding-block: 3.5rem;
+  text-align: center;
+}
+.cierre-cuento .autor { max-width: 540px; margin-inline: auto; text-align: left; }
+.cierre-cuento__texto {
+  max-width: 56ch;
+  margin: .9rem auto 1.75rem;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--fg-soft);
+}
+.cierre-cuento__acciones { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }

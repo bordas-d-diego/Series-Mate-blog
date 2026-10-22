@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 250" role="img">
+  <!-- Cooley y Tukey, 1965: el mariposeo reparte la transformada en capas de dos
+     en dos. Ocho entradas, un nodo central y ocho salidas en tres etapas. Da el
+     mismo resultado que la transformada directa, con muchisimas menos operaciones. -->
+  <!-- El unico color literal es el de la tinta sobre el papel de las laminas, el
+       de la variable hist-papel-tinta de historia.css, declarado una vez en la raiz de
+       este propio SVG. Va ahi y no en cada elemento porque un archivo cargado con
+       img no hereda ni el currentColor ni las variables CSS de la pagina que lo
+       muestra: a partir de esa raiz, todo el dibujo se pinta con currentColor. El
+       fondo no lleva ninguno: se ve a traves, y el papel lo aporta la lamina. -->
+  <style>
+    svg { color: #2a2317; }
+
+    .nodo { fill: currentColor; fill-opacity: .16; stroke: currentColor; stroke-width: 1.1; }
+    .nodo--entrada { fill-opacity: .10; }
+    .nodo--centro { fill-opacity: .34; stroke-width: 1.6; }
+    .via { fill: none; stroke: currentColor; stroke-width: .8; opacity: .45; }
+    .rotulo {
+      fill: currentColor;
+      font-family: Inter, "Segoe UI", sans-serif;
+      font-size: 9.5px;
+    }
+    .rotulo--fuerte { font-weight: 700; }
+    .rotulo--nodo { font-size: 7.5px; }
+  </style>
+
+  <!-- Las ocho entradas, una por fila: los ocho valores de una senal en un solo
+       instante, que es lo que la transformada recibe. -->
+  <rect class="nodo nodo--entrada" x="4" y="28" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="13.0" y="36.6">x&#8320;</text>
+  <rect class="nodo nodo--entrada" x="4" y="54" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="13.0" y="62.6">x&#8321;</text>
+  <rect class="nodo nodo--entrada" x="4" y="80" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="13.0" y="88.6">x&#8322;</text>
+  <rect class="nodo nodo--entrada" x="4" y="106" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="13.0" y="114.6">x&#8323;</text>
+  <rect class="nodo nodo--entrada" x="4" y="132" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="13.0" y="140.6">x&#8324;</text>
+  <rect class="nodo nodo--entrada" x="4" y="158" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="13.0" y="166.6">x&#8325;</text>
+  <rect class="nodo nodo--entrada" x="4" y="184" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="13.0" y="192.6">x&#8326;</text>
+  <rect class="nodo nodo--entrada" x="4" y="210" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="13.0" y="218.6">x&#8327;</text>
+
+  <!-- El mariposeo: cada nodo se combina con su vecino y cae a la mitad. -->
+  <path class="via" d="M22 34L42.0 47"/>
+  <path class="via" d="M22 60L42.0 47"/>
+  <path class="via" d="M22 86L42.0 99"/>
+  <path class="via" d="M22 112L42.0 99"/>
+  <path class="via" d="M22 138L42.0 151"/>
+  <path class="via" d="M22 164L42.0 151"/>
+  <path class="via" d="M22 190L42.0 203"/>
+  <path class="via" d="M22 216L42.0 203"/>
+  <rect class="nodo" x="33" y="41" width="18" height="13" rx="1"/>
+  <rect class="nodo" x="33" y="93" width="18" height="13" rx="1"/>
+  <rect class="nodo" x="33" y="145" width="18" height="13" rx="1"/>
+  <rect class="nodo" x="33" y="197" width="18" height="13" rx="1"/>
+  <path class="via" d="M51 47L71.0 73"/>
+  <path class="via" d="M51 99L71.0 73"/>
+  <path class="via" d="M51 151L71.0 177"/>
+  <path class="via" d="M51 203L71.0 177"/>
+  <rect class="nodo" x="62" y="67" width="18" height="13" rx="1"/>
+  <rect class="nodo" x="62" y="171" width="18" height="13" rx="1"/>
+  <path class="via" d="M80 73L100.0 125"/>
+  <path class="via" d="M80 177L100.0 125"/>
+  <rect class="nodo nodo--centro" x="91" y="118" width="18" height="14" rx="1"/>
+
+  <!-- Y al otro lado, al reves: el nodo central se reopen y salen ocho. -->
+  <path class="via" d="M109 125L129.0 73"/>
+  <path class="via" d="M109 125L129.0 177"/>
+  <rect class="nodo" x="120" y="67" width="18" height="13" rx="1"/>
+  <rect class="nodo" x="120" y="171" width="18" height="13" rx="1"/>
+  <path class="via" d="M138 73L158.0 34"/>
+  <path class="via" d="M138 73L158.0 60"/>
+  <path class="via" d="M138 177L158.0 86"/>
+  <path class="via" d="M138 177L158.0 112"/>
+  <rect class="nodo" x="149" y="41" width="18" height="13" rx="1"/>
+  <rect class="nodo" x="149" y="93" width="18" height="13" rx="1"/>
+  <rect class="nodo" x="149" y="145" width="18" height="13" rx="1"/>
+  <rect class="nodo" x="149" y="197" width="18" height="13" rx="1"/>
+  <path class="via" d="M167 47L187.0 34"/>
+  <path class="via" d="M167 47L187.0 60"/>
+  <path class="via" d="M167 99L187.0 86"/>
+  <path class="via" d="M167 99L187.0 112"/>
+  <path class="via" d="M167 151L187.0 138"/>
+  <path class="via" d="M167 151L187.0 164"/>
+  <path class="via" d="M167 203L187.0 190"/>
+  <path class="via" d="M167 203L187.0 216"/>
+  <rect class="nodo nodo--entrada" x="178" y="28" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="187.0" y="36.6">k&#8320;</text>
+  <rect class="nodo nodo--entrada" x="178" y="54" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="187.0" y="62.6">k&#8321;</text>
+  <rect class="nodo nodo--entrada" x="178" y="80" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="187.0" y="88.6">k&#8322;</text>
+  <rect class="nodo nodo--entrada" x="178" y="106" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="187.0" y="114.6">k&#8323;</text>
+  <rect class="nodo nodo--entrada" x="178" y="132" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="187.0" y="140.6">k&#8324;</text>
+  <rect class="nodo nodo--entrada" x="178" y="158" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="187.0" y="166.6">k&#8325;</text>
+  <rect class="nodo nodo--entrada" x="178" y="184" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="187.0" y="192.6">k&#8326;</text>
+  <rect class="nodo nodo--entrada" x="178" y="210" width="18" height="13" rx="1"/>
+  <text class="rotulo rotulo--nodo" x="187.0" y="218.6">k&#8327;</text>
+
+  <text class="rotulo rotulo--fuerte" x="4" y="16">se combinan</text>
+  <text class="rotulo rotulo--fuerte" x="196" y="16" text-anchor="end">se recombinan</text>
+  <text class="rotulo" x="100" y="242" text-anchor="middle">8 &#8594; 4 &#8594; 2 &#8594; 1 &#8594; 2 &#8594; 4 &#8594; 8</text>
+</svg>

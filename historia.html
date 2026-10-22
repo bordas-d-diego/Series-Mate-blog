@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I. Historia &mdash; Las Series Matem&aacute;ticas</title>
+<meta name="description" content="Dos maneras de contar la historia de las series: de d&oacute;nde vinieron y para qu&eacute; sirven hoy, con ejemplos reales de la vida diaria.">
+<meta name="theme-color" content="#14181f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Las fuentes de Google no bloquean el dibujado: el navegador pinta la
+     pagina con las del sistema y las cambia cuando llegan. Antes esta
+     peticion estaba en el camino critico de las once paginas. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <!-- Sin JavaScript el truco de abajo no funciona: la hoja queda en
+           media="print" y las fuentes nunca se aplican. Esta linea es la
+           que las carga de verdad para quien las apagó. -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+    </noscript>
+<link rel="stylesheet" href="assets/css/base.css?v=20261021">
+<link rel="stylesheet" href="assets/css/portada.css?v=20261021">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2314181f'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' fill='%23c9a227' text-anchor='middle'>%CE%A3</text></svg>">
+<link rel="stylesheet" href="assets/css/historia.css?v=20261021">
+</head>
+
+<body class="tema-portada">
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="nav" id="nav">
+  <div class="caja nav__inside">
+    <a class="marca" href="index.html" title="Ir a la portada">
+      <svg class="marca__logo" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="8" fill="#14181f"/>
+        <text x="20" y="28.5" font-size="24" font-family="Georgia, serif" fill="#c9a227" text-anchor="middle">&#931;</text>
+      </svg>
+      <span class="marca__texto">
+        <span class="marca__titulo">Las Series</span>
+        <span class="marca__sub">I. Historia</span>
+      </span>
+    </a>
+
+    <button class="nav__interruptor" id="navInterruptor" aria-expanded="false"
+            aria-controls="navMenu" aria-label="Abrir el men&uacute;">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav__menu" id="navMenu">
+      <ul class="nav__enlaces">
+        <li><a href="index.html">Portada</a></li>
+        <li><a href="historia.html" aria-current="page">I. Historia</a></li>
+        <li><a href="cuento.html">II. Cuento</a></li>
+        <li><a href="juego.html">III. Juego</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a class="boton boton--acento" href="historia-diego.html">Empezar a leer</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <section class="cabecera reticula" style="padding-block:3.5rem 2.75rem">
+    <div class="caja">
+      <span class="eyebrow">Apartado I &middot; Historia</span>
+      <h1 class="cabecera__titulo" style="font-size:clamp(2.2rem,4vw+1rem,3.4rem);margin-top:1rem">
+        C&oacute;mo nacieron y para qu&eacute; <em>sirven</em>
+      </h1>
+      <p class="cabecera__bajada">
+        Dos mitades del mismo apartado, escritas por dos personas distintas. La
+        primera mira hacia atr&aacute;s: qui&eacute;n fue el primero en sumar
+        infinitos n&uacute;meros, c&oacute;mo se llegaron a construir las dos
+        f&oacute;rmulas y por qu&eacute; una cuenta puede no cerrar. La segunda mira
+        hacia lo de todos los d&iacute;as.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion" aria-labelledby="las-dos">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Las dos mitades</span>
+        <h2 id="las-dos">El origen y el legado</h2>
+        <p>
+          Nadie empieza a sumar infinitos n&uacute;meros por diversi&oacute;n, pero
+          much&iacute;simas personas los necesitan todos los d&iacute;as sin saberlo.
+          Las dos mitades cuentan esas dos cosas.
+        </p>
+      </div>
+
+      <div class="apartados">
+
+        <article class="apartado aparece" style="border-top:3px solid #0b3d91">
+          <span class="apartado__num">PARTE 1 &middot; DIEGO BORDAS</span>
+          <h3 class="apartado__titulo">El origen</h3>
+          <p class="apartado__texto">
+            Trece hitos en l&iacute;nea de tiempo, desde la paradoja de Zen&oacute;n de
+            Elea hasta Riemann, pasando por el problema de Basilea resuelto por
+            Euler. Y sobre todo, las dos construcciones dibujadas paso a paso: la
+            del apareamiento para sumar la aritm&eacute;tica y la de multiplicar por
+            la raz&oacute;n para sumar la geom&eacute;trica.
+          </p>
+          <ul class="integrante__lista" style="--persona:#0b3d91;margin-top:1.1rem">
+            <li>3 520 palabras, trece hitos, nueve fuentes</li>
+            <li>El diagrama del apareamiento y el del desplazamiento</li>
+            <li>La raz&oacute;n &aacute;urea como punto donde las dos filas coinciden</li>
+          </ul>
+          <div class="apartado__botones" style="margin-top:1.5rem">
+            <a class="boton boton--solido" href="historia-diego.html">Leer el origen</a>
+            <a class="boton boton--contorno" href="juego-2048.html">Su juego: 2048</a>
+          </div>
+        </article>
+
+        <article class="apartado aparece" style="border-top:3px solid #f0a91e">
+          <span class="apartado__num">PARTE 2 &middot; ALEJANDRO GUERRERO</span>
+          <h3 class="apartado__titulo">El legado</h3>
+          <p class="apartado__texto">
+            Cuatro usos de cada d&iacute;a con los n&uacute;meros exactos: las gradas
+            del estadio, el ahorro al 4%, una bodega que se pasa el d&iacute;a seis, y la
+            comparaci&oacute;n entre pagar de contado y a doce cuotas. Y la
+            advertencia: la serie que nunca termina.
+          </p>
+          <ul class="integrante__lista" style="--persona:#f0a91e;margin-top:1.1rem">
+            <li>3 490 palabras, cuatro usos, tres casos con raz&oacute;n 1</li>
+            <li>Las barras con el ancho exacto de cada valor</li>
+            <li>Por qu&eacute; la serie arm&oacute;nica no cuadra nunca</li>
+          </ul>
+          <div class="apartado__botones" style="margin-top:1.5rem">
+            <a class="boton boton--acento" href="historia-alejandro.html">Leer el legado</a>
+            <a class="boton boton--contorno" href="cuento-alejandro.html">Su cuento</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion seccion--alt" aria-labelledby="reparto">
+    <div class="caja caja--angosta">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">C&oacute;mo se reparti&oacute;</span>
+        <h2 id="reparto">Cada persona escribi&oacute; su mitad</h2>
+      </div>
+      <div class="prose aparece">
+        <p>
+          Las dos mitades no se repiten ni se pisan. Diego cuenta <strong>c&oacute;mo se
+          construyeron</strong> las series: de d&oacute;nde salieron, qui&eacute;n las
+          toc&oacute; primero, y c&oacute;mo se deducen las dos f&oacute;rmulas. Alejandro
+          cuenta <strong>para qu&eacute; sirven</strong>: lo que aparece en un puesto de
+          el mercado, en un banco, en una bodega y en una decisi&oacute;n de compra.
+        </p>
+        <p>
+          Cada una con su propio estilo visual, que se nota desde la primera
+          pantalla. La de Diego es clara, t&eacute;cnica, con ret&iacute;cula de fondo y
+          n&uacute;meros en monoespaciada. La de Alejandro es oscura, con mucho
+          contraste y bloques s&oacute;lidos en vez de sombras suaves.
+        </p>
+        <p>
+          Y ninguna de las dos mitades repite lo que hizo la otra: la p&aacute;gina del
+          origen no habla de la vida diaria, y la del legado no vuelve a Antif&oacute;n.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cierre">
+    <div class="caja">
+      <h2 class="cierre__titulo">Todo empieza con un &Sigma;</h2>
+      <p class="cierre__texto">
+        Ahora que ya sabes c&oacute;mo se arman las series y para qu&eacute; sirven, el
+        apartado III lo pone a jugar en dos juegos: la misma matem&aacute;tica, pero
+        escondida dentro del motor, sin que nadie tenga que saber la f&oacute;rmula.
+      </p>
+      <div class="cierre__acciones">
+        <a class="boton boton--solido" href="juego.html">Ver los dos juegos</a>
+        <a class="boton boton--contorno" href="index.html">Volver a la portada</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="caja">
+    <div class="footer__grid">
+      <div>
+        <p class="pie__titulo">Las Series Matem&aacute;ticas</p>
+        <p>Trabajo de investigación sobre series: dos historias, dos cuentos y dos juegos.</p>
+      </div>
+      <div>
+        <p class="pie__rotulo">Apartados</p>
+        <ul>
+          <li><a href="historia.html">I. Historia</a></li>
+          <li><a href="cuento.html">II. Cuento</a></li>
+          <li><a href="juego.html">III. Juego</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="pie__rotulo">Equipo</p>
+        <ul>
+          <li>Diego Bordas</li>
+          <li>Angelita Vargas</li>
+          <li>Alejandro Guerrero</li>
+        </ul>
+      </div>
+    </div>    <div class="pie__abajo">
+      <span>&copy; 2026 &middot; Diego Bordas, Angelita Vargas y Alejandro Guerrero.</span>
+      <span>P&aacute;gina construida con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js?v=20261021" defer></script>
+<script src="assets/js/historia.js?v=20261021" defer></script>
+</body>
+</html>

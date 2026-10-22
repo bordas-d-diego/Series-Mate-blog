@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>II. Cuento &mdash; Las Series Matem&aacute;ticas</title>
+<meta name="description" content="Dos cuentos sobre series: uno de aritm&eacute;tica en un mercado de Nicaragua y otro de geom&eacute;trica en el campo, con la semilla que se multiplica.">
+<meta name="theme-color" content="#14181f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Las fuentes de Google no bloquean el dibujado: el navegador pinta la
+     pagina con las del sistema y las cambia cuando llegan. Antes esta
+     peticion estaba en el camino critico de las once paginas. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <!-- Sin JavaScript el truco de abajo no funciona: la hoja queda en
+           media="print" y las fuentes nunca se aplican. Esta linea es la
+           que las carga de verdad para quien las apagó. -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+    </noscript>
+<link rel="stylesheet" href="assets/css/base.css?v=20261021">
+<link rel="stylesheet" href="assets/css/portada.css?v=20261021">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2314181f'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' fill='%23c9a227' text-anchor='middle'>%CE%A3</text></svg>">
+</head>
+
+<body class="tema-portada">
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="nav" id="nav">
+  <div class="caja nav__inside">
+    <a class="marca" href="index.html" title="Ir a la portada">
+      <svg class="marca__logo" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="8" fill="#14181f"/>
+        <text x="20" y="28.5" font-size="24" font-family="Georgia, serif" fill="#c9a227" text-anchor="middle">&#931;</text>
+      </svg>
+      <span class="marca__texto">
+        <span class="marca__titulo">Las Series</span>
+        <span class="marca__sub">II. Cuento</span>
+      </span>
+    </a>
+
+    <button class="nav__interruptor" id="navInterruptor" aria-expanded="false"
+            aria-controls="navMenu" aria-label="Abrir el men&uacute;">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav__menu" id="navMenu">
+      <ul class="nav__enlaces">
+        <li><a href="index.html">Portada</a></li>
+        <li><a href="historia.html">I. Historia</a></li>
+        <li><a href="cuento.html" aria-current="page">II. Cuento</a></li>
+        <li><a href="juego.html">III. Juego</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a class="boton boton--acento" href="cuento-angelita.html">Empezar a leer</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <section class="cabecera reticula" style="padding-block:3.5rem 2.75rem">
+    <div class="caja">
+      <span class="eyebrow">Apartado II &middot; Cuento</span>
+      <h1 class="cabecera__titulo" style="font-size:clamp(2.2rem,4vw+1rem,3.4rem);margin-top:1rem">
+        Dos relatos de la vida de <em>todos</em> los d&iacute;as
+      </h1>
+      <p class="cabecera__bajada">
+        En ninguno de los dos se usa la palabra progresi&oacute;n. En los dos hay una
+            cuenta que alguien hace mal y otra que alguien le corrige. Uno ocurre en un
+        mercado y el otro en una ladera de Rivas.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion" aria-labelledby="los-dos">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Los dos cuentos</span>
+        <h2 id="los-dos">Uno suma, el otro multiplica</h2>
+        <p>
+          Los dos tienen la misma estructura: alguien que lleva una cuenta a pulso,
+          alguien que se la corrige, y un momento en que la cuenta se vuelve &uacute;til
+          de verdad.
+        </p>
+      </div>
+
+      <div class="apartados">
+
+        <article class="apartado aparece" style="border-top:3px solid #a3496a">
+          <span class="apartado__num">CUENTO 01 &middot; ANGELITA VARGAS</span>
+          <h3 class="apartado__titulo">La cuenta que no cuadra</h3>
+          <p class="apartado__texto">
+            Dionisio El&iacute;as Alvarado, el se&ntilde;or Chelo, vende guirilas en el
+            puesto 47 del pasillo de los harinos. Todos los d&iacute;as reparte cien,
+            ciento diez, ciento veinte, ciento treinta y ciento cuarenta, y todos los
+            d&iacute;as se pasa una hora sumando. Una maestra jubilada le escribe una
+            l&iacute;nea en el margen de una hoja y se la resuelve.
+          </p>
+          <ul class="integrante__lista" style="--persona:#a3496a;margin-top:1.1rem">
+            <li>Tres cap&iacute;tulos, unas 2 400 palabras</li>
+            <li>La progresi&oacute;n aritm&eacute;tica de diferencia 10</li>
+            <li>Cierra con la serie arm&oacute;nica, que no cuadra nunca</li>
+          </ul>
+          <div class="apartado__botones" style="margin-top:1.5rem">
+            <a class="boton boton--solido" href="cuento-angelita.html">Leer el cuento</a>
+            <a class="boton boton--contorno" href="cuento-alejandro.html">El otro cuento</a>
+          </div>
+        </article>
+
+        <article class="apartado aparece" style="border-top:3px solid #d99414">
+          <span class="apartado__num">CUENTO 02 &middot; ALEJANDRO GUERRERO</span>
+          <h3 class="apartado__titulo">La semilla que se multiplica</h3>
+          <p class="apartado__texto">
+            Ferm&iacute;n Altamirano siembra un quintal de ma&iacute;z en El Castillo y
+            al a&ntilde;o siguiente recoge dos. Despu&eacute;s, cuatro, ocho, dieciséis,
+            treinta y dos. Cuando elHurac&aacute;n se lleva la cosecha entera, su hijo
+            Nicasio, dieciocho a&ntilde;os, descubre la regla que hab&iacute;a que
+           valer m&aacute;s que el total: si la reserva no es m&aacute;s grande
+           que la mitad, la raz&oacute;n baja de dos y la cuenta deja de crecer.
+          </p>
+          <ul class="integrante__lista" style="--persona:#d99414;margin-top:1.1rem">
+            <li>Cuatro cap&iacute;tulos, unas 2 500 palabras</li>
+            <li>La progresi&oacute;n geom&eacute;trica de raz&oacute;n 2</li>
+            <li>Termina con la regla de guardar un tercio</li>
+          </ul>
+          <div class="apartado__botones" style="margin-top:1.5rem">
+            <a class="boton boton--acento" href="cuento-alejandro.html">Leer el cuento</a>
+            <a class="boton boton--contorno" href="cuento-angelita.html">El otro cuento</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion seccion--alt" aria-labelledby="regla">
+    <div class="caja caja--angosta">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Lo que tienen en com&uacute;n</span>
+        <h2 id="regla">La palabra no aparece en ninguno de los dos</h2>
+      </div>
+      <div class="prose aparece">
+        <p>
+          En <em>La cuenta que no cuadra</em> nadie dice progresi&oacute;n hasta que la
+          maestra la escribe. En <em>La semilla que se multiplica</em> nadie dice
+          geom&eacute;trica nunca: el ni&ntilde;o dice &laquo;el doble del
+          anterior&raquo; y dice &laquo;guardar un tercio&raquo;, y con eso basta.
+        </p>
+        <p>
+          Esa es la diferencia entre una cuenta y un relato sobre una cuenta: el
+          relato deja que el lector llegue solo al n&uacute;mero, y al final, en una
+          secci&oacute;n aparte, se lo confirman con la f&oacute;rmula y las fuentes.
+        </p>
+        <p>
+          Los dos est&aacute;n ambientados en Nicaragua porque el autor de cada uno
+          vive aqu&iacute;: guirilas con natilla, maicillo, el mercado de Rivas, el
+          caf&eacute; de la ladera, el cicl&oacute;n de 2016. Las cifras se comprobaron
+          a mano antes de escribirlas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cierre">
+    <div class="caja">
+      <h2 class="cierre__titulo">Los n&uacute;meros de la vida diaria</h2>
+      <p class="cierre__texto">
+        La misma matem&aacute;tica que en la historia se explica con teoremas, aqu&iacute;
+        aparece con un carb&oacute;n, un cuaderno de espiral y una b&aacute;scula de cien
+        libras que colg&oacute; del hor&oacute;n desde hace cuarenta a&ntilde;os.
+      </p>
+      <div class="cierre__acciones">
+        <a class="boton boton--solido" href="cuento-angelita.html">Empezar por La cuenta que no cuadra</a>
+        <a class="boton boton--contorno" href="index.html">Volver a la portada</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="caja">
+    <div class="footer__grid">
+      <div>
+        <p class="pie__titulo">Las Series Matem&aacute;ticas</p>
+        <p>Trabajo de investigación sobre series: dos historias, dos cuentos y dos juegos.</p>
+      </div>
+      <div>
+        <p class="pie__rotulo">Apartados</p>
+        <ul>
+          <li><a href="historia.html">I. Historia</a></li>
+          <li><a href="cuento.html">II. Cuento</a></li>
+          <li><a href="juego.html">III. Juego</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="pie__rotulo">Equipo</p>
+        <ul>
+          <li>Diego Bordas</li>
+          <li>Angelita Vargas</li>
+          <li>Alejandro Guerrero</li>
+        </ul>
+      </div>
+    </div>    <div class="pie__abajo">
+      <span>&copy; 2026 &middot; Diego Bordas, Angelita Vargas y Alejandro Guerrero.</span>
+      <span>P&aacute;gina construida con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js?v=20261021" defer></script>
+</body>
+</html>

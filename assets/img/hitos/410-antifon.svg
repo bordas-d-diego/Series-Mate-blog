@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 250" role="img">
+  <rect width="200" height="250" fill="#ffffff"/>
+  <g fill="#cfe0f8">
+    <path d="M 100,44 A 74,74 0 0 1 174,118 Z"/>
+    <path d="M 174,118 A 74,74 0 0 1 100,192 Z"/>
+    <path d="M 100,192 A 74,74 0 0 1 26,118 Z"/>
+    <path d="M 26,118 A 74,74 0 0 1 100,44 Z"/>
+  </g>
+  <polygon points="100,44 174,118 100,192 26,118" fill="#ffffff"/>
+  <polygon points="100,44 174,118 100,192 26,118" fill="none" stroke="#0b3d91" stroke-width="2.4" stroke-linejoin="round"/>
+  <polygon points="100,44 152.3,65.7 174,118 152.3,170.3 100,192 47.7,170.3 26,118 47.7,65.7" fill="none" stroke="#2f6fc4" stroke-width="1.6" stroke-linejoin="round"/>
+  <polygon points="100,44 128.3,49.6 152.3,65.7 168.4,89.7 174,118 168.4,146.3 152.3,170.3 128.3,186.4 100,192 71.7,186.4 47.7,170.3 31.6,146.3 26,118 31.6,89.7 47.7,65.7 71.7,49.6" fill="none" stroke="#0b3d91" stroke-width="1.2" stroke-linejoin="round"/>
+  <circle cx="100" cy="118" r="74" fill="none" stroke="#0b3d91" stroke-width="2"/>
+  <circle cx="100" cy="44" r="3.6" fill="#0b3d91"/>
+</svg>

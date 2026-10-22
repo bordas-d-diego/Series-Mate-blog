@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El origen de las series &mdash; Diego Bordas</title>
+<meta name="description" content="C&oacute;mo se construyeron las series: Antif&oacute;n, Euclides, la serie geom&eacute;trica de Arqu&iacute;medes y el binomio de Newton.">
+<meta name="theme-color" content="#0b3d91">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Las fuentes de Google no bloquean el dibujado: el navegador pinta la
+     pagina con las del sistema y las cambia cuando llegan. Antes esta
+     peticion estaba en el camino critico de las once paginas. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=STIX+Two+Math&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=STIX+Two+Math&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=STIX+Two+Math&display=swap"></noscript>
+<link rel="stylesheet" href="assets/css/base.css?v=20261021">
+<link rel="stylesheet" href="assets/css/diego.css?v=20261021">
+<link rel="stylesheet" href="assets/css/piezas-diego.css?v=20261021">
+  <link rel="stylesheet" href="assets/css/ecuaciones.css?v=20261021">
+<link rel="stylesheet" href="assets/css/historia.css?v=20261021">
+<!-- El indice va justo debajo de la cabecera y antes del <main>, que es donde
+     lo pone el encargo. historia.css lo dibuja como columna lateral a partir de
+     1200px, y una columna lateral no cabe ahi sin apartar las secciones, que
+     son de fondo completo y no se pueden recortar. Este bloque es el unico
+     andamiaje que anade la pagina: pone el indice en fila, pegado bajo la barra
+     de navegacion, y le devuelve el alto a su contenido. No toca ningun color
+     ni ninguna medida del componente, y se puede borrar entero. -->
+<style>
+  @media (min-width: 1200px) {
+    html { scroll-padding-top: calc(var(--nav-h) + 4rem); }
+    .hist__indice {
+      top: var(--nav-h);
+      z-index: 90;
+      max-height: none;
+      overflow-y: visible;
+      width: 100%;
+      max-width: var(--w);
+      margin-inline: auto;
+      padding: 0 1.5rem .85rem;
+      border-left: 0;
+      border-bottom: 2px solid var(--line);
+      background: var(--bg);
+    }
+    .hist__indice ol { display: flex; flex-wrap: wrap; gap: .15rem .3rem; }
+  }
+</style>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230b3d91'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' fill='white' text-anchor='middle'>%CE%A3</text></svg>">
+</head>
+
+<body class="tema-diego">
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="nav" id="nav">
+  <div class="caja nav__inside">
+    <a class="marca" href="index.html" title="Ir a la portada">
+      <svg class="marca__logo" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" fill="#0b3d91"/>
+        <text x="20" y="28.5" font-size="24" font-family="Georgia, serif" fill="#ffffff" text-anchor="middle">&#931;</text>
+      </svg>
+      <span class="marca__texto">
+        <span class="marca__titulo">Las Series</span>
+        <span class="marca__sub">I. Historia</span>
+      </span>
+    </a>
+
+    <button class="nav__interruptor" id="navInterruptor" aria-expanded="false"
+            aria-controls="navMenu" aria-label="Abrir el men&uacute;">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav__menu" id="navMenu">
+      <ul class="nav__enlaces">
+        <li><a href="index.html">Portada</a></li>
+        <li><a href="historia.html" aria-current="page">I. Historia</a></li>
+        <li><a href="cuento.html">II. Cuento</a></li>
+        <li><a href="juego.html">III. Juego</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a class="boton boton--acento" href="#construccion">Ver el diagrama</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- La barra de lectura esta siempre; el indice lateral solo aparece a partir
+     de 1200px, que es cuando hay ancho de sobra para una columna. Los dos los
+     pone historia.css: aqui va solo el markup. -->
+<div class="hist__progreso" aria-hidden="true"><span></span></div>
+
+<nav class="hist__indice" aria-label="&Iacute;ndice de la p&aacute;gina">
+  <ol>
+    <li><a href="#que-es">1. &iquest;Qu&eacute; es una serie?</a></li>
+    <li><a href="#definiciones">2. Las cinco palabras</a></li>
+    <li><a href="#recorrido">3. Trece pasos</a></li>
+    <li><a href="#construccion">4. La aritm&eacute;tica</a></li>
+    <li><a href="#construccion-2">5. La geom&eacute;trica</a></li>
+    <li><a href="#armonica">6. La serie que enga&ntilde;a</a></li>
+    <li><a href="#ficha">7. Las cuatro f&oacute;rmulas</a></li>
+    <li><a href="#fuentes">8. Fuentes</a></li>
+  </ol>
+</nav>
+
+<main id="contenido">
+
+  <!-- ==================================================================
+       CABECERA DE LA PAGINA
+       ================================================================== -->
+  <section class="cab-pagina">
+    <div class="caja">
+      <span class="cab-pagina__codigo">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2.5 3.5h11v9h-11z"/><path d="M2.5 6.5h11M6.5 6.5v6"/></svg>
+        Parte 1 de 2 &middot; Diego Bordas
+      </span>
+      <h1 class="cab-pagina__titulo">C&oacute;mo se construyeron las series</h1>
+      <p class="cab-pagina__bajada">
+        Nadie empez&oacute; a sumar infinitos n&uacute;meros por diversi&oacute;n. Cada paso
+        de esta historia fue una necesidad: acotar un &aacute;rea que no se pod&iacute;a
+        medir, expresar un n&uacute;mero que no se pod&iacute;a escribir, aproximar un
+        c&iacute;rculo con l&iacute;neas rectas. Aqu&iacute; cuenta el origen &mdash; las
+        herramientas y los trucos &mdash;; la otra mitad del apartado cuenta para qu&eacute; sirven.
+      </p>
+      <div class="cab-pagina__pie">
+        <span>Hitos: <b>13</b></span>
+        <span>Construcciones de f&oacute;rmulas: <b>2</b></span>
+        <span>Hito m&aacute;s antiguo: <b>450 a.C.</b></span>
+        <span>Tablas: <b>3</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       1. QUE ES UNA SERIE
+       ================================================================== -->
+  <section class="seccion" aria-labelledby="que-es">
+    <div class="caja caja--angosta">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Punto de partida</span>
+        <h2 id="que-es">&iquest;Qu&eacute; es una serie?</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Una <strong>serie</strong> es una suma cuyos t&eacute;rminos forman una lista
+          ordenada. La diferencia con una suma corriente no est&aacute; en los n&uacute;meros,
+          sino en lo que se hace con ellos: en lugar de terminar despu&eacute;s de una
+          cantidad fija, la lista se define por una regla que produce t&eacute;rminos
+          tantos como uno quiera. De ah&iacute; la letra sigma may&uacute;scula, que en
+          el alfabeto griego es la primera de todas y funciona como una especie
+          de &laquo;suma&raquo;.
+        </p>
+        <p>
+          Hay dos cosas distintas que conviene no confundir. La <strong>suma
+          parcial</strong> cuenta solo los primeros <em>n</em> t&eacute;rminos: es un
+          n&uacute;mero finito y se calcula de una vez. La <strong>suma de la
+          serie</strong> es el l&iacute;mite de esas sumas parciales cuando <em>n</em>
+          crece sin parar. Ese l&iacute;mite puede existir o no. Toda la teor&iacute;a
+          de series consiste, en el fondo, en distinguir esos dos casos.
+        </p>
+      </div>
+
+      <div class="formula">
+        <span class="formula__label">Notaci&oacute;n general</span>
+        <math><mrow><munderover><mo>&Sigma;</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mo>&infin;</mo></munderover><msub><mi>a</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mn>2</mn></msub><mo>+</mo><msub><mi>a</mi><mn>3</mn></msub><mo>+</mo><msub><mi>a</mi><mn>4</mn></msub><mo>+</mo><mo>&hellip;</mo></mrow></math>
+      </div>
+
+      <div class="prose">
+        <p>
+          El &iacute;ndice inferior indica d&oacute;nde empieza la lista y el superior,
+          el s&iacute;mbolo de infinito, indica que no hay final. El problema de los
+          tres &uacute;ltimos siglos &mdash; y el de esta p&aacute;gina &mdash; es
+          averiguar qu&eacute; pasa cuando se intenta calcular una suma que, en
+          principio, no se puede calcular.
+        </p>
+      </div>
+
+      <div class="destacado mt-5">
+        <h3>Una advertencia antes de empezar</h3>
+        <p>
+          Que los t&eacute;rminos se hagan cada vez m&aacute;s peque&ntilde;os
+          <em>no</em> garantiza que la serie converja. La serie
+          <math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math> tiene t&eacute;rminos
+          que se acercan a cero y, sin embargo, su suma es infinita. Se llama
+          <strong>serie arm&oacute;nica</strong>, y es el contraejemplo que usaremos
+          varias veces en este trabajo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       2. LAS CINCO PALABRAS
+       ================================================================== -->
+  <section class="seccion" id="definiciones" aria-labelledby="t-definiciones">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Vocabulario</span>
+        <h2 id="t-definiciones">Las cinco palabras que hacen falta</h2>
+        <p>
+          Antes de los n&uacute;meros hacen falta las palabras. Estas cinco salen y
+          vuelven en toda la historia; sin ellas, &laquo;sumar infinitos&raquo; no dice
+          absolutamente nada.
+        </p>
+      </div>
+
+      <div class="prose">
+        <p>
+          La
+          <abbr class="hist__term" tabindex="0" title="Sucesi&oacute;n: lista ordenada de n&uacute;meros, uno detr&aacute;s de otro. Es la lista, no la suma.">sucesi&oacute;n</abbr>
+          es la lista; el
+          <abbr class="hist__term" tabindex="0" title="T&eacute;rmino general: la f&oacute;rmula que dice cu&aacute;nto vale el t&eacute;rmino que ocupa el lugar n.">t&eacute;rmino general</abbr>
+          es la regla que la produce; la
+          <abbr class="hist__term" tabindex="0" title="Suma parcial: lo que llevas sumado cuando llegas al t&eacute;rmino n. Es un n&uacute;mero finito y se calcula de una vez.">suma parcial</abbr>
+          es lo que llevas acumulado al llegar al t&eacute;rmino n; la <strong>serie</strong>
+          es la suma de todos ellos, sin parar nunca; y la
+          <abbr class="hist__term" tabindex="0" title="Convergencia: que las sumas parciales se acerquen a un n&uacute;mero fijo y se queden ah&iacute;.">convergencia</abbr>
+          es lo que decide si esa suma existe.
+        </p>
+      </div>
+
+      <div class="hist__tabla">
+        <table class="hist__tabla-tabla">
+          <caption class="hist__tabla-titulo">Las cinco palabras, con su notaci&oacute;n y un ejemplo cada una</caption>
+          <thead>
+            <tr>
+              <th scope="col">Palabra</th>
+              <th scope="col">Qu&eacute; es</th>
+              <th scope="col">C&oacute;mo se escribe</th>
+              <th scope="col">Un ejemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><abbr class="hist__term" tabindex="0" title="Sucesi&oacute;n: lista ordenada de n&uacute;meros, uno detr&aacute;s de otro. Es la lista, no la suma.">Sucesi&oacute;n</abbr></th>
+              <td>Una lista ordenada de n&uacute;meros, uno detr&aacute;s de otro</td>
+              <td><math><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>,</mo><msub><mi>a</mi><mn>2</mn></msub><mo>,</mo><msub><mi>a</mi><mn>3</mn></msub><mo>,</mo><msub><mi>a</mi><mn>4</mn></msub><mo>,</mo><mo>&hellip;</mo></mrow></math></td>
+              <td>1, 1/2, 1/3, 1/4, &hellip;</td>
+            </tr>
+            <tr>
+              <th scope="row"><abbr class="hist__term" tabindex="0" title="T&eacute;rmino general: la f&oacute;rmula que dice cu&aacute;nto vale el t&eacute;rmino que ocupa el lugar n.">T&eacute;rmino general</abbr></th>
+              <td>La f&oacute;rmula que dice cu&aacute;nto vale el que ocupa el lugar <em>n</em></td>
+              <td><math><mrow><msub><mi>a</mi><mi>n</mi></msub><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac></mrow></math></td>
+              <td>con <em>n</em> = 5, <math><mrow><msub><mi>a</mi><mn>5</mn></msub><mo>=</mo><mfrac><mn>1</mn><mn>5</mn></mfrac><mo>=</mo><mn>0,2</mn></mrow></math></td>
+            </tr>
+            <tr>
+              <th scope="row"><abbr class="hist__term" tabindex="0" title="Suma parcial: lo que llevas sumado cuando llegas al t&eacute;rmino n. Es un n&uacute;mero finito y se calcula de una vez.">Suma parcial</abbr></th>
+              <td>Lo que llevas sumado cuando llegas al t&eacute;rmino <em>n</em></td>
+              <td><math><mrow><msub><mi>S</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mn>2</mn></msub><mo>+</mo><mo>&hellip;</mo><mo>+</mo><msub><mi>a</mi><mi>n</mi></msub></mrow></math></td>
+              <td><math><mrow><msub><mi>S</mi><mn>4</mn></msub><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>=</mo><mn>2,0833333333&hellip;</mn></mrow></math></td>
+            </tr>
+            <tr>
+              <th scope="row">Serie</th>
+              <td>La suma de todos los t&eacute;rminos, sin parar nunca</td>
+              <td><math><mrow><munderover><mo>&Sigma;</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mo>&infin;</mo></munderover><msub><mi>a</mi><mi>n</mi></msub></mrow></math></td>
+              <td>1 + 1/2 + 1/3 + 1/4 + &hellip;</td>
+            </tr>
+            <tr>
+              <th scope="row"><abbr class="hist__term" tabindex="0" title="Convergencia: que las sumas parciales se acerquen a un n&uacute;mero fijo y se queden ah&iacute;.">Convergencia</abbr></th>
+              <td>Que las sumas parciales se acerquen a un n&uacute;mero fijo y se queden ah&iacute;</td>
+              <td><math><mrow><munder><mo>lim</mo><mrow><mi>n</mi><mo>&rarr;</mo><mo>&infin;</mo></mrow></munder><msub><mi>S</mi><mi>n</mi></msub><mo>=</mo><mi>S</mi></mrow></math></td>
+              <td><math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>9</mn></mfrac><mo>+</mo><mo>&hellip;</mo><mo>&rarr;</mo><mfrac><msup><mi>&pi;</mi><mn>2</mn></msup><mn>6</mn></mfrac><mo>=</mo><mn>1,6449340668&hellip;</mn></mrow></math></td>
+            </tr>
+          </tbody>
+          <tfoot class="hist__tabla-fuente">
+            <tr>
+              <td colspan="4">
+                Definiciones y notaci&oacute;n adaptadas de <strong>Boyer, Carl B.; Merzbach, Uta C.</strong>
+                <em>A History of Mathematics</em>, 3.&ordf; ed. John Wiley &amp; Sons, 2011, y de
+                <strong>Katz, Victor J.</strong> <em>A History of Mathematics: An Introduction</em>,
+                Addison-Wesley (Pearson), 3.&ordf; ed. Los dos valores de la columna
+                &laquo;Un ejemplo&raquo; se pueden comprobar con cuatro operaciones.
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <aside class="hist__nota hist__nota--ojo">
+        <span class="hist__nota-rotulo">Ojo con esto</span>
+        <p class="hist__nota-texto">
+          La que m&aacute;s se confunde es la
+          <abbr class="hist__term" tabindex="0" title="Sucesi&oacute;n: lista ordenada de n&uacute;meros, uno detr&aacute;s de otro. Es la lista, no la suma.">sucesi&oacute;n</abbr>
+          con la <strong>serie</strong>. La
+          <abbr class="hist__term" tabindex="0" title="Sucesi&oacute;n: lista ordenada de n&uacute;meros, uno detr&aacute;s de otro. Es la lista, no la suma.">sucesi&oacute;n</abbr>
+          es lo que va en la lista: 1, 1/2, 1/3, 1/4 &hellip; La <strong>serie</strong>
+          es lo que sale de sumarla, y esa suma es la que puede no existir. Decir
+          &laquo;la serie 1, 1/2, 1/3&raquo; est&aacute; mal dicho: 1, 1/2, 1/3 es la
+          <strong>sucesi&oacute;n</strong>; 1&nbsp;+&nbsp;1/2&nbsp;+&nbsp;1/3 es la
+          <strong>serie</strong>.
+        </p>
+      </aside>
+
+      <aside class="hist__nota hist__nota--atajo">
+        <span class="hist__nota-rotulo">Atajo</span>
+        <p class="hist__nota-texto">
+          No hace falta calcular la suma infinita. Se suman los primeros <em>n</em>
+          t&eacute;rminos, se vuelve a sumar con m&aacute;s t&eacute;rminos y se mira si
+          los dos resultados empiezan a parecerse. Eso, y nada m&aacute;s, es lo que la
+          <abbr class="hist__term" tabindex="0" title="Convergencia: que las sumas parciales se acerquen a un n&uacute;mero fijo y se queden ah&iacute;.">convergencia</abbr>
+          pide: un n&uacute;mero fijo al que las sumas
+          parciales se acerquen cada vez m&aacute;s.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       3. LINEA DE TIEMPO
+       ================================================================== -->
+  <section class="seccion seccion--alt" aria-labelledby="recorrido">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Recorrido</span>
+        <h2 id="recorrido">Trece pasos, cada uno sobre el anterior</h2>
+        <p>
+          La l&iacute;nea de tiempo no es una lista de fechas: es una cadena de
+          problemas. Cada matem&aacute;tico resolvi&oacute; algo que el anterior hab&iacute;a
+          dejado abierto.
+        </p>
+      </div>
+
+      <ol class="hist__linea">
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/zenon-elea.jpg"
+                 alt="Grabado de 1699 que representa a Zen&oacute;n de Elea como un hombre barbado de melena larga con la mirada ca&iacute;da."
+                 width="300" height="417" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Rijksmuseum, &Aacute;msterdam (RP-P-OB-17.264). CC0.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">c. 450 a.C.</span>
+            <h3 class="hist__hito-titulo">Zen&oacute;n de Elea: los dos corredores</h3>
+            <p class="hist__hito-texto">
+              La paradoja de Aquiles y la tortuga pone por primera vez una suma
+              infinita en el centro del argumento. Zen&oacute;n sosten&iacute;a que Aquiles
+              nunca alcanza a la tortuga porque entre ellos siempre queda un trozo;
+              la respuesta es que una suma de infinitos sumandos puede dar un
+              resultado finito, y eso no se pudo decir con precisi&oacute;n hasta el siglo XIX.
+            </p>
+            <span class="hist__hito-etiqueta">Una suma que no se acaba</span>
+          </div>
+        </li>
+
+        <li class="hist__hito hist__hito--invertido aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/410-antifon.svg" alt="C&iacute;rculo con un cuadrado inscrito, un oct&oacute;gono y un hexadec&aacute;gono: cada pol&iacute;gono nuevo se queda m&aacute;s cerca de la circunferencia."
+                 width="200" height="250" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Esquema propio.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">410 a.C.</span>
+            <h3 class="hist__hito-titulo">Antif&oacute;n: dibujar para acotar</h3>
+            <p class="hist__hito-texto">
+              Antif&oacute;n de Atenas fue el primero, hacia finales del siglo V a.C., en
+              inscribir un pol&iacute;gono dentro de un c&iacute;rculo para acotar su
+              &aacute;rea por debajo y por encima. Lo notable es que nunca calculaba el
+              resultado: solo estrechaba el cerco. Cada figura nueva dejaba fuera un
+              resto, y el resto se hac&iacute;a m&aacute;s peque&ntilde;o con cada paso.
+              Es la idea de <strong>l&iacute;mite</strong> disfrazada de dibujo.
+            </p>
+            <span class="hist__hito-etiqueta">Origen: acotar, no calcular</span>
+          </div>
+        </li>
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/350-eudoxo.svg" alt="C&iacute;rculo con cinco esferas conc&eacute;ntricas y un cilindro inscrito, el recurso con el que Eudoxo midi&oacute; vol&uacute;menes."
+                 width="200" height="250" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Esquema propio.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">350 a.C.</span>
+            <h3 class="hist__hito-titulo">Eudoxo: el truco se vuelve teor&iacute;a</h3>
+            <p class="hist__hito-texto">
+              Eudoxo de Cnido llev&oacute; el procedimiento a una forma rigurosa y lo
+              us&oacute; para calcular &aacute;reas y vol&uacute;genes. Lo decisivo fue
+              una t&eacute;cnica de comparaci&oacute;n que se parece mucho a lo que veremos en el
+              diagrama de la suma aritm&eacute;tica: si por cada cantidad se toma una
+              cantidad mayor, y entre ambas hay much&iacute;simas intermedias, entonces
+              las primeras est&aacute;n por debajo y las &uacute;ltimas por encima.
+              Acotaci&oacute;n por los dos lados, igual que Antif&oacute;n.
+            </p>
+            <span class="hist__hito-etiqueta">La primera demostraci&oacute;n formal</span>
+          </div>
+        </li>
+
+        <li class="hist__hito hist__hito--invertido aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/300-euclides.jpg" alt="P&aacute;gina de los Elementos de Euclides en un manuscrito griego, con un dibujo geom&eacute;trico en el centro."
+                 width="300" height="300" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Biblioteca Apost&oacute;lica Vaticana, Vat. gr. 190. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">300 a.C.</span>
+            <h3 class="hist__hito-titulo">Euclides: seis proposiciones</h3>
+            <p class="hist__hito-texto">
+              El libro XII de los <em>Elementos</em> tiene <strong>dieciocho
+              proposiciones</strong>. <strong>Seis</strong> de ellas las demuestra
+              Euclides con el m&eacute;todo de exhauci&oacute;n: la XII.2, la XII.5,
+              la XII.10, la XII.11, la XII.12 y la XII.18. Entre esas seis est&aacute;n,
+              por ejemplo, que el cono es un tercio del cilindro y que la
+              esfera crece como el cubo de su di&aacute;metro. Para llegar a esas
+              seis, el libro X desarrolla una teor&iacute;a de razones: es, con
+              diferencia, el libro m&aacute;s largo y m&aacute;s complejo de los trece,
+              y sus 115 proposiciones son casi una cuarta parte de las 465 de toda la
+              obra. El precio de rigor fue un libro entero de preparaci&oacute;n.
+            </p>
+            <span class="hist__hito-etiqueta">El rigor paga caro</span>
+          </div>
+        </li>
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/287-arquimedes.jpg" alt="Grabado del siglo XVIII que representa a Arqu&iacute;medes de Siracusa."
+                 width="270" height="378" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Grabado de Riedel. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">287&ndash;212 a.C.</span>
+            <h3 class="hist__hito-titulo">Arqu&iacute;medes: el primer c&aacute;lculo documentado de una suma geom&eacute;trica</h3>
+            <p class="hist__hito-texto">
+              Para determinar el &aacute;rea de un segmento de par&aacute;bola,
+              Arqu&iacute;medes dibuj&oacute; dentro figuras cada vez m&aacute;s grandes,
+              calcul&oacute; sus &aacute;reas y repiti&oacute; el proceso. Nunca lleg&oacute;
+              a dibujar el segmento exacto: se iba &laquo;agotando&raquo; el error hasta
+              hacerlo tan peque&ntilde;o como quisiera. Para lograrlo hizo lo que nadie
+              hab&iacute;a hecho: escribir el &aacute;rea como una <strong>suma de
+              razones</strong>, <math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>16</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math>, una
+              suma de raz&oacute;n 1/4: el primer c&aacute;lculo documentado de la suma
+              de una serie geom&eacute;trica. En la <em>Cuadratura de la par&aacute;bola</em>
+              demuestra con ella que el &aacute;rea del segmento parab&oacute;lico es
+              <math><mfrac><mn>4</mn><mn>3</mn></mfrac></math> del &aacute;rea del
+              tri&aacute;ngulo inscrito. La obra est&aacute; dirigida a
+              <strong>Dositeo</strong> y es del siglo III a.C.
+            </p>
+            <span class="hist__hito-etiqueta">Nace la serie geom&eacute;trica</span>
+          </div>
+        </li>
+
+        <li class="hist__hito hist__hito--invertido aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/200-bakhshali.jpg" alt="El manuscrito de Bakhshali, un cuaderno de cortezas de abedul donde aparece un punto usado como cero."
+                 width="300" height="300" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Manuscrito de Bakhshali, Bodleian Library. La instituci&oacute;n lo data entre los siglos III y IV d.C. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">c. 200 a.C.</span>
+            <h3 class="hist__hito-titulo">Pingala: la cuenta que ya estaba en la India</h3>
+            <p class="hist__hito-texto">
+              Mucho antes de que existiera el nombre &laquo;Fibonacci&raquo;, los
+              matem&aacute;ticos de la India ya usaban esa cuenta para contar los cantos
+              del <em>samaveda</em>: los cantos de una, de dos y de tres. El n&uacute;mero se
+              conoc&iacute;a y se llamaba <em>meru-prast&amacr;ra</em>, y la otra forma del
+              mismo nombre es <em>m&amacr;tr&amacr;-meru</em>. Pingala dio el
+              <strong>fundamento combinatorio</strong>; la sucesi&oacute;n aditiva la
+              formalizaron despu&eacute;s <strong>Virah&amacr;nka</strong> (siglos
+              VI&ndash;VIII) y <strong>Hemachandra</strong> (hacia 1150).
+            </p>
+            <span class="hist__hito-etiqueta">La India llega antes</span>
+          </div>
+        </li>
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/1202-fibonacci.jpg" alt="Grabado que representa a Leonardo de Pisa, el Fibonacci."
+                 width="300" height="404" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Grabado de hacia 1850, autor sin identificar. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1202</span>
+            <h3 class="hist__hito-titulo">Leonardo de Pisa: la recursi&oacute;n</h3>
+            <p class="hist__hito-texto">
+              En el <em>Liber Abaci</em>, Leonardo de Pisa plante&oacute; un problema de
+              cr&iacute;a din&aacute;mica: una pareja de conejos produce otra cada mes, y
+              cada pareja nueva empieza a reproducirse al mes siguiente. La soluci&oacute;n
+              1, 1, 2, 3, 5, 8, 13, 21&hellip; se construye con sumas: cada t&eacute;rmino
+              es el resultado de sumar los dos anteriores. Lo que hoy llamamos
+              <strong>recursi&oacute;n</strong> naci&oacute; aqu&iacute; como un truco
+              para contar conejos.
+            </p>
+            <span class="hist__hito-etiqueta">Cada t&eacute;rmino nace de los dos previos</span>
+          </div>
+        </li>
+
+        <li class="hist__hito hist__hito--invertido aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/oresme-1350.svg"
+                 alt="Cinco bloques apilados: 1; 1/2; 1/3 y 1/4; 1/5, 1/6, 1/7 y 1/8; y 1/9 hasta 1/16. Una cota a la derecha dice que cada bloque suma al menos 1/2."
+                 width="200" height="250" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Esquema propio.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">c. 1350</span>
+            <h3 class="hist__hito-titulo">Nicole Oresme: la serie que no se detiene</h3>
+            <p class="hist__hito-texto">
+              Aqu&iacute; est&aacute; la primera demostraci&oacute;n de que
+              <strong>la serie arm&oacute;nica diverge</strong>. Oresme agrupa los
+              t&eacute;rminos en bloques de potencias de dos:
+              <math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mo>(</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>)</mo><mo>+</mo><mo>(</mo><mfrac><mn>1</mn><mn>5</mn></mfrac><mo>+</mo><mo>&hellip;</mo><mo>+</mo><mfrac><mn>1</mn><mn>8</mn></mfrac><mo>)</mo><mo>+</mo><mo>&hellip;</mo></mrow></math>,
+              y cada bloque suma <strong>al menos 1/2</strong>, as&iacute; que la suma crece
+              sin tope.
+            </p>
+            <span class="hist__hito-etiqueta">La arm&oacute;nica diverge</span>
+          </div>
+        </li>
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/1665-newton.jpg" alt="Retrato de Isaac Newton pintado en 1689."
+                 width="300" height="361" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Retrato de 1689. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1665</span>
+            <h3 class="hist__hito-titulo">Newton: el binomio y las series infinitas</h3>
+            <p class="hist__hito-texto">
+              Newton desarroll&oacute; hacia 1665 el binomio para exponentes que no son
+              enteros: una regla para elevar (1 + x) a cualquier potencia y escribir el
+              resultado como una suma de t&eacute;rminos que se encogen. Con &eacute;l naci&oacute;
+              el <strong>m&eacute;todo general</strong> que convirti&oacute; las series de
+              potencias en el instrumento central del c&aacute;lculo. La pregunta de
+              <em>cu&aacute;ndo</em> una de esas sumas se queda quieta no se respondi&oacute; de
+              verdad hasta Cauchy, en 1821.
+            </p>
+            <span class="hist__hito-etiqueta">Se dice la palabra converger</span>
+          </div>
+        </li>
+
+        <li class="hist__hito hist__hito--invertido aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/1676-leibniz.jpg" alt="Retrato de Gottfried Wilhelm Leibniz, pintado hacia 1695 por Christoph Bernhard Francke."
+                 width="300" height="379" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Christoph Bernhard Francke, hacia 1695. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1676</span>
+            <h3 class="hist__hito-titulo">Leibniz: la notaci&oacute;n y el problema</h3>
+            <p class="hist__hito-texto">
+              Leibniz escribi&oacute; la identidad
+              <math><mrow><mfrac><mi>&pi;</mi><mn>4</mn></mfrac><mo>=</mo><mn>1</mn><mo>&minus;</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>5</mn></mfrac><mo>&minus;</mo><mfrac><mn>1</mn><mn>7</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math>
+              y fue el primero en estudiar en serio la notaci&oacute;n con sigma. Su serie
+              es correcta, pero converge tan despacio que hacen falta millones de
+              t&eacute;rminos para aproximar &pi;. El problema no era de exactitud sino de
+              velocidad: un l&iacute;mite correcto que llega demasiado tarde. Ese hueco
+              defini&oacute; buena parte de la matem&aacute;tica del siglo XIX.
+            </p>
+            <span class="hist__hito-etiqueta">Un l&iacute;mite correcto pero lent&iacute;simo</span>
+          </div>
+        </li>
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/1735-euler.jpg" alt="Retrato de Leonhard Euler, pintado por Jakob Emanuel Handmann."
+                 width="300" height="388" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Jakob Emanuel Handmann. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1735</span>
+            <h3 class="hist__hito-titulo">Euler y el problema de Basilea</h3>
+            <p class="hist__hito-texto">
+              En 1650 el italiano Pietro Mengoli formul&oacute; un problema que hab&iacute;a
+              derrotado a todos los matem&aacute;ticos vivos: sumar
+              <math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>9</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>16</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math> y decir qu&eacute;
+              n&uacute;mero da. Euler lo resolvi&oacute; en 1734 y el resultado se ley&oacute;
+              ante la Academia de Ciencias de San Petersburgo el 5 de diciembre de 1735:
+              era <math><mfrac><msup><mi>&pi;</mi><mn>2</mn></msup><mn>6</mn></mfrac></math>.
+              Una suma de fracciones ordinarias igual al cuadrado de la circunferencia.
+              Se public&oacute; despu&eacute;s en varios art&iacute;culos, entre ellos el E41 de
+              1740 y el E63 de 1743.
+            </p>
+
+            <figure class="hist__lamina" style="max-width: 20rem">
+              <img src="assets/img/historia/mengoli-1650.jpg"
+                   alt="Portada de Novae quadraturae arithmeticae de Mengoli, impresa en 1650, con el t&iacute;tulo en letras capitales."
+                   width="800" height="1120" loading="lazy" decoding="async">
+              <figcaption class="hist__lamina-pie">
+                En 1650 Pietro Mengoli fue el primero en plantear el problema que Euler
+                resolvi&oacute; ochenta y cuatro a&ntilde;os despu&eacute;s.
+              </figcaption>
+              <p class="hist__lamina-credito">
+                Pietro Mengoli, 1650. BEIC Foundation. Dominio p&uacute;blico.
+              </p>
+            </figure>
+
+            <p class="hist__hito-texto">
+              El n&uacute;mero <em>e</em> viene de otro hilo: lo introdujo
+              <strong>Jakob Bernoulli en 1683</strong>, estudiando el inter&eacute;s compuesto
+              que se capitaliza sin parar, y ya era el l&iacute;mite de
+              <math><msup><mrow><mo>(</mo><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><mo>)</mo></mrow><mi>n</mi></msup></math>.
+              Euler adopt&oacute; la letra <em>e</em> en 1727-1728, y la us&oacute; impresa por
+              primera vez en la <em>Mechanica</em>, de 1736.
+            </p>
+            <span class="hist__hito-etiqueta">El n&uacute;mero m&aacute;s misterioso</span>
+          </div>
+        </li>
+
+        <li class="hist__hito hist__hito--invertido aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/cauchy.jpg"
+                 alt="Litograf&iacute;a de 1856 de Cauchy de pie, con uniforme y condecoraci&oacute;n en el pecho."
+                 width="300" height="452" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Rudolf Hoffmann, litograf&iacute;a, 1856. Austrian National Library. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1821</span>
+            <h3 class="hist__hito-titulo">Cauchy: el l&iacute;mite, con palabras</h3>
+            <p class="hist__hito-texto">
+              En el <em>Cours d'analyse</em> de 1821 Cauchy escribe por primera vez una
+              definici&oacute;n de l&iacute;mite con palabras en vez de con dibujos, y con
+              ella el <strong>criterio de Cauchy</strong> de convergencia. Hasta entonces
+              &laquo;sumar infinitos t&eacute;rminos&raquo; era una intuici&oacute;n; desde aqu&iacute;
+              es una definici&oacute;n.
+            </p>
+            <span class="hist__hito-etiqueta">De la intuici&oacute;n a la definici&oacute;n</span>
+          </div>
+        </li>
+
+        <li class="hist__hito aparece">
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/riemann.jpg"
+                 alt="Fotograf&iacute;a de 1863 de Riemann, de barba oscura y traje negro, con la mirada perdida."
+                 width="300" height="399" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">August Weger, 1863. Bildarchiv Austria. Dominio p&uacute;blico.</figcaption>
+          </figure>
+          <div class="hist__hito-cuerpo">
+            <span class="hist__hito-anio">1859</span>
+            <h3 class="hist__hito-titulo">Riemann: la serie se vuelve funci&oacute;n</h3>
+            <p class="hist__hito-texto">
+              Riemann deja de mirar las series una por una y las mete todas dentro de
+              una sola funci&oacute;n, la zeta. Ah&iacute; aparecen
+              <math><mrow><mi>&zeta;</mi><mo>(</mo><mn>2</mn><mo>)</mo><mo>=</mo><mfrac><msup><mi>&pi;</mi><mn>2</mn></msup><mn>6</mn></mfrac><mo>=</mo><mn>1,6449340668&hellip;</mn></mrow></math>,
+              <math><mrow><mi>&zeta;</mi><mo>(</mo><mn>4</mn><mo>)</mo><mo>=</mo><mfrac><msup><mi>&pi;</mi><mn>4</mn></msup><mn>90</mn></mfrac><mo>=</mo><mn>1,0823232337&hellip;</mn></mrow></math>
+              y
+              <math><mrow><mi>&zeta;</mi><mo>(</mo><mn>3</mn><mo>)</mo><mo>=</mo><mn>1,2020569031&hellip;</mn></mrow></math>,
+              que result&oacute; irracional en 1978 (Roger Ap&eacute;ry). La hip&oacute;tesis de
+              Riemann &mdash;d&oacute;nde est&aacute;n los ceros de esa funci&oacute;n&mdash; es
+              desde el a&ntilde;o 2000 uno de los siete Problemas del Milenio, con un
+              premio de un mill&oacute;n de d&oacute;lares.
+            </p>
+            <span class="hist__hito-etiqueta">Una funci&oacute;n para todas las series</span>
+          </div>
+        </li>
+
+      </ol>
+
+      <p class="hito__creditos">
+        Las nueve im&aacute;genes de personas son retratos y grabados de &eacute;poca,
+        y el manuscrito de Bakhshali es una reproducci&oacute;n de un escrito indio.
+        Todos ellos son obras en <strong>dominio p&uacute;blico</strong>, es decir,
+        que se pueden usar sin pedir permiso. Los dibujos de Antif&oacute;n, de Eudoxo y
+        de Oresme est&aacute;n hechos a mano para este sitio. Origen: Wikimedia Commons.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       4. LA PRIMERA CONSTRUCCION
+       ================================================================== -->
+  <section class="seccion" id="construccion" aria-labelledby="aritmetica">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Construcci&oacute;n 01</span>
+        <h2 id="aritmetica">Sumar la aritm&eacute;tica: el truco de la doble fila</h2>
+        <p>
+          La f&oacute;rmula de la progresi&oacute;n aritm&eacute;tica no se deduce: se
+          <em>construye</em>. Se escribe la misma suma dos veces, una al derecho y otra al
+          rev&eacute;s, y se suman por columnas. Cada columna da lo mismo, as&iacute; que el
+          total se elimina solo.
+        </p>
+      </div>
+
+      <div class="diagrama aparece">
+        <div class="diagrama__titulo">
+          <span>Fig. 1 &mdash; El apareamiento</span>
+          <span>1, 2, 3, &hellip;, n</span>
+        </div>
+
+        <figure class="diagrama__figura">
+          <svg viewBox="0 0 440 235" role="img"
+               aria-label="Dos filas de ocho c&iacute;rculos. La primera va de 1 a 8 y la segunda de 8 a 1. Cada columna suma 9.">
+            <text x="220" y="16" text-anchor="middle" font-family="JetBrains Mono, monospace"
+                  font-size="12" fill="#0a1a2f">S = 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8</text>
+
+            <!-- fila de arriba: 1 a 8 -->
+            <g font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" text-anchor="middle">
+              <circle cx="40"  cy="58" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="40"  y="63" fill="#0a1a2f">1</text>
+              <circle cx="87"  cy="58" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="87"  y="63" fill="#0a1a2f">2</text>
+              <circle cx="134" cy="58" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="134" y="63" fill="#0a1a2f">3</text>
+              <circle cx="181" cy="58" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="181" y="63" fill="#0a1a2f">4</text>
+              <circle cx="228" cy="58" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="228" y="63" fill="#0a1a2f">5</text>
+              <circle cx="275" cy="58" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="275" y="63" fill="#0a1a2f">6</text>
+              <circle cx="322" cy="58" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="322" y="63" fill="#0a1a2f">7</text>
+              <circle cx="369" cy="58" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="369" y="63" fill="#0a1a2f">8</text>
+            </g>
+
+            <!-- los conectores -->
+            <g stroke="#b4c4d8" stroke-width="1.4">
+              <line x1="40" y1="75" x2="40" y2="119"/>
+              <line x1="87" y1="75" x2="87" y2="119"/>
+              <line x1="134" y1="75" x2="134" y2="119"/>
+              <line x1="181" y1="75" x2="181" y2="119"/>
+              <line x1="228" y1="75" x2="228" y2="119"/>
+              <line x1="275" y1="75" x2="275" y2="119"/>
+              <line x1="322" y1="75" x2="322" y2="119"/>
+              <line x1="369" y1="75" x2="369" y2="119"/>
+            </g>
+
+            <!-- fila de abajo: 8 a 1 -->
+            <g font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" text-anchor="middle">
+              <circle cx="40"  cy="136" r="17" fill="#0b3d91" stroke="#0b3d91" stroke-width="1.6"/><text x="40"  y="141" fill="#ffffff">8</text>
+              <circle cx="87"  cy="136" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="87"  y="141" fill="#0a1a2f">7</text>
+              <circle cx="134" cy="136" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="134" y="141" fill="#0a1a2f">6</text>
+              <circle cx="181" cy="136" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="181" y="141" fill="#0a1a2f">5</text>
+              <circle cx="228" cy="136" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="228" y="141" fill="#0a1a2f">4</text>
+              <circle cx="275" cy="136" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="275" y="141" fill="#0a1a2f">3</text>
+              <circle cx="322" cy="136" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="322" y="141" fill="#0a1a2f">2</text>
+              <circle cx="369" cy="136" r="17" fill="#ffffff" stroke="#b4c4d8" stroke-width="1.6"/><text x="369" y="141" fill="#0a1a2f">1</text>
+            </g>
+
+            <!-- la suma de cada columna -->
+            <g font-family="JetBrains Mono, monospace" font-size="12" font-weight="600"
+               text-anchor="middle" fill="#0b3d91">
+              <text x="40"  y="172">9</text>
+              <text x="87"  y="172">9</text>
+              <text x="134" y="172">9</text>
+              <text x="181" y="172">9</text>
+              <text x="228" y="172">9</text>
+              <text x="275" y="172">9</text>
+              <text x="322" y="172">9</text>
+              <text x="369" y="172">9</text>
+            </g>
+
+            <!-- el resultado -->
+            <rect x="14" y="192" width="412" height="30" rx="3" fill="#e8eef6" stroke="#b4c4d8" stroke-width="1"/>
+            <text x="220" y="212" text-anchor="middle" font-family="JetBrains Mono, monospace"
+                  font-size="13" font-weight="600" fill="#0b3d91">2S = 8 &times; 9 = 72 &nbsp;&rarr;&nbsp; S = 36</text>
+          </svg>
+          <figcaption class="visualmente-oculto">
+            Al sumar la progresi&oacute;n consigo misma escrita al rev&eacute;s, cada columna da el
+            mismo resultado. Ocho columnas de 9 dan 72, y como esa suma es el doble de la
+            original, la original es 36.
+          </figcaption>
+        </figure>
+
+        <div class="diagrama__pie">
+          <span><i class="i-ar"></i> Fila original</span>
+          <span><i style="background:#0b3d91"></i> La pareja del 1</span>
+          <span><i class="i-borde"></i> Cada columna suma 9</span>
+        </div>
+      </div>
+
+      <ol class="pasos aparece">
+        <li>
+          Escribimos la serie <span class="mono">S</span> y debajo la misma serie al
+          rev&eacute;s. La segunda fila no es una serie distinta: es la misma, escrita
+          del otro lado.
+        </li>
+        <li>
+          Sumamos <strong>por columnas</strong>, no t&eacute;rmino a t&eacute;rmino. La columna 1 es
+          1 + 8, la columna 2 es 2 + 7, la columna 3 es 3 + 6. Todas dan lo mismo, y ese
+          valor es siempre <em>el primero m&aacute;s el &uacute;ltimo</em>: <math><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mi>n</mi></msub></mrow></math>.
+        </li>
+        <li>
+          Hay <em>n</em> columnas, y cada una da <math><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mi>n</mi></msub></mrow></math>. As&iacute;
+          que la suma de las dos filas es <math><mrow><mi>n</mi><mo>(</mo><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mi>n</mi></msub><mo>)</mo></mrow></math>.
+        </li>
+        <li>
+          Pero la suma de las dos filas es justamente <strong>2S</strong>, porque
+          estamos sumando la misma serie dos veces. Si <math><mrow><mn>2</mn><mi>S</mi><mo>=</mo><mi>n</mi><mo>(</mo><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mi>n</mi></msub><mo>)</mo></mrow></math>,
+          basta dividir entre dos.
+        </li>
+      </ol>
+
+      <div class="formula aparece">
+        <span class="formula__label">Suma de una progresi&oacute;n aritm&eacute;tica</span>
+        <math><mrow><msub><mi>S</mi><mi>n</mi></msub><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><msub><mi>a</mi><mn>1</mn></msub><mo>+</mo><msub><mi>a</mi><mi>n</mi></msub><mo>)</mo></mrow><mn>2</mn></mfrac></mrow></math>
+      </div>
+
+      <div class="prose mt-5">
+        <p>
+          El truco funciona: el paso 4 no necesita saber nada nuevo, solo
+          reconocer que se estaba contando la misma serie dos veces. Por eso la
+          f&oacute;rmula es tan corta y por eso se ense&ntilde;a en secundaria: no hay
+          nada m&aacute;s all&iacute;. La misma idea de apareamiento la usaremos en el
+          pr&oacute;ximo diagrama, pero all&iacute; con multiplicar en vez de sumar.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       5. LA SEGUNDA CONSTRUCCION
+       ================================================================== -->
+  <section class="seccion seccion--alt" id="construccion-2" aria-labelledby="geometrica">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Construcci&oacute;n 02</span>
+        <h2 id="geometrica">Sumar la geom&eacute;trica: multiplicar y cancelar</h2>
+        <p>
+          Con una progresi&oacute;n geom&eacute;trica el truco es distinto: en vez de
+          escribir la serie al rev&eacute;s, se multiplica por la raz&oacute;n. Al
+          multiplicar, cada t&eacute;rmino cae sobre el siguiente, como fichas que se
+          desplazan un lugar. Al restar, todo el medio se desaparece solo.
+        </p>
+      </div>
+
+      <div class="diagrama aparece">
+        <div class="diagrama__titulo">
+          <span>Fig. 2 &mdash; El desplazamiento</span>
+          <span>raz&oacute;n q &lt; 1</span>
+        </div>
+
+        <figure class="diagrama__figura">
+          <svg viewBox="0 0 440 235" role="img"
+               aria-label="Tres filas de bloques. La primera suma uno, q, q cuadrado, q c&uacute;bico. La segunda es la misma corrida un bloque a la derecha. Al restarlas queda el bloque uno menos el bloque q elevado a n.">
+            <!-- fila 1: S -->
+            <text x="4" y="30" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#43587a">S</text>
+            <g stroke="#4c7fb8" stroke-width="1.4">
+              <rect x="26"  y="14" width="120" height="34" fill="#0b3d91"/>
+              <rect x="146" y="14" width="78"  height="34" fill="#dbe8fb"/>
+              <rect x="224" y="14" width="50.7" height="34" fill="#dbe8fb"/>
+              <rect x="274.7" y="14" width="33" height="34" fill="#dbe8fb"/>
+              <rect x="307.7" y="14" width="21.4" height="34" fill="#dbe8fb"/>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" text-anchor="middle">
+              <text x="86"  y="36" fill="#ffffff">1</text>
+              <text x="185" y="36" fill="#0b3d91">q</text>
+              <text x="249" y="36" fill="#0b3d91">q&sup2;</text>
+              <text x="291" y="36" fill="#0b3d91">q&sup3;</text>
+              <text x="318" y="36" fill="#0b3d91">q&#8308;</text>
+            </g>
+
+            <!-- fila 2: menos qS -->
+            <text x="2" y="92" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#43587a">&#8722;qS</text>
+            <g stroke="#4c7fb8" stroke-width="1.4">
+              <rect x="146"   y="70" width="78"    height="34" fill="#dbe8fb"/>
+              <rect x="224"   y="70" width="50.7"  height="34" fill="#dbe8fb"/>
+              <rect x="274.7" y="70" width="33"    height="34" fill="#dbe8fb"/>
+              <rect x="307.7" y="70" width="21.4"  height="34" fill="#dbe8fb"/>
+              <rect x="329.1" y="70" width="13.9"  height="34" fill="#ffffff" stroke-dasharray="3 3"/>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="12" font-weight="600" text-anchor="middle">
+              <text x="185" y="92" fill="#0b3d91">q</text>
+              <text x="249" y="92" fill="#0b3d91">q&sup2;</text>
+              <text x="291" y="92" fill="#0b3d91">q&sup3;</text>
+              <text x="318" y="92" fill="#0b3d91">q&#8308;</text>
+            </g>
+            <text x="352" y="92" font-family="JetBrains Mono, monospace" font-size="11"
+                  font-weight="600" fill="#64799b">q&#8319;</text>
+
+            <!-- linea de resta -->
+            <line x1="26" y1="118" x2="400" y2="118" stroke="#b4c4d8" stroke-width="1.2"/>
+
+            <!-- fila 3: lo que queda -->
+            <text x="2" y="150" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#43587a">=</text>
+            <rect x="26"    y="130" width="120"  height="34" fill="#0b3d91"/>
+            <rect x="329.1" y="130" width="13.9" height="34" fill="#ffffff" stroke="#43587a" stroke-width="1.4" stroke-dasharray="3 3"/>
+            <text x="86" y="152" text-anchor="middle" font-family="JetBrains Mono, monospace"
+                  font-size="13" font-weight="600" fill="#ffffff">1</text>
+            <text x="348" y="152" font-family="JetBrains Mono, monospace" font-size="12"
+                  font-weight="600" fill="#0b3d91">&#8722; q&#8319;</text>
+
+            <!-- conclusion: la fraccion va apilada, igual que en el resto del
+                 sitio. El texto de un SVG no admite MathML, asi que se compone
+                 con dos renglones y una raya en medio. El recuadro sube y se
+                 estira para que quepan los tres. -->
+            <rect x="26" y="170" width="374" height="54" rx="3" fill="#e8eef6" stroke="#b4c4d8" stroke-width="1"/>
+            <text x="288" y="204" text-anchor="end" font-family="JetBrains Mono, monospace"
+                  font-size="12.5" font-weight="600" fill="#0b3d91">(1 &#8722; q)&middot;S = 1 &#8722; q&#8319;&#160;&#160;&#8594;&#160;&#160;S =</text>
+            <text x="338" y="195" text-anchor="middle" font-family="JetBrains Mono, monospace"
+                  font-size="12.5" font-weight="600" fill="#0b3d91">1 &#8722; q&#8319;</text>
+            <line x1="311" y1="200" x2="365" y2="200" stroke="#0b3d91" stroke-width="1.3"/>
+            <text x="338" y="214" text-anchor="middle" font-family="JetBrains Mono, monospace"
+                  font-size="12.5" font-weight="600" fill="#0b3d91">1 &#8722; q</text>
+          </svg>
+          <figcaption class="visualmente-oculto">
+            La serie S est&aacute; formada por bloques de 1, q, q cuadrado, q c&uacute;bico. Al
+            multiplicarla por q cada bloque cae sobre el siguiente y la fila se desplaza.
+            Al restar, todo el centro se cancela y solo quedan el primer bloque y el
+            &uacute;ltimo, que todav&iacute;a no estaba en la fila de arriba.
+          </figcaption>
+        </figure>
+
+        <div class="diagrama__pie">
+          <span><i style="background:#0b3d91"></i> El bloque que queda</span>
+          <span><i style="background:#dbe8fb"></i> La zona que se cancela</span>
+          <span><i style="background:#fff;box-shadow:inset 0 0 0 1px #43587a"></i> El bloque que faltaba</span>
+        </div>
+      </div>
+
+      <ol class="pasos aparece">
+        <li>
+          Partimos de <math><mrow><mi>S</mi><mo>=</mo><mn>1</mn><mo>+</mo><mi>q</mi><mo>+</mo><msup><mi>q</mi><mn>2</mn></msup><mo>+</mo><msup><mi>q</mi><mn>3</mn></msup><mo>+</mo><mo>&hellip;</mo></mrow></math>
+          una progresi&oacute;n geom&eacute;trica de raz&oacute;n <em>q</em>.
+        </li>
+        <li>
+          Multiplicamos toda la igualdad por <em>q</em>. Cada t&eacute;rmino se convierte
+          en el siguiente, y el primero &mdash; el 1 &mdash; se multiplica por <em>q</em> y
+          se convierte en <em>q</em>. La serie queda corrida un lugar a la derecha.
+        </li>
+        <li>
+          Restamos. El t&eacute;rmino <em>q</em> que estaba en la primera fila se anula
+          con el de la segunda; lo mismo con q&sup2;, q&sup3; y todos los intermedios.
+          Solo quedan dos bloques: el 1 de arriba, que no ten&iacute;a pareja, y el
+          <math><msup><mi>q</mi><mi>n</mi></msup></math> de abajo, que todav&iacute;a no hab&iacute;a aparecido.
+        </li>
+        <li>
+          Lo que queda a la izquierda es (1 &minus; q)&middot;S. Lo que queda a la derecha
+          es <math><mrow><mn>1</mn><mo>&minus;</mo><msup><mi>q</mi><mi>n</mi></msup></mrow></math>. Como las dos sumas eran iguales, los dos lados son
+          lo mismo y basta dividir entre (1 &minus; q).
+        </li>
+      </ol>
+
+      <!-- El bloque .formula de la serie geom&eacute;trica pasa a hist__formula: es la
+           misma expresi&oacute;n y el mismo r&oacute;tulo, pero con la lectura debajo, que es
+           lo que trae la otra pieza y esta no. -->
+      <figure class="hist__formula aparece">
+        <div class="hist__formula-caja">
+          <span class="formula__label">Suma de una progresi&oacute;n geom&eacute;trica</span>
+          <math><mrow><msub><mi>S</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mn>1</mn></msub><mfrac><mrow><mn>1</mn><mo>&minus;</mo><msup><mi>q</mi><mi>n</mi></msup></mrow><mrow><mn>1</mn><mo>&minus;</mo><mi>q</mi></mrow></mfrac></mrow></math>
+          <span style="font-size:.78em;color:var(--fg-faint)">&nbsp;&nbsp;&oacute;&nbsp;&nbsp;con 0 &lt; q &lt; 1</span>
+        </div>
+        <figcaption class="hist__formula-lectura">
+          La <strong>S<sub>n</sub></strong> es la suma parcial: lo que llevas
+          sumado cuando llegas al t&eacute;rmino n. La
+          <strong>a<sub>1</sub></strong> es el primer t&eacute;rmino de la progresi&oacute;n, y
+          la <strong>q</strong> es la raz&oacute;n: el n&uacute;mero por el que se multiplica un
+          t&eacute;rmino para obtener el siguiente, el mismo q que corre los bloques del
+          diagrama de arriba. El <strong>q<sup>n</sup></strong> es el &uacute;ltimo bloque, el
+          &uacute;nico que se queda cuando todo el centro se cancela, y el
+          <strong>1 &minus; q</strong> es lo que queda de esa resta. Al dividir entre
+          (1 &minus; q), el bloque q<sup>n</sup> se encoge hasta hacerse tan peque&ntilde;o
+          como se quiera, y las sumas parciales se quedan en un n&uacute;mero fijo. Ese
+          n&uacute;mero fijo es la <strong>suma de la serie</strong>: lo que sale por la misma
+          cuenta una vez que se ha dividido entre el 1 &minus; q y se ha dejado crecer
+          n.
+        </figcaption>
+      </figure>
+
+      <div class="destacado mt-5 aparece">
+        <h3>Qu&eacute; pasa si q es mayor que 1</h3>
+        <p>
+          El mismo diagrama funciona, pero el resultado se invierte. Si la raz&oacute;n es
+          mayor que 1, los bloques ya no se encogen: cada uno es m&aacute;s grande que el
+          anterior, la resta deja de ser una fracci&oacute;n corta y la serie ya no
+          converge. La construcci&oacute;n es la misma; lo que cambia es hacia d&oacute;nde
+          apuntan los bloques.
+        </p>
+      </div>
+
+      <aside class="hist__nota hist__nota--uso">
+        <span class="hist__nota-rotulo">Esto se usa en&hellip;</span>
+        <p class="hist__nota-texto">
+          En el juego de la clase, Asteroides, aparece este mismo comportamiento: cuando
+          los bloques dejan de encogerse, la serie ya no converge.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       6. LA SERIE QUE ENGAÑA
+       ================================================================== -->
+  <section class="seccion" id="armonica" aria-labelledby="t-armonica">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">El contraejemplo</span>
+        <h2 id="t-armonica">La serie que enga&ntilde;a</h2>
+        <p>
+          Hay una serie que rompe todas las intuiciones: la que sale de sumar el uno, la
+          mitad, un tercio, un cuarto&hellip; Esta es la que oblig&oacute; a definir la
+          <strong>convergencia</strong> con cuidado.
+        </p>
+      </div>
+
+      <div class="prose">
+        <p>
+          La serie
+          <math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math>
+          <strong>diverge</strong>: crece sin tope, aunque sus t&eacute;rminos se hagan
+          cada vez m&aacute;s peque&ntilde;os. Es el ejemplo que oblig&oacute; a definir la
+          <strong>convergencia</strong> con cuidado, porque todo lo que parece
+          intuitivo dice que esta suma tiene que acabar.
+        </p>
+      </div>
+
+      <div class="hist__tabla">
+        <table class="hist__tabla-tabla">
+          <caption class="hist__tabla-titulo">Sumas parciales de la serie arm&oacute;nica</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="hist__num">n</th>
+              <th scope="col" class="hist__num">H<sub>n</sub></th>
+              <th scope="col">&iquest;llega?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row" class="hist__num">10</th><td class="hist__num">2,9289682540</td><td>No</td></tr>
+            <tr><th scope="row" class="hist__num">100</th><td class="hist__num">5,1873775176</td><td>No</td></tr>
+            <tr><th scope="row" class="hist__num">1&nbsp;000</th><td class="hist__num">7,4854708606</td><td>No</td></tr>
+            <tr><th scope="row" class="hist__num">10&nbsp;000</th><td class="hist__num">9,7876060360</td><td>No</td></tr>
+            <tr><th scope="row" class="hist__num">1&nbsp;000&nbsp;000</th><td class="hist__num">14,3927267229</td><td>No</td></tr>
+            <!-- Fila de total: no hay cifra nueva, se repite la mayor de las
+                 cinco de arriba. Lo que cierra la lectura es la respuesta de la
+                 tercera columna. -->
+            <tr class="hist__fila--total">
+              <th scope="row">Por mucho que crezca <em>n</em></th>
+              <td class="hist__num">14,3927267229</td>
+              <td>No: la suma sigue subiendo</td>
+            </tr>
+          </tbody>
+          <tfoot class="hist__tabla-fuente">
+            <tr>
+              <td colspan="3">
+                Calculado con mpmath a 30 d&iacute;gitos. La diferencia entre
+                H<sub>10</sub> y H<sub>1000000</sub> es de 11,5: para crecer 11,5 hay que
+                multiplicar por 100&nbsp;000 el n&uacute;mero de t&eacute;rminos.
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <figure class="hist__grafica">
+        <svg class="hist__grafica-svg" viewBox="0 0 680 340" preserveAspectRatio="xMidYMid meet"
+             role="img" aria-labelledby="titulo-grafica descripcion-grafica">
+          <title id="titulo-grafica">Sumas parciales de la serie arm&oacute;nica y de la de los cuadrados</title>
+          <desc id="descripcion-grafica">Eje horizontal: n, de 1 a 100. Eje vertical: la suma parcial, de 0 a 6.
+            La curva de la arm&oacute;nica sube sin parar, de 1 en n igual a 1 hasta 5,187 en n igual a 100.
+            La de los cuadrados sube r&aacute;pido al principio y luego se aplana en 1,635,
+            justo debajo de la l&iacute;nea de l&iacute;mite 1,6449, marcada con una l&iacute;nea discontinua.</desc>
+
+          <!-- rejilla -->
+          <g class="g-rejilla" stroke="currentColor" stroke-width="1">
+            <line x1="60" y1="246.7" x2="640" y2="246.7"/>
+            <line x1="60" y1="203.3" x2="640" y2="203.3"/>
+            <line x1="60" y1="160"   x2="640" y2="160"/>
+            <line x1="60" y1="116.7" x2="640" y2="116.7"/>
+            <line x1="60" y1="73.3"  x2="640" y2="73.3"/>
+          </g>
+
+          <!-- ejes -->
+          <g class="g-eje" stroke="currentColor" stroke-width="1.4">
+            <line x1="60" y1="30" x2="60" y2="290"/>
+            <line x1="52" y1="290" x2="648" y2="290"/>
+          </g>
+
+          <!-- marcas del eje vertical -->
+          <g class="g-texto" fill="currentColor" font-size="11" text-anchor="end"
+             font-family="JetBrains Mono, ui-monospace, monospace">
+            <text x="52" y="294">0</text>
+            <text x="52" y="250.7">1</text>
+            <text x="52" y="207.3">2</text>
+            <text x="52" y="164">3</text>
+            <text x="52" y="120.7">4</text>
+            <text x="52" y="77.3">5</text>
+            <text x="52" y="34">6</text>
+          </g>
+
+          <!-- marcas del eje horizontal -->
+          <g class="g-texto" fill="currentColor" font-size="11" text-anchor="middle"
+             font-family="JetBrains Mono, ui-monospace, monospace">
+            <text x="60"  y="308">1</text>
+            <text x="171.3" y="308">20</text>
+            <text x="288.5" y="308">40</text>
+            <text x="405.7" y="308">60</text>
+            <text x="522.8" y="308">80</text>
+            <text x="640" y="308">100</text>
+            <text x="350" y="330" font-family="Inter, sans-serif">t&eacute;rminos n</text>
+            <text transform="translate(20 160) rotate(-90)" font-family="Inter, sans-serif">suma parcial</text>
+          </g>
+
+          <!-- el limite de la serie de los cuadrados -->
+          <line class="g-eje" x1="52" y1="218.7" x2="648" y2="218.7"
+                stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 5"/>
+          <text class="g-texto" x="644" y="208" fill="currentColor" font-size="11"
+                text-anchor="end" font-family="JetBrains Mono, ui-monospace, monospace">&zeta;(2) &asymp; 1,6449</text>
+
+          <!-- la de los cuadrados: sube y se aplana -->
+          <polyline class="g-curva-b" fill="none" stroke="currentColor" stroke-width="2.4"
+                    stroke-dasharray="7 5" stroke-linejoin="round"
+                    points="60,246.7 65.9,235.8 71.7,231 77.6,228.3 83.4,226.6 89.3,225.4 95.2,224.5 101,223.8 106.9,223.3 112.7,222.8 118.6,222.5 124.4,222.2 130.3,221.9 136.2,221.7 142,221.5 147.9,221.3 153.7,221.2 159.6,221.1 165.5,220.9 171.3,220.8 200.6,220.4 229.9,220.1 259.2,219.9 288.5,219.8 317.8,219.7 347.1,219.6 376.4,219.5 405.7,219.4 434.9,219.4 464.2,219.3 493.5,219.3 522.8,219.3 552.1,219.2 581.4,219.2 610.7,219.2 640,219.2"/>
+
+          <!-- la armonica: sube sin parar -->
+          <polyline class="g-curva-a" fill="none" stroke="currentColor" stroke-width="2.6"
+                    stroke-linejoin="round"
+                    points="60,246.7 65.9,225 71.7,210.6 77.6,199.7 83.4,191.1 89.3,183.8 95.2,177.6 101,172.2 106.9,167.4 112.7,163.1 118.6,159.1 124.4,155.5 130.3,152.2 136.2,149.1 142,146.2 147.9,143.5 153.7,141 159.6,138.5 165.5,136.3 171.3,134.1 200.6,124.6 229.9,116.9 259.2,110.3 288.5,104.6 317.8,99.6 347.1,95 376.4,90.9 405.7,87.2 434.9,83.8 464.2,80.6 493.5,77.6 522.8,74.8 552.1,72.2 581.4,69.8 610.7,67.4 640,65.2"/>
+          <g class="g-curva-a" fill="currentColor">
+            <circle cx="60"   cy="246.7" r="3.2"/>
+            <circle cx="83.4" cy="191.1" r="3.2"/>
+            <circle cx="112.7" cy="163.1" r="3.2"/>
+            <circle cx="171.3" cy="134.1" r="3.2"/>
+            <circle cx="288.5" cy="104.6" r="3.2"/>
+            <circle cx="376.4" cy="90.9" r="3.2"/>
+            <circle cx="464.2" cy="80.6" r="3.2"/>
+            <circle cx="640" cy="65.2" r="4.4"/>
+          </g>
+        </svg>
+
+        <figcaption class="hist__grafica-pie">
+          Cada punto es una suma parcial. La arm&oacute;nica pasa de 1 en
+          n&nbsp;=&nbsp;1 a 5,187 en n&nbsp;=&nbsp;100 y sigue subiendo; la de
+          1&nbsp;+&nbsp;1/4&nbsp;+&nbsp;1/9&nbsp;+&nbsp;&hellip; se queda pegada a la
+          l&iacute;nea discontinua, que es su l&iacute;mite. Las dos arrancan igual y se
+          separan para siempre: eso es lo que hay que decidir cuando se dice
+          &laquo;converge&raquo;.
+        </figcaption>
+
+        <div class="hist__grafica-leyenda">
+          <span><i class="hist__muestra hist__muestra--a"></i> Suma parcial de la arm&oacute;nica, H<sub>n</sub></span>
+          <span><i class="hist__muestra hist__muestra--b"></i> Suma parcial de 1&nbsp;+&nbsp;1/4&nbsp;+&nbsp;1/9&nbsp;+&nbsp;&hellip;</span>
+        </div>
+      </figure>
+
+      <!-- No es una cita textual: es la agrupacion que se atribuye a Oresme
+           traducida al español, sin entrecomillarla. Por eso va en <figure> y
+           no en <blockquote>. -->
+      <figure class="hist__cita">
+        <p class="hist__cita-texto">
+          <math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mo>(</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>)</mo><mo>,</mo><mo>(</mo><mfrac><mn>1</mn><mn>5</mn></mfrac><mo>+</mo><mo>&hellip;</mo><mo>+</mo><mfrac><mn>1</mn><mn>8</mn></mfrac><mo>)</mo><mo>,</mo><mo>&hellip;</mo></mrow></math>
+        </p>
+        <figcaption class="hist__cita-autor">
+          <b>Nicole Oresme</b> &middot; hacia 1350 &middot; la agrupaci&oacute;n en bloques
+          de potencias de dos: cada bloque deja al menos 1/2, as&iacute; que la suma no
+          tiene tope.
+        </figcaption>
+      </figure>
+
+      <!-- Estas dos laminas llevan el mismo tope en linea que las de
+           historia-alejandro.html: un retrato de 300 px estirat al ancho de la
+           caja se convertia en un mural de casi dos pantallas (171 % y 190 %
+           del alto de la ventana a 1440). -->
+      <figure class="hist__lamina hist__lamina--ampliable" style="max-width: 30rem">
+        <button class="hist__lamina-zoom" type="button">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" aria-hidden="true">
+            <circle cx="6.8" cy="6.8" r="4.6"/>
+            <path d="M10.2 10.2 14 14M4.8 6.8h4M6.8 4.8v4"/>
+          </svg>
+          Ampliar
+        </button>
+        <img src="assets/img/historia/abel.jpg"
+             alt="Retrato de Niels Henrik Abel de joven, con el pelo rizado y levita oscura, dentro de un marco ovalado."
+             width="300" height="394" loading="lazy" decoding="async">
+        <figcaption class="hist__lamina-pie">
+          Abel y Weierstrass dedicaron su vida a poner las series sobre terreno firme.
+          Abel muri&oacute; a los 26 a&ntilde;os.
+        </figcaption>
+        <p class="hist__lamina-credito">
+          Johan G&oslash;rbitz, 1826. Norsk portrettarkiv / Riksantikvaren.
+          Dominio p&uacute;blico.
+        </p>
+
+        <dialog class="hist__lamina-dialogo" aria-label="Retrato de Abel, ampliado">
+          <img class="hist__lamina-amplia" src="assets/img/historia/abel.jpg"
+               alt="Retrato de Niels Henrik Abel de joven, con el pelo rizado y levita oscura, dentro de un marco ovalado."
+               width="300" height="394">
+          <button class="hist__lamina-cerrar" type="button">Cerrar</button>
+        </dialog>
+      </figure>
+
+      <figure class="hist__lamina hist__lamina--ampliable" style="max-width: 30rem">
+        <button class="hist__lamina-zoom" type="button">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" aria-hidden="true">
+            <circle cx="6.8" cy="6.8" r="4.6"/>
+            <path d="M10.2 10.2 14 14M4.8 6.8h4M6.8 4.8v4"/>
+          </svg>
+          Ampliar
+        </button>
+        <img src="assets/img/historia/weierstrass.jpg"
+             alt="Retrato de Karl Weierstrass de anciano, con el pelo blanco largo y corbata negra, con su firma debajo."
+             width="300" height="440" loading="lazy" decoding="async">
+        <figcaption class="hist__lamina-pie">
+          El epsilon-delta de Weierstrass es la respuesta final a la pregunta de Zen&oacute;n:
+          la convergencia ya no es una intuici&oacute;n, es algo que se demuestra.
+        </figcaption>
+        <p class="hist__lamina-credito">
+          Autor y fecha sin identificar. Wikimedia Commons. Dominio p&uacute;blico.
+        </p>
+
+        <dialog class="hist__lamina-dialogo" aria-label="Retrato de Weierstrass, ampliado">
+          <img class="hist__lamina-amplia" src="assets/img/historia/weierstrass.jpg"
+               alt="Retrato de Karl Weierstrass de anciano, con el pelo blanco largo y corbata negra, con su firma debajo."
+               width="300" height="440">
+          <button class="hist__lamina-cerrar" type="button">Cerrar</button>
+        </dialog>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       7. FICHA DE DATOS
+       ================================================================== -->
+  <section class="seccion" aria-labelledby="ficha">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Resumen num&eacute;rico</span>
+        <h2 id="ficha">Las cuatro f&oacute;rmulas en n&uacute;meros</h2>
+        <p>
+          Todo lo construido hasta aqu&iacute;, ordenado en una sola tabla para poder
+          consultarlo de un vistazo.
+        </p>
+      </div>
+
+      <!-- Las dos construcciones de arriba, una al lado de la otra. Aqu&iacute; no hay
+           ning&uacute;n dato nuevo: el texto sale de las dos entradillas y de los dos
+           bloques .pasos de las secciones 4 y 5, reordenado en dos columnas. -->
+      <div class="hist__comparador aparece">
+        <div class="hist__comparador-lado">
+          <h3 class="hist__comparador-titulo">Aritm&eacute;tica</h3>
+          <ol class="hist__comparador-lista">
+            <li>Se escribe la serie S y debajo la misma serie al rev&eacute;s</li>
+            <li>La segunda fila no es una serie distinta: es la misma, escrita del otro lado</li>
+            <li>Se suman por columnas, no t&eacute;rmino a t&eacute;rmino</li>
+            <li>Todas dan lo mismo, y ese valor es siempre el primero m&aacute;s el &uacute;ltimo</li>
+            <li>Hay <em>n</em> columnas, y la suma de las dos filas es n(a<sub>1</sub> + a<sub>n</sub>)</li>
+            <li>Esa suma es 2S, porque se estaba contando la misma serie dos veces</li>
+          </ol>
+          <p class="hist__comparador-resultado">
+            Resultado: <b>n(a&#8321; + a&#8345;) / 2</b>
+          </p>
+        </div>
+
+        <div class="hist__comparador-lado">
+          <h3 class="hist__comparador-titulo">Geom&eacute;trica</h3>
+          <ol class="hist__comparador-lista">
+            <li>En vez de escribir la serie al rev&eacute;s, se multiplica por la raz&oacute;n</li>
+            <li>Cada t&eacute;rmino cae sobre el siguiente y la fila se desplaza un lugar</li>
+            <li>Al restar, todo el medio se desaparece solo</li>
+            <li>Solo quedan el 1 de arriba, que no ten&iacute;a pareja, y el q<sup>n</sup> de abajo</li>
+            <li>A la izquierda queda (1 &minus; q)&middot;S y a la derecha 1 &minus; q<sup>n</sup></li>
+            <li>Como las dos sumas eran iguales, basta dividir entre (1 &minus; q)</li>
+          </ol>
+          <p class="hist__comparador-resultado">
+            Resultado: <b>a&#8321;(1 &minus; q&#8319;) / (1 &minus; q)</b>
+          </p>
+        </div>
+      </div>
+
+      <div class="hist__tabla">
+        <table class="hist__tabla-tabla">
+          <caption class="hist__tabla-titulo">Las cuatro f&oacute;rmulas de la p&aacute;gina, de un vistazo</caption>
+          <thead>
+            <tr>
+              <th scope="col">F&oacute;rmula</th>
+              <th scope="col">Valor</th>
+              <th scope="col">En una frase</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Suma aritm&eacute;tica</th>
+              <td>n(a&#8321; + a&#8345;) / 2</td>
+              <td>Apareamiento. Invariante bajo cualquier diferencia.</td>
+            </tr>
+            <tr>
+              <th scope="row">Suma geom&eacute;trica</th>
+              <td><math><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>(</mo><mn>1</mn><mo>&minus;</mo><msup><mi>q</mi><mi>n</mi></msup><mo>)</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>&minus;</mo><mi>q</mi></mrow></mfrac></mrow></math></td>
+              <td>Multiplicar por q y cancelar el centro.</td>
+            </tr>
+            <tr>
+              <th scope="row">Raz&oacute;n &aacute;urea</th>
+              <td>&phi; = 1,6180339887&hellip;</td>
+              <td>El l&iacute;mite de los cocientes de t&eacute;rminos consecutivos de Fibonacci, y la raz&oacute;n que resuelve x&nbsp;=&nbsp;1&nbsp;+&nbsp;1/x.</td>
+            </tr>
+            <tr>
+              <th scope="row">Problema de Basilea</th>
+              <td><math><mfrac><msup><mi>&pi;</mi><mn>2</mn></msup><mn>6</mn></mfrac></math></td>
+              <td><math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>9</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math>, resuelto por Euler en 1734.</td>
+            </tr>
+          </tbody>
+          <tfoot class="hist__tabla-fuente">
+            <tr>
+              <td colspan="3">
+                Las dos primeras salen de los diagramas de arriba, palabra por palabra. La
+                raz&oacute;n &aacute;urea no sale de ninguno de los dos: por eso lleva su
+                propia explicaci&oacute;n debajo.
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="prose mt-6 aparece">
+        <h3>La raz&oacute;n &aacute;urea: donde las dos filas se tocan</h3>
+        <p>
+          Las dos construcciones que acabamos de ver casi nunca se cruzan: una suma
+          avanza con diferencias constantes, la otra con razones constantes. Hay un
+          &uacute;nico caso en que se tocan, y es el m&aacute;s simple de todos: la
+          progresi&oacute;n constante, la que tiene diferencia 0 y raz&oacute;n 1, que es
+          a la vez aritm&eacute;tica y geom&eacute;trica. Cualquier otra es solo una de
+          las dos cosas.
+        </p>
+        <p>
+          La raz&oacute;n &aacute;urea viene por otro camino, y merece su propia historia.
+          <strong>&phi; = 1,6180339887&hellip;</strong> es el l&iacute;mite de los
+          cocientes de t&eacute;rminos consecutivos de la sucesi&oacute;n de Fibonacci:
+          <math><mrow><mfrac><mn>1</mn><mn>1</mn></mfrac><mo>,</mo><mfrac><mn>2</mn><mn>1</mn></mfrac><mo>,</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>,</mo><mfrac><mn>5</mn><mn>3</mn></mfrac><mo>,</mo><mfrac><mn>8</mn><mn>5</mn></mfrac><mo>,</mo><mfrac><mn>13</mn><mn>8</mn></mfrac><mo>,</mo><mo>&hellip;</mo></mrow></math>
+          y el siguiente cociente ya est&aacute; m&aacute;s cerca que el anterior. Tambi&eacute;n
+          es la raz&oacute;n que resuelve
+          <math><mrow><mi>x</mi><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mi>x</mi></mfrac></mrow></math>:
+          la raz&oacute;n &uacute;nica para la que el siguiente t&eacute;rmino de la
+          progresi&oacute;n de Fibonacci es exactamente el anterior multiplicado por &eacute;l mismo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       8. FUENTES
+       ================================================================== -->
+  <section class="seccion seccion--alt" aria-labelledby="fuentes">
+    <div class="caja caja--angosta">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Respaldo</span>
+        <h2 id="fuentes">Fuentes consultadas</h2>
+        <p>
+          Las fechas y los datos de esta parte se verificaron en las fuentes siguientes.
+        </p>
+      </div>
+
+      <ol class="refs aparece">
+        <li><strong>Katz, Victor J.</strong> <em>A History of Mathematics: An Introduction</em>. Addison-Wesley (Pearson), 3.&ordf; ed.</li>
+        <li><strong>Boyer, Carl B.; Merzbach, Uta C.</strong> <em>A History of Mathematics</em>. 3.&ordf; ed. John Wiley &amp; Sons, 2011.</li>
+        <li><strong>Wikipedia</strong>, &laquo;Method of exhaustion&raquo;. El procedimiento se atribuye a Antif&oacute;n hacia 410 a.C. y Eudoxo lo llev&oacute; a forma rigurosa; Euclides lo aplica en el libro XII de los <em>Elementos</em>.</li>
+        <li><strong>Euler, L.</strong> &laquo;De summis serierum reciprocarum&raquo; (E41), <em>Commentarii academiae scientiarum Petropolitanae</em> 7 (1740), pp.&nbsp;123-134. Planteado por Pietro Mengoli en 1650; resuelto por Euler en 1734 y le&iacute;do ante la Academia de Ciencias de San Petersburgo el 5 de diciembre de 1735.</li>
+        <li><strong>Wikipedia</strong>, &laquo;Fibonacci sequence&raquo;. <em>Liber Abaci</em>, 1202. El mismo c&aacute;lculo ya se usaba en la India desde Pingala, hacia el 200 a.C., con el nombre de <em>meru-prast&amacr;ra</em>.</li>
+        <li><strong>Euler, Leonhard</strong>. <em>Introductio in analysin infinitorum</em>. Lausana, 1748.</li>
+        <li><strong>Cauchy, Augustin-Louis</strong>. <em>Cours d'analyse</em>. Par&iacute;s, 1821.</li>
+        <li><strong>Heath, Thomas L.</strong> <em>A History of Greek Mathematics</em>. Oxford, Clarendon Press, 1921. Cap&iacute;tulos 5 y 10.</li>
+        <li><strong>Oresme, Nicole</strong> (h. 1350), <em>Quaestiones super geometriam Euclidis</em>, citado en Boyer&ndash;Merzbach (2011).</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       CIERRE DE LA PIEZA
+       ================================================================== -->
+  <section class="cierre-pieza">
+    <div class="caja">
+      <div class="autor aparece">
+        <span class="autor__inicial" aria-hidden="true">DB</span>
+        <span class="autor__datos">
+          <span class="autor__nombre">Diego Bordas</span>
+          <span class="autor__pieza">Historia, parte 1 de 2 &mdash; el origen y las construcciones</span>
+        </span>
+      </div>
+      <p class="cierre-pieza__texto">
+        Ya sabes c&oacute;mo se arman las series por dentro. La otra mitad del apartado
+        &mdash; escrita por Alejandro Guerrero &mdash; responde a otra pregunta: para qu&eacute;
+        sirve todo esto en la vida de todos los d&iacute;as.
+      </p>
+<div class="cierre-pieza__acciones">
+        <a class="boton boton--solido" href="historia-alejandro.html">Leer el legado</a>
+        <a class="boton boton--contorno" href="historia.html">Ver las dos historias</a>
+        <a class="boton boton--contorno" href="index.html#equipo">Ver el equipo</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="caja">
+    <div class="footer__grid">
+      <div>
+        <p class="pie__titulo">Las Series Matem&aacute;ticas</p>
+        <p>Trabajo de investigaci&oacute;n sobre series: dos historias, dos cuentos y dos juegos.</p>
+      </div>
+      <div>
+        <p class="pie__rotulo">Apartados</p>
+        <ul>
+          <li><a href="historia.html">I. Historia</a></li>
+          <li><a href="cuento.html">II. Cuento</a></li>
+          <li><a href="juego.html">III. Juego</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="pie__rotulo">Equipo</p>
+        <ul>
+          <li>Diego Bordas</li>
+          <li>Angelita Vargas</li>
+          <li>Alejandro Guerrero</li>
+        </ul>
+      </div>
+    </div>    <div class="pie__abajo">
+      <span>&copy; 2026 &middot; Diego Bordas, Angelita Vargas y Alejandro Guerrero.</span>
+      <span>P&aacute;gina construida con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js?v=20261021" defer></script>
+<script src="assets/js/historia.js?v=20261021" defer></script>
+</body>
+</html>

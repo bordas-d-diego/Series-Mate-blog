@@ -1,0 +1,267 @@
+/* ==========================================================================
+   CUENTO DE ALEJANDRO — "La semilla que se multiplica"
+   --------------------------------------------------------------------------
+   Una página con la columna más angosta que la de Angelita, porque este relato
+   tiene que leerse como si apretara. Capítulos numerados, las cosechas en
+   tabla y una advertencia al final que no se parece a una conclusión.
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* LA CABECERA DEL CUENTO                                                     */
+/* -------------------------------------------------------------------------- */
+.cab-oscura {
+  position: relative;
+  isolation: isolate;
+  padding-block: 4.5rem 3.5rem;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  text-align: center;
+}
+.cab-oscura::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(700px 420px at 50% -10%, rgba(240, 169, 30, .16), transparent 62%),
+    radial-gradient(560px 360px at 12% 100%, rgba(194, 94, 18, .10), transparent 62%);
+}
+.cab-oscura__sello {
+  display: inline-block;
+  padding: .35rem .9rem;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-radius: 2px;
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.cab-oscura__titulo {
+  margin-top: 1.3rem;
+  font-size: clamp(2.3rem, 4.5vw + 1rem, 3.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: #fff;
+}
+.cab-oscura__bajada {
+  max-width: 52ch;
+  margin: 1.25rem auto 0;
+  font-size: clamp(1.05rem, .3vw + 1rem, 1.2rem);
+  line-height: 1.8;
+  color: var(--fg-soft);
+}
+.cab-oscura__firma {
+  margin-top: 1.75rem;
+  font-family: var(--f-mono);
+  font-size: .85rem;
+  letter-spacing: .04em;
+  color: var(--fg-faint);
+}
+.cab-oscura__firma b { color: var(--accent); font-weight: 600; }
+
+/* -------------------------------------------------------------------------- */
+/* EL TEXTO: COLUMNA MAS ESTRECHA                                            */
+/* -------------------------------------------------------------------------- */
+.relato {
+  max-width: 580px;
+  margin-inline: auto;
+  font-size: 1.1rem;
+  line-height: 1.88;
+  color: var(--fg-soft);
+}
+.relato > * + * { margin-top: 1.35rem; }
+.relato p { text-wrap: pretty; }
+.relato strong { color: var(--fg); font-weight: 600; }
+
+.relato--abre::first-letter {
+  float: left;
+  margin: .14em .12em 0 0;
+  font-family: var(--f-title);
+  font-size: 3.3em;
+  line-height: .82;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Corte de escena: una raya sola */
+.corte {
+  margin: 2.6rem 0;
+  text-align: center;
+  color: var(--accent);
+  letter-spacing: 1em;
+  font-size: .9rem;
+}
+
+.capitulo {
+  margin: 3.25rem 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.capitulo__num {
+  flex-shrink: 0;
+  width: 34px; height: 34px;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-radius: 2px;
+  font-family: var(--f-mono);
+  font-size: .85rem;
+  font-weight: 700;
+}
+.capitulo__titulo {
+  font-size: 1.45rem;
+  color: #fff;
+  letter-spacing: -0.015em;
+}
+
+.relato blockquote {
+  margin: 1.75rem 0;
+  padding: .9rem 0 .9rem 1.35rem;
+  border-left: 3px solid var(--accent);
+  font-size: 1.04rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: var(--fg);
+}
+.relato blockquote p + p { margin-top: .8rem; }
+
+/* Lo que el personaje calcula en la cabeza */
+.calculo {
+  margin: 1.75rem 0;
+  padding: 1.15rem 1.35rem;
+  background: var(--bg-3);
+  border-left: 3px solid var(--line-2);
+  font-family: var(--f-mono);
+  font-size: .95rem;
+  line-height: 1.85;
+  color: var(--fg-soft);
+}
+.calculo b { color: var(--accent); font-weight: 600; }
+
+/* -------------------------------------------------------------------------- */
+/* LA TABLA DE COSECHAS                                                      */
+/* -------------------------------------------------------------------------- */
+.cosechas {
+  margin: 2.25rem 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.cosechas__cab {
+  padding: .7rem 1rem;
+  background: var(--bg-3);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cosechas table { width: 100%; border-collapse: collapse; font-family: var(--f-mono); font-size: .88rem; }
+.cosechas th, .cosechas td { padding: .6rem .9rem; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; }
+.cosechas th:first-child, .cosechas td:first-child { text-align: left; }
+.cosechas thead th {
+  background: var(--bg-2);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+.cosechas tbody td { color: var(--fg-soft); }
+.cosechas tbody td:first-child { color: var(--fg); }
+.cosechas tfoot td {
+  background: var(--bg-2);
+  color: var(--accent);
+  font-weight: 700;
+  border-bottom: none;
+}
+.cosechas tr[data-perdio="1"] td { color: #ff8f6b; }
+
+/* -------------------------------------------------------------------------- */
+/* LA ADVERTENCIA FINAL                                                      */
+/* -------------------------------------------------------------------------- */
+.advertencia-oscura {
+  margin: 2.5rem 0;
+  padding: 1.75rem 1.6rem;
+  background: rgba(160, 52, 30, .14);
+  border: 1px solid #8e3a26;
+  border-radius: var(--r);
+}
+.advertencia-oscura h3 {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  font-family: var(--f-mono);
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #ff8f6b;
+  margin-bottom: 1rem;
+}
+.advertencia-oscura h3 svg { flex-shrink: 0; }
+.advertencia-oscura p { line-height: 1.8; color: var(--fg); }
+.advertencia-oscura p + p { margin-top: .9rem; }
+
+/* -------------------------------------------------------------------------- */
+/* LAS NOTAS                                                                */
+/* -------------------------------------------------------------------------- */
+.notas { margin-top: 2rem; display: grid; gap: 1rem; }
+.nota-oscura {
+  padding: 1.25rem 1.4rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r) var(--r) 0;
+}
+.nota-oscura__num {
+  display: inline-block;
+  margin-bottom: .55rem;
+  padding: .18rem .6rem;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-radius: 2px;
+  font-family: var(--f-mono);
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.nota-oscura h4 { font-size: 1.08rem; margin-bottom: .5rem; color: var(--fg); }
+.nota-oscura p { font-size: .94rem; line-height: 1.75; color: var(--fg-soft); }
+
+/* -------------------------------------------------------------------------- */
+/* LA MATEMÁTICA DEL CUENTO                                                  */
+/* -------------------------------------------------------------------------- */
+.matematica {
+  padding: 2rem 1.75rem;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+.matematica h3 { font-size: 1.35rem; margin-bottom: .9rem; color: #fff; }
+.matematica > * + * { margin-top: 1.1rem; }
+.matematica p { line-height: 1.8; color: var(--fg-soft); }
+.matematica strong { color: var(--fg); }
+
+.cierre-oscuro {
+  padding-block: 3.5rem;
+  background: var(--bg-2);
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+.cierre-oscuro .autor { max-width: 540px; margin-inline: auto; text-align: left; }
+.cierre-oscuro__texto {
+  max-width: 56ch;
+  margin: .9rem auto 1.75rem;
+  line-height: 1.8;
+  color: var(--fg-soft);
+}
+.cierre-oscuro__acciones { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }

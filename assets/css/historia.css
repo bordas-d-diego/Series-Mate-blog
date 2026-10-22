@@ -1,0 +1,815 @@
+/* ==========================================================================
+   HISTORIA — LOS DIEZ COMPONENTES NUEVOS
+   --------------------------------------------------------------------------
+   Esta hoja es ADITIVA: no toca ni un selector de base.css ni de los temas.
+   Solo añade reglas con prefijo hist__, que antes no existian en el sitio.
+
+   De dónde sale cada color:
+     1. De una variable del tema (--accent, --fg, --line, --surface...) escrita
+        DIRECTAMENTE en la regla del componente. Asi el color lo decide el
+        tema que este puesto en el body.
+     2. De una variable --hist-* declarada aqui abajo con su valor de reserva,
+        para los colores que ningun tema trae.
+
+   Nada de esto necesita tocar diego.css ni alejandro.css: la misma hoja sirve
+   para el tema claro y para el oscuro.
+
+   OJO, y es importante: las variables del tema NO se reescriben aqui. Se
+   declaran en :root solo las que no dependen del tema. Una variable declarada
+   en :root queda congelada con el valor que tenga en :root, y los temas ponen
+   sus colores en el body: si aqui se escribiera --hist-acento: var(--accent),
+   los componentes se quedarían con el acento de base.css, no con el del tema.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOKENS
+   Aqui solo vive lo que no cambia con el tema.
+   -------------------------------------------------------------------------- */
+:root {
+  /* Los tres acentos de las notas al margen. Ningun tema los trae, asi que
+     se declaran con su reserva. La reserva esta calculada para dar 4.5:1
+     sobre el fondo claro; el tema oscuro pone la suya mas abajo. */
+  --hist-aviso: #9a3412;  /* ojo: cuidado con esto */
+  --hist-atajo: #0b6b52;  /* atajo: un truco util */
+  --hist-uso:   #4c3fa8;  /* uso: esto se usa en... */
+
+  /* El papel de las laminas. Se queda claro en los dos temas a proposito: es
+     el soporte de un escaneo pequeno, no un panel del tema. Sobre fondo
+     oscuro la lamina se lee como una prueba impresa pegada a la pagina. */
+  --hist-papel:       #f6f2e8;
+  --hist-papel-tinta: #2a2317;
+  --hist-papel-linea: #d9d2c2;
+
+  /* El marco con el que la lamina se despega de la pagina. Sin esto el papel
+     claro queda pegado al fondo: sobre el claro se mide 1,1:1 y el borde, con
+     --hist-papel-linea, da 1,35:1 contra el propio papel: no dicen nada.
+     El borde va en un tono medio, el unico que se ve a la vez contra el papel
+     claro y contra el fondo casi negro del tema oscuro. */
+  --hist-lamina-borde: #b9ae97;
+  /* La sombra lleva difuminado de verdad porque las del tema no lo llevan: en
+     Diego --sh y --sh-sm son lineas de 1 y 2 px sin difuminado, que pintan un
+     segundo canto en vez de una sombra, y en Alejandro son un aro y un halo
+     ambar. El color va oscuro sobre claro y claro sobre oscuro, que es como se
+     ve de verdad una hoja iluminada. */
+  --hist-lamina-sombra: 0 1px 2px rgba(16, 24, 38, .16), 0 5px 14px rgba(16, 24, 38, .12);
+
+  /* La segunda curva de la grafica. La primera es el acento del tema, asi que
+     esta tiene que ser de otra familia de color para que se distingan. */
+  --hist-curva-b: #a03d10;
+
+  /* La sombra que asoma en el borde de una tabla que todavia tiene columnas a
+     la derecha, y el velo del cuadro ampliado. */
+  --hist-desvio: rgba(16, 24, 38, .18);
+  --hist-velo:   rgba(16, 24, 38, .82);
+
+  /* Medidas */
+  --hist-lamina-ancho: clamp(200px, 22vw, 260px);
+  --hist-riel: 1px;
+  --hist-progreso-alto: 3px;
+}
+
+/* El tema oscuro no puede usar las reservas de arriba: el color de aviso es
+   demasiado oscuro para el negro del tema y no llega a 4.5:1. Estos son sus
+   equivalentes claros. */
+.tema-alejandro {
+  --hist-aviso:   #ff9d7a;
+  --hist-atajo:   #56d6b4;
+  --hist-uso:     #b3a6ff;
+  --hist-curva-b: #6fd3c7;
+  --hist-desvio:  rgba(242, 240, 235, .30);
+  --hist-velo:    rgba(0, 0, 0, .86);
+  /* Sobre negro, una sombra oscura no se ve: se ve el filo iluminado del papel.
+     Por eso la lamina del tema oscuro lleva una sombra clara y corta, con la
+     misma familia de color que --hist-desvio. */
+  --hist-lamina-sombra: 0 1px 2px rgba(242, 240, 235, .18), 0 5px 14px rgba(242, 240, 235, .10);
+}
+
+/* --------------------------------------------------------------------------
+   2. TABLA DE DATOS
+   --------------------------------------------------------------------------
+   En pantalla estrecha la tabla se desplaza dentro de su caja: nunca se
+   rompe en tarjetas, porque una tabla de datos partida deja de leerse como
+   tabla. La sombra del borde derecho se dibuja con dos capas 'local' que
+   tapan dos capas 'scroll': cuando ya se llego al extremo, el degradado tapa
+   la sombra y esta desaparece sola. Las tablas cortas nunca la ensenan.
+
+   Los degradados que tapan la sombra se pintan con --bg, el fondo de la pagina:
+   por eso la tabla tiene que ir en una seccion normal y no en una --alt. Si
+   algum dia hace falta, se cambia ese color una vez aqui y ya esta.
+   -------------------------------------------------------------------------- */
+.hist__tabla {
+  margin-block: 2rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* La caja es contenedor de su propia medida en linea. Asi el caption puede
+     perguntarle cuanto se ve de la tabla con 100cqi, que es justo lo que hace
+     falta para que un titulo mas largo que la caja siga siendo legible: sin
+     esto el titulo se va con el desplazamiento y se lee a media frase
+     (medido a 375 px: el titulo llegaba a right=649 con 328 px a la vista). */
+  container-type: inline-size;
+  background:
+    linear-gradient(to right, var(--bg) 40%, transparent) left center / 34px 100% no-repeat local,
+    linear-gradient(to left,  var(--bg) 40%, transparent) right center / 34px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, var(--hist-desvio), transparent) left center / 12px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, var(--hist-desvio), transparent) right center / 12px 100% no-repeat scroll;
+}
+.hist__tabla:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+.hist__tabla-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+  color: var(--fg);
+}
+.hist__tabla-titulo {
+  caption-side: top;
+  padding-bottom: .9rem;
+  font-family: var(--f-title);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--fg);
+  text-align: left;
+  /* El caption vive dentro de la tabla, que es lo que se desplaza, asi que se
+     queda pegado al canto izquierdo de la caja mientras esta se desplaza. El
+     tope de ancho es lo que lo hace util: una celda que abarca todas las
+     columnas es tan ancha como la tabla y no se puede mover nunca (medido:
+     sticky sin tope de ancho dejaba el titulo en -289 px con la tabla al
+     final), pero el caption si acepta max-width, y con el tope puesto el
+     titulo entero queda a la vista (medido: 328 px de ancho, pegado en x=16,
+     0 px de cola fuera). Cuando la tabla cabe, el tope no hace nada: da igual
+     porque 100cqi es el ancho entero de la caja. */
+  position: sticky;
+  left: 0;
+  max-width: 100cqi;
+}
+.hist__tabla-tabla th,
+.hist__tabla-tabla td {
+  padding: .6rem .85rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+/* En el rango en el que una tabla todavia cabe, pero por los pelos, las
+   celdas van un poco mas justas. Medido: a 768 px la tercera tabla de la
+   pagina de Alejandro necesitaba 7 px mas de los que tenia y por eso sola se
+   le ponia barra de desplazamiento; son cuatro columnas, ocho lados de celda,
+   y 4 px menos en cada lado son los 32 px que hacen falta. A partir de 820 px
+   las tablas ya caben de sobra y a 640 px para abajo ya no caben de ninguna
+   manera: ahi el desplazamiento horizontal es lo previsto y las celdas
+   siguen respirando. */
+@media (min-width: 640px) and (max-width: 820px) {
+  .hist__tabla-tabla th,
+  .hist__tabla-tabla td { padding-inline: .6rem; }
+}
+.hist__tabla-tabla thead th {
+  background: var(--bg-3);
+  border-bottom: 2px solid var(--accent);
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.hist__tabla-tabla tbody th[scope="row"] {
+  font-weight: 600;
+  color: var(--fg);
+}
+/* Cifras: a la derecha y con cifras tabulares, para que las unidades, las
+   decimales y los miles de cada columna caigan uno debajo de otro. */
+.hist__tabla-tabla td.hist__num,
+.hist__tabla-tabla th.hist__num {
+  text-align: right;
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.hist__tabla-tabla tbody tr:hover > * { background: var(--bg-2); }
+
+.hist__tabla-tabla .hist__fila--total > * {
+  border-top: 2px solid var(--accent);
+  border-bottom: none;
+  background: var(--bg-3);
+  font-weight: 700;
+  color: var(--fg);
+}
+.hist__tabla-fuente { border-top: 1px solid var(--line); }
+.hist__tabla-fuente th,
+.hist__tabla-fuente td {
+  padding-top: .85rem;
+  border-bottom: none;
+  font-size: .78rem;
+  line-height: 1.6;
+  color: var(--fg-faint);
+  text-align: left;
+}
+
+/* --------------------------------------------------------------------------
+   3. FORMULA CON TRADUCCION
+   --------------------------------------------------------------------------
+   La lectura en voz alta va debajo de la formula y separada por una linea
+   punteada. No lleva etiqueta: un texto generado por CSS lo anuncian los
+   lectores de pantalla y aqui solo haria ruido.
+   -------------------------------------------------------------------------- */
+.hist__formula {
+  margin-block: 2rem;
+  padding: 1.35rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-sm);
+}
+.hist__formula-caja {
+  overflow-x: auto;
+  padding: .2rem 0;
+  font-size: 1.1rem;
+  color: var(--fg);
+}
+.hist__formula-lectura {
+  margin-top: .95rem;
+  padding-top: .85rem;
+  border-top: 1px dashed var(--line-2);
+  border-left: 2px solid var(--line);
+  padding-left: .8rem;
+  font-size: .87rem;
+  line-height: 1.75;
+  color: var(--fg-soft);
+}
+.hist__formula-nota {
+  margin-top: .7rem;
+  font-size: .8rem;
+  line-height: 1.65;
+  color: var(--fg-faint);
+}
+
+/* --------------------------------------------------------------------------
+   4. LINEA DE TIEMPO CON LAMINA
+   --------------------------------------------------------------------------
+   En escritorio son dos columnas con un riel vertical en el medio y un nodo
+   por hito. El riel se dibuja con el pseudoelemento del propio hito, no el de
+   la lista: asi --hist-carril puede cambiar en cada hito y la variante
+   --invertido funciona hito a hito, incluso mezcladas.
+   En movil el riel se pasa a la izquierda y la lamina ocupa todo el ancho.
+   -------------------------------------------------------------------------- */
+.hist__linea {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.hist__hito {
+  --hist-carril: 5px;
+  position: relative;
+  display: grid;
+  gap: 1.4rem;
+  padding-left: 1.75rem;
+  padding-bottom: 3rem;
+}
+.hist__hito:last-child { padding-bottom: 0; }
+
+.hist__hito::before {
+  content: "";
+  position: absolute;
+  left: var(--hist-carril);
+  top: .6rem;
+  bottom: 0;
+  width: var(--hist-riel);
+  background: var(--line);
+}
+.hist__hito:last-child::before { bottom: auto; height: 0; }
+
+.hist__hito-cuerpo::before {
+  content: "";
+  position: absolute;
+  left: var(--hist-carril);
+  top: .5rem;
+  width: 11px;
+  height: 11px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--bg);
+}
+
+.hist__hito-lamina { margin: 0; }
+.hist__hito-lamina img {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: .55rem;
+  background: var(--hist-papel);
+  border: 1px solid var(--hist-lamina-borde);
+  border-radius: var(--r-sm);
+  box-shadow: var(--hist-lamina-sombra);
+}
+.hist__hito-lamina-pie {
+  margin-top: .6rem;
+  font-size: .74rem;
+  line-height: 1.55;
+  color: var(--fg-faint);
+}
+
+.hist__hito-anio {
+  display: inline-block;
+  padding: .2rem .55rem;
+  background: var(--accent-soft);
+  border-radius: var(--r-sm);
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+.hist__hito-titulo { margin-top: .6rem; font-size: 1.28rem; }
+.hist__hito-texto {
+  margin-top: .6rem;
+  font-size: .98rem;
+  line-height: 1.75;
+  color: var(--fg-soft);
+}
+.hist__hito-etiqueta {
+  display: inline-block;
+  margin-top: .95rem;
+  padding: .25rem .6rem;
+  background: var(--bg-2);
+  border-left: 2px solid var(--accent);
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+@media (min-width: 900px) {
+  .hist__hito {
+    --hist-carril: calc(var(--hist-lamina-ancho) + 1.125rem);
+    grid-template-columns: var(--hist-lamina-ancho) minmax(0, 1fr);
+    column-gap: 2.25rem;
+    row-gap: 0;
+    padding-left: 0;
+    align-items: start;
+  }
+  .hist__hito-lamina { grid-column: 1; grid-row: 1; }
+  .hist__hito-cuerpo  { grid-column: 2; grid-row: 1; }
+  .hist__hito--invertido {
+    --hist-carril: calc(100% - var(--hist-lamina-ancho) - 1.125rem);
+    grid-template-columns: minmax(0, 1fr) var(--hist-lamina-ancho);
+  }
+  .hist__hito--invertido .hist__hito-lamina { grid-column: 2; }
+  .hist__hito--invertido .hist__hito-cuerpo  { grid-column: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   5. GRAFICA DE CONVERGENCIA
+   --------------------------------------------------------------------------
+   El SVG no lleva ningun color puesto en el marcado: todos sus fill y stroke
+   son currentColor, y es historia.css quien le da el color a cada elemento
+   segun su clase. Por eso la misma grafica se ve bien en claro y en oscuro.
+   -------------------------------------------------------------------------- */
+.hist__grafica {
+  margin-block: 2.25rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+.hist__grafica-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--fg-soft);
+  overflow: visible;
+}
+.hist__grafica-svg .g-eje     { color: var(--fg-faint); }
+.hist__grafica-svg .g-rejilla { color: var(--line-2); }
+.hist__grafica-svg .g-texto   { color: var(--fg-soft); }
+.hist__grafica-svg .g-curva-a { color: var(--accent); }
+.hist__grafica-svg .g-curva-b { color: var(--hist-curva-b); }
+
+/* Tamano de los rotulos de los ejes en pantalla estrecha.
+   Los SVG de las dos paginas traen font-size="11" como atributo de
+   presentacion, y el lienzo se pinta escalado: con un viewBox de 680 unidades
+   dentro de una caja estrecha la escala baja de 1 y los 11 se vuelven 5-6 px de
+   alto, que no se leen (medido: escala 0,44 y cajas de 6 px a 375; a 768 la
+   escala ya es 0,98 y las cajas miden 13-14 px, y a 1440, 1,60 y 21-23 px).
+   Un atributo de presentacion es lo mas debil que hay en la cascada, asi que
+   basta con una regla de autor por encima: no hay que tocar el SVG de ninguna
+   de las dos paginas.
+
+   Las cifras salen del alto real medido de la caja del texto, que es 1,28 veces
+   el tamano de letra en unidades del lienzo. Para 9 px de alto hace falta:
+     unidades = 9 / (escala * 1,28)
+   La sonda dio 18 unidades a 375 (escala 0,42) y 21 a 320 (escala 0,34). Con
+   11 unidades el grafico deja de necesitar ayuda a partir de escala 0,64, o
+   sea de una caja de 434 px, que cae alrededor de 560 px de ventana: de ahi
+   para arriba no se toca nada y el tamano que ya estaba bien se queda igual.
+
+   Dos escalones y no uno porque 18 unidades no bastan a 320: medido, dan 7,8 px.
+   Entre 18 y 21 unidades no se pisan los rotulos ni se salen del lienzo en
+   ninguna de las dos paginas: en el eje horizontal hay 64,4 unidades entre
+   marca y marca y el rotulo mas ancho mide 25,2, y en el vertical hay 52 (43,4
+   en la pagina de Diego) contra 12,6. */
+@media (max-width: 560px) {
+  .hist__grafica-svg .g-texto { font-size: 18px; }
+}
+@media (max-width: 400px) {
+  .hist__grafica-svg .g-texto { font-size: 21px; }
+}
+
+.hist__grafica-pie {
+  margin-top: 1rem;
+  font-size: .85rem;
+  line-height: 1.7;
+  color: var(--fg-soft);
+}
+.hist__grafica-leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.5rem;
+  margin-top: .85rem;
+  font-size: .8rem;
+  color: var(--fg-soft);
+}
+.hist__grafica-leyenda span { display: inline-flex; align-items: center; gap: .5rem; }
+.hist__muestra {
+  width: 20px;
+  height: 3px;
+  border-radius: 2px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.hist__muestra--a { color: var(--accent); }
+.hist__muestra--b {
+  color: var(--hist-curva-b);
+  background: repeating-linear-gradient(to right, currentColor 0 5px, transparent 5px 9px);
+}
+
+/* --------------------------------------------------------------------------
+   6. COMPARADOR DE COLUMNAS
+   -------------------------------------------------------------------------- */
+.hist__comparador {
+  display: grid;
+  gap: 1.25rem;
+  margin-block: 2.25rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 780px) {
+  .hist__comparador { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.hist__comparador-lado {
+  display: flex;
+  flex-direction: column;
+  padding: 1.35rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--r);
+}
+.hist__comparador-titulo { font-size: 1.12rem; }
+.hist__comparador-lista {
+  display: grid;
+  gap: .45rem;
+  margin-top: .8rem;
+  padding-left: 1.2em;
+  font-size: .9rem;
+  line-height: 1.6;
+  color: var(--fg-soft);
+}
+.hist__comparador-lista li::marker { color: var(--accent); font-weight: 700; }
+/* margin-top:auto es lo que empuja el resultado al pie: asi las dos columnas
+   terminan a la misma altura aunque una tenga mas puntos que la otra. */
+.hist__comparador-resultado {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-family: var(--f-mono);
+  font-size: .9rem;
+  line-height: 1.6;
+  color: var(--fg);
+}
+.hist__comparador-resultado b { font-weight: 700; color: var(--accent); }
+
+/* --------------------------------------------------------------------------
+   7. NOTA AL MARGEN
+   -------------------------------------------------------------------------- */
+.hist__nota {
+  --hist-nota: var(--hist-aviso);
+  margin-block: 1.75rem;
+  padding: 1.05rem 1.2rem;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--hist-nota);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+}
+/* --ojo es el acento que trae .hist__nota de serie, pero se declara igual
+   que las otras dos para que las tres se lean en fila. */
+.hist__nota--ojo   { --hist-nota: var(--hist-aviso); }
+.hist__nota--atajo { --hist-nota: var(--hist-atajo); }
+.hist__nota--uso   { --hist-nota: var(--hist-uso); }
+
+.hist__nota-rotulo {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--hist-nota);
+}
+.hist__nota-texto {
+  margin-top: .5rem;
+  font-size: .9rem;
+  line-height: 1.7;
+  color: var(--fg-soft);
+}
+
+/* --------------------------------------------------------------------------
+   8. CITA DESTACADA
+   -------------------------------------------------------------------------- */
+.hist__cita {
+  margin-block: 2.25rem;
+  padding: 1.5rem 1.75rem;
+  background: var(--bg-2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r) var(--r) 0;
+}
+.hist__cita-texto {
+  font-family: var(--f-title);
+  font-size: clamp(1.08rem, .4vw + 1rem, 1.32rem);
+  line-height: 1.55;
+  color: var(--fg);
+  text-wrap: balance;
+}
+.hist__cita-autor {
+  margin-top: .95rem;
+  font-size: .84rem;
+  line-height: 1.6;
+  color: var(--fg-faint);
+}
+.hist__cita-autor b { color: var(--fg-soft); font-weight: 600; }
+
+/* --------------------------------------------------------------------------
+   9. INDICE CON PROGRESO DE LECTURA
+   --------------------------------------------------------------------------
+   La barra esta siempre; el indice solo aparece a partir de 1200px, que es
+   cuando hay ancho de sobra para una columna lateral. historia.js marca la
+   seccion activa; si el navegador no tiene IntersectionObserver el indice se
+   queda sin marcar y todo lo demas sigue funcionando.
+   -------------------------------------------------------------------------- */
+/* La barra cabalga sobre el canto de abajo de la barra de navegacion, no por el
+   de arriba de la ventana. Encima de la barra de navegacion no hay texto que
+   comer: lo unico que hay detras es el vidrio de la propia barra, que con
+   .is-stuck va a 0,96 de opacidad, y el recuento de cajas de texto que caen
+   bajo la franja de 3 px sale igual en los dos sitios (10 antes y 9 despues en
+   la pasada completa: depende de que renglon casualmente cae en la franja, no
+   de donde este la barra). Lo que cambia es que ahora se apoya en el borde de
+   la barra de navegacion, que es la unica linea dibujada de ese trozo de
+   pantalla, y se sigue viendo entera. Puesta justo debajo contaba menos
+   solapes, pero a menos de 1200 px pasaba a cruzar texto nitido de la pagina:
+   medido y descartado. */
+.hist__progreso {
+  position: fixed;
+  inset: calc(var(--nav-h) - var(--hist-progreso-alto)) 0 auto 0;
+  z-index: 200;
+  height: var(--hist-progreso-alto);
+  background: var(--line);
+  pointer-events: none;
+}
+.hist__progreso > span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+}
+
+.hist__indice { display: none; }
+@media (min-width: 1200px) {
+  .hist__indice {
+    display: block;
+    position: sticky;
+    top: calc(var(--nav-h) + 2rem);
+    max-height: calc(100vh - var(--nav-h) - 4rem);
+    overflow-y: auto;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--line);
+    font-size: .88rem;
+  }
+  /* La variante en fila —la que montan las dos paginas de historia— lleva el
+     ancho del contenido y un hilo de 2 px abajo como separacion. Con el ancho
+     puesto, el hilo se queda corto: medido, iba de x=122,5 a x=1302,5 en una
+     ventana de 1425, con 122,5 px de franja sin filo a cada lado. Aqui la caja
+     se abre a todo el ancho de la ventana y es la lista de dentro la que se
+     centra con el mismo --w y el mismo aire: el contenido no se mueve (146,5 px
+     medidos antes y despues) y el hilo si llega al borde de la ventana.
+     El 'body >' no es de adorno: la columna lateral que esta hoja dibuja por
+     defecto vive dentro de una rejilla, no pegada al body, y asi no le cambian
+     ni la caja ni las medidas. */
+  body > .hist__indice {
+    max-width: none;
+    padding-inline: 0;
+  }
+  body > .hist__indice > ol {
+    max-width: var(--w);
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+}
+.hist__indice ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: .15rem;
+}
+.hist__indice a {
+  display: block;
+  padding: .35rem .6rem;
+  border-radius: var(--r-sm);
+  color: var(--fg-faint);
+  text-decoration: none;
+  transition: color .15s var(--ease), background-color .15s var(--ease);
+}
+.hist__indice a:hover {
+  color: var(--fg);
+  background: var(--bg-3);
+}
+.hist__indice a:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 2px;
+}
+.hist__indice a[aria-current="true"] {
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   10. LAMINA DE IMAGEN CON PIE Y CREDITO
+   -------------------------------------------------------------------------- */
+.hist__lamina { margin-block: 2.25rem; }
+.hist__lamina img {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: .75rem;
+  background: var(--hist-papel);
+  border: 1px solid var(--hist-lamina-borde);
+  border-radius: var(--r-sm);
+  box-shadow: var(--hist-lamina-sombra);
+}
+.hist__lamina-pie {
+  margin-top: .9rem;
+  font-size: .88rem;
+  line-height: 1.65;
+  color: var(--fg-soft);
+}
+.hist__lamina-credito {
+  margin-top: .45rem;
+  font-size: .76rem;
+  line-height: 1.6;
+  color: var(--fg-faint);
+}
+.hist__lamina-credito a { color: var(--accent); }
+
+.hist__lamina--ampliable { position: relative; }
+.hist__lamina-zoom {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-height: 36px;
+  padding: .4rem .75rem;
+  background: var(--hist-papel);
+  color: var(--hist-papel-tinta);
+  border: 1px solid var(--hist-papel-linea);
+  border-radius: var(--r-sm);
+  box-shadow: var(--sh-sm);
+  font-size: .76rem;
+  font-weight: 600;
+  transition: transform .15s var(--ease), box-shadow .15s var(--ease);
+}
+.hist__lamina-zoom:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--sh);
+}
+.hist__lamina-zoom:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 2px;
+}
+.hist__lamina-zoom svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+.hist__lamina-dialogo {
+  /* El navegador centra un <dialog> modal con margin:auto, pero base.css pone
+     * { margin: 0 } y se lo gana: el cuadro se pegaba a la esquina de arriba
+     izquierda (medido: inset 0, margin 0, 340 px de pagina sin velar a la
+     derecha a 1440). Una regla de clase le gana a ese asterisco, asi que el
+     margen que el navegador esperaba se vuelve a poner aqui.
+     El tope va en max-height y no en height a proposito: con altura fija el
+     papel ocupaba 94vh pase lo que pasara y una lamina corta se quedaba con
+     cientos de pixeles de papel en blanco (medido a 375: 418 px de alto morto
+     con la imagen de resonancia magnetica de 390 px). Con max-height el cuadro
+     sale a lo que mide su contenido, y la imagen alta que antes se pasaba de
+     alto sigue encogida por el mismo flex-shrink de mas abajo. */
+  margin: auto;
+  width: min(94vw, 1100px);
+  max-width: none;
+  max-height: 94vh;
+  padding: 1rem;
+  border: 1px solid var(--hist-papel-linea);
+  border-radius: var(--r);
+  background: var(--hist-papel);
+  color: var(--hist-papel-tinta);
+}
+.hist__lamina-dialogo::backdrop { background: var(--hist-velo); }
+/* Abierto, el cuadro es una columna: la imagen se queda con el alto que le
+   toca y el boton de cerrar va debajo, siempre dentro del papel. */
+.hist__lamina-dialogo[open] {
+  display: flex;
+  flex-direction: column;
+}
+.hist__lamina-amplia {
+  display: block;
+  width: 100%;
+  object-fit: contain;
+}
+/* El alto va aqui y no en la regla de arriba porque el dialogo cuelga del
+   figure.hist__lamina: .hist__lamina img tambien alcanza a esta imagen por el
+   DOM, y un selector de clase mas tipo gana a una clase sola, de modo que el
+   height:auto que trae ahi (el alto natural, 300x379) se comia el alto del
+   cuadro y habia que desplazarse para llegar al boton de cerrar.
+   flex-shrink deja que la imagen baje a lo que cabe; min-height:0 desactiva el
+   minimo automatico del flex, que si no la dejaria en su alto natural. */
+.hist__lamina-dialogo .hist__lamina-amplia {
+  flex: 0 1 auto;
+  min-height: 0;
+}
+.hist__lamina-cerrar {
+  display: block;
+  align-self: flex-end;
+  margin-left: auto;
+  min-height: 36px;
+  padding: .4rem .9rem;
+  background: transparent;
+  color: var(--hist-papel-tinta);
+  border: 1px solid var(--hist-papel-linea);
+  border-radius: var(--r-sm);
+  font-size: .78rem;
+  font-weight: 600;
+}
+.hist__lamina-cerrar:hover { background: var(--hist-papel-linea); }
+.hist__lamina-cerrar:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   11. TERMINO CON DEFINICION
+   --------------------------------------------------------------------------
+   Sin JavaScript: la definicion viaja en el atributo title, que los lectores
+   de pantalla ya anuncian. tabindex="0" es opcional, pero sin el el estado
+   :focus-visible de abajo no llega a aparecer.
+   -------------------------------------------------------------------------- */
+.hist__term {
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  cursor: help;
+}
+.hist__term:hover { text-decoration-color: var(--accent); }
+.hist__term:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 2px;
+  border-radius: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   12. MOVIMIENTO REDUCIDO E IMPRESION
+   --------------------------------------------------------------------------
+   base.css ya pone a .001ms toda transicion del sitio cuando el sistema pide
+   movimiento reducido. Aqui se repite solo para estos componentes, que asi
+   quedan cubiertos aunque se cambien las reglas globales.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .hist__indice a,
+  .hist__lamina-zoom,
+  .hist__lamina-cerrar {
+    transition: none;
+  }
+  .hist__lamina-zoom:hover { transform: none; }
+}
+
+/* En papel no hay ni barra de progreso ni indice lateral: los dos ocupan
+   sitio y no aportan nada. */
+@media print {
+  .hist__progreso,
+  .hist__indice { display: none !important; }
+  .hist__tabla { overflow-x: visible; background: none; }
+  .hist__hito-lamina img,
+  .hist__lamina img { box-shadow: none; }
+}

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La semilla que se multiplica &mdash; cuento de Alejandro Guerrero</title>
+<meta name="description" content="Una familia siembra un quintal de ma&iacute;z y al a&ntilde;o siguiente recoge dos, luego cuatro, luego ocho. El relato de una cosecha que se multiplica sola.">
+<meta name="theme-color" content="#0d0f13">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Las fuentes de Google no bloquean el dibujado: el navegador pinta la
+     pagina con las del sistema y las cambia cuando llegan. Antes esta
+     peticion estaba en el camino critico de las once paginas. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&family=STIX+Two+Math&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&family=STIX+Two+Math&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <!-- Sin JavaScript el truco de abajo no funciona: la hoja queda en
+           media="print" y las fuentes nunca se aplican. Esta linea es la
+           que las carga de verdad para quien las apagó. -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&family=STIX+Two+Math&display=swap">
+    </noscript>
+<link rel="stylesheet" href="assets/css/base.css?v=20261021">
+<link rel="stylesheet" href="assets/css/alejandro.css?v=20261021">
+<link rel="stylesheet" href="assets/css/cuento-alejandro.css?v=20261021">
+  <link rel="stylesheet" href="assets/css/ecuaciones.css?v=20261021">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230d0f13'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' fill='%23f0a91e' text-anchor='middle'>%CE%A3</text></svg>">
+</head>
+
+<body class="tema-alejandro resplandor">
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="nav" id="nav">
+  <div class="caja nav__inside">
+    <a class="marca" href="index.html" title="Ir a la portada">
+      <svg class="marca__logo" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" fill="#f0a91e"/>
+        <text x="20" y="28.5" font-size="24" font-family="Georgia, serif" fill="#17110a" text-anchor="middle">&#931;</text>
+      </svg>
+      <span class="marca__texto">
+        <span class="marca__titulo">Las Series</span>
+        <span class="marca__sub">II. Cuento</span>
+      </span>
+    </a>
+
+    <button class="nav__interruptor" id="navInterruptor" aria-expanded="false"
+            aria-controls="navMenu" aria-label="Abrir el men&uacute;">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav__menu" id="navMenu">
+      <ul class="nav__enlaces">
+        <li><a href="index.html">Portada</a></li>
+        <li><a href="historia.html">I. Historia</a></li>
+        <li><a href="cuento.html" aria-current="page">II. Cuento</a></li>
+        <li><a href="juego.html">III. Juego</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a class="boton boton--acento" href="#lectura">Leer</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <section class="cab-oscura">
+    <div class="caja">
+      <span class="cab-oscura__sello">Cuento geom&eacute;trico &middot; Alejandro Guerrero</span>
+      <h1 class="cab-oscura__titulo">La semilla que se multiplica</h1>
+      <p class="cab-oscura__bajada">
+        Un quintal de ma&iacute;z, una parcela en Rivas, y un hombre que decide
+        a&ntilde;o siguiente cosech&oacute; el doble. Ese
+        fue el principio de todo lo bueno y de todo lo malo.
+      </p>
+      <p class="cab-oscura__firma">Escrito por <b>Alejandro Guerrero</b> &middot; Apartado II del trabajo</p>
+    </div>
+  </section>
+
+  <section class="seccion" id="lectura" aria-labelledby="titulo-relato">
+    <h2 id="titulo-relato" class="visualmente-oculto">La semilla que se multiplica</h2>
+    <div class="caja">
+      <div class="relato relato--abre">        <p>
+          La parcela de Ferm&iacute;n Altamirano quedaba en una ladera de El Castillo,
+          detr&aacute;s del estero, con la tierra color de h&uacute;n y una fila de
+          ch&iacute;charamos que hab&iacute;a plantado su padre y que nadie se molest&oacute;
+          en quitar. Eran siete manzanas de tierra, todos de la misma familia.
+        </p>
+        <p>
+          En enero del 2011 Ferm&iacute;n cumpl&iacute;a cuarenta y un a&ntilde;os y su
+          hijo Nicasio, trece. Hac&iacute;an ma&iacute;z desde que ten&iacute;a memoria,
+          pero poco: un quintal, dos quintales, para la casa y algo de venta en el
+          mercado de Rivas. Nunca hab&iacute;an pasado de cuatro.
+        </p>
+        <p>
+          Ese a&ntilde;o decidi&oacute; Ferm&iacute;n hacer una cosa distinta.
+        </p>
+      </div>
+
+      <div class="capitulo">
+        <span class="capitulo__num">1</span>
+        <h3 class="capitulo__titulo">Un quintal</h3>
+      </div>
+
+      <div class="relato">
+        <p>
+          Compr&oacute; la semilla en la cooperativa de San Jorge y sembr&oacute;
+          un quintal, de los grandes, de los que pesan cien libras. Lo midi&oacute; con
+          la misma b&aacute;scula que usaba su padre, que todav&iacute;a colgaba del
+          hor&oacute;n con la cuerda remendada.
+        </p>
+        <p>
+          &laquo;Pap&aacute;, &iquest;y si no lo gastamos todo?&raquo; le pregunt&oacute;
+          Nicasio la primera noche, cuando ya se hab&iacute;an acostado los dos.
+        </p>
+        <p>
+          &laquo;Se guarda un almud. Un almud basta para el a&ntilde;o que viene.&raquo;
+        </p>
+        <p>
+          &laquo;&iquest;Y si el a&ntilde;o que viene da m&aacute;s?&raquo;
+        </p>
+        <p>
+          &laquo;Pues con un almud basta igual, hijo.&raquo;
+        </p>
+        <p>
+          La cosecha lleg&oacute; en agosto, seca y pesada. Un quintal. Ni m&aacute;s ni
+          menos. Ferm&iacute;n lo midi&oacute; con la b&aacute;scula y sinti&oacute; algo
+          raro: la decepci&oacute;n de haber gastado una semilla entera para recibir
+          exactamente lo mismo que recib&oacute;.
+        </p>
+        <p>
+          Guard&oacute; el almud, como hab&iacute;a dicho, y vendi&oacute; el resto.
+        </p>
+      </div>
+
+      <div class="capitulo">
+        <span class="capitulo__num">2</span>
+        <h3 class="capitulo__titulo">Dos</h3>
+      </div>
+
+      <div class="relato">
+        <p>
+          En enero siguiente sembr&oacute; el almud. En agosto cosech&oacute; dos
+          quintales.
+        </p>
+        <p>
+          Nicasio no se lo crey&oacute;. Se baj&oacute; al granero con la l&aacute;mpara
+          y los cont&oacute; dos veces, uno por uno, y cuando subi&oacute; todav&iacute;a
+          con la l&aacute;mpara en la mano.
+        </p>
+        <p>
+          &laquo;Pap&aacute;, el a&ntilde;o pasado fue uno.&raquo;
+        </p>
+        <p>
+          &laquo;S&iacute;.&raquo;
+        </p>
+        <p>
+          &laquo;&iexcl;Y este fueron dos!&raquo;
+        </p>
+        <p>
+          &laquo;S&iacute;.&raquo;
+        </p>
+        <p>
+          Y Ferm&iacute;n, que ya iba entendiendo, le dijo lo que su padre nunca le
+          hab&iacute;a dicho a &eacute;l, aunque lo ten&iacute;a delante de los ojos:
+        </p>
+
+        <div class="calculo">
+          Si un almud da un quintal, y el quintal entero daba un quintal, entonces un
+          almud da un quintal.<br>
+          A&ntilde;o que viene, un quintal. Y un quintal da <b>dos</b>.<br>
+          O sea: cada a&ntilde;o el doble del a&ntilde;o anterior. Siempre.
+        </div>
+
+        <p>
+          &laquo;Y el siguiente ser&aacute;n cuatro?&raquo;
+        </p>
+        <p>
+          &laquo;El siguiente ser&aacute;n cuatro.&raquo;
+        </p>
+        <p>
+          &laquo;&iquest;Y despu&eacute;s?&raquo;
+        </p>
+        <p>
+          &laquo;Despu&eacute;s, ocho. Se&ntilde;or, la cuenta sola. No hay que
+          hacer nada: simplemente llega.&raquo;
+        </p>
+      </div>
+
+      <div class="corte" aria-hidden="true">&mdash;</div>
+
+      <div class="relato">
+        <p>
+          Y lleg&oacute;.
+        </p>
+        <p>
+          2012: dos quintales. 2013: cuatro. 2014: ocho. 2015: dieciséis.
+        </p>
+        <p>
+          En 2015 ya no era una parcela de siete manzanas. Hab&iacute;a que
+          tomar dos parcelas m&aacute;s al lado, sembr&aacute;n con el mismo sistema,
+          y Nicasio ya ayudaba de verdad en la siembra porque ya no era un ni&ntilde;o
+          de trece a&ntilde;os sino un de diecisiete.
+        </p>
+        <p>
+          Ferm&iacute;n llev&oacute; las cuentas en un cuaderno de espiral que hab&iacute;a
+          encontrado en la casa de su madre. No para los n&uacute;meros del dinero:
+          para los del ma&iacute;z. Y en una de esas p&aacute;ginas escribi&oacute; una
+          tabla que despu&eacute;s nadie hab&iacute;a usado y que el nieto s&iacute;
+          lleg&oacute; a entender allado de la cocina, a los dieciocho a&ntilde;os,
+          en la tarde en que llegaron las noticias del cicl&oacute;n.
+        </p>
+
+        <div class="cosechas">
+          <div class="cosechas__cab">La parcela de Ferm&iacute;n Altamirano</div>
+          <table>
+            <caption class="visualmente-oculto">Quintales cosechados cada a&ntilde;o desde 2011</caption>
+            <thead>
+              <tr><th scope="col">A&ntilde;o</th><th scope="col">Se sembr&oacute;</th><th scope="col">Se cosech&oacute;</th><th scope="col">Veces</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>2011</td><td>1 almud</td><td>1 quintal</td><td>&times;1</td></tr>
+              <tr><td>2012</td><td>1 almud</td><td>2 quintales</td><td>&times;2</td></tr>
+              <tr><td>2013</td><td>1 quintal</td><td>4 quintales</td><td>&times;2</td></tr>
+              <tr><td>2014</td><td>2 quintales</td><td>8 quintales</td><td>&times;2</td></tr>
+              <tr><td>2015</td><td>4 quintales</td><td>16 quintales</td><td>&times;2</td></tr>
+              <tr><td>2016</td><td>8 quintales</td><td>32 quintales</td><td>&times;2</td></tr>
+            </tbody>
+            <tfoot>
+              <tr><td>Total</td><td>&mdash;</td><td>63 quintales</td><td>&mdash;</td></tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <p>
+          Sesenta y tres quintales en seis a&ntilde;os. Y si uno mira la fila de 2016
+          sola, ve que de esos sesenta y tres, treinta y dos salieron ese &uacute;ltimo
+          a&ntilde;o: m&aacute;s de la mitad. En el a&ntilde;o anterior hab&iacute;a
+          salido la mitad de lo que sali&oacute; ese a&ntilde;o, y as&iacute; hacia
+          atr&aacute;s, cada t&eacute;rmino es la mitad del siguiente.
+        </p>
+        <p>
+          Nicasio lo entend&oacute; solo, sin que nadie se lo explicara. &laquo;Pap&aacute;,
+          el a&ntilde;o que viene son sesenta y cuatro.&raquo;
+        </p>
+        <p>
+          &laquo;Ciento veintiocho.&raquo; corrigi&oacute; Ferm&iacute;n, sin levantar la
+          vista.
+        </p>
+        <p>
+          &laquo;&iquest;Por qu&eacute;?&raquo;
+        </p>
+        <p>
+          &laquo;Porque no es el doble del total. Es el doble de lo del a&ntilde;o
+          pasado. El total cuenta todos; el a&ntilde;o cuenta uno solo.&raquo;
+        </p>
+      </div>
+      <div class="capitulo">
+        <span class="capitulo__num">3</span>
+        <h3 class="capitulo__titulo">El a&ntilde;o que no lleg&oacute;</h3>
+      </div>
+
+      <div class="relato">
+        <p>
+          En noviembre de 2016 entr&oacute; el c&oacute;don desde el sur. El ojo del
+          vertedero pas&oacute; sobre Rivas a las once de la noche, y a las cuatro de
+          la ma&ntilde;ana ya no hab&iacute;a ni un d&iacute;a de noche en dos manzanas
+          de radio.
+        </p>
+        <p>
+          A Ferm&iacute;n lo sacaron del potrero en bota, con el agua al tobillo. El
+          ma&iacute;z ya estaba ni verde. La mazorca buena, la que iba para vender, se
+          la hab&iacute;a llevado el r&iacute;o, que a esa hora ya iba bajando por el
+          estero con todo lo dem&aacute;s.
+        </p>
+        <p>
+          Lo que se salv&oacute; fueron cuatro obst&aacute;culos, dos arados, y las
+          mangueras del caf&eacute;.
+        </p>
+        <p>
+          Del ma&iacute;z no se salv&oacute; ni un grano. Ni para el a&ntilde;o siguiente,
+          ni para la comida del mes.
+        </p>
+        <p>
+          Nicasio Ten&iacute;a a&ntilde;ado dieciocho. Y fue el, la primera vez en su
+          vida, quien hizo la cuenta.
+        </p>
+        <p>
+          &mdash;&mdash;&iquest;C&oacute;mo sembramos el a&ntilde;o que viene?&mdash; le
+          pregunt&oacute; a su padre en enero, ya con el sur desmont&aacute;ndose.
+        </p>
+        <p>
+          Ferm&iacute;n contest&oacute; r&aacute;pido, como si lo hubiera tenido
+          pensado: &laquo;Como el anterior.&raquo;
+        </p>
+        <p>
+          &mdash;&iquest;Cu&aacute;l?&raquo;
+        </p>
+        <p>
+          Y Nicasio abri&oacute; el cuaderno de espiral en la p&aacute;gina de 2016 y
+          toc&oacute; la fila. Octenta y cinco, dic&iacute;o. Ciento setenta.
+        </p>
+        <p>
+          Despu&eacute;s pas&oacute; al 2015 y toc&oacute; dos, uno, medio.
+        </p>
+        <p>
+          Ferm&iacute;n lo mir&oacute; desde el marco de la puerta.
+        </p>
+        <p>
+          &mdash;Ese es el n&uacute;mero, pap&aacute;.
+        </p>
+        <p>
+          &mdash;Ese es el n&uacute;mero si hubi&eacute;ramos guardado. Si no, no hay
+          de d&oacute;nde sacar&oacute;semilla, y sin semilla no hay a&ntilde;o que
+          viene. Ni el que sigue. Ninguno.
+        </p>
+      </div>
+
+      <div class="advertencia-oscura">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3.6 2.6 20h18.8L12 3.6z"/><path d="M12 10v4.4M12 17.4h.01"/>
+          </svg>
+          Lo que se perdi&oacute; en esa tarde
+        </h3>
+        <p>
+          Sesenta y tres quintales repartidos en seis a&ntilde;os. De esos, treinta y
+          dos eran solo del &uacute;ltimo. Los otros treinta y uno, la mitad, se
+          quantile gast&oacute; uno por uno: en comida, en venta, en la parte que le
+          toc&oacute; a cada hijo.
+        </p>
+        <p>
+          La cuenta no fall&oacute;. La cuenta estaba perfecta: uno, dos, cuatro,
+          ocho, dieciséis, treinta y dos. Lo que fall&oacute; fue una decisi&oacute;n
+          que se tom&oacute; seis a&ntilde;os seguidos sin escrito&oacute; como decisi&oacute;n:
+          que el total no se acaba nunca, porque cada a&ntilde;o el n&uacute;mero era el
+          doble del anterior y siempre hab&iacute;a m&aacute;s que repartir.
+        </p>
+      </div>
+
+      <div class="capitulo">
+        <span class="capitulo__num">4</span>
+        <h3 class="capitulo__titulo">Guardar un tercio</h3>
+      </div>
+
+      <div class="relato">
+        <p>
+          Repartieron seis manzanas entre los tres. A Ferm&iacute;n le tocaron dos y a
+          cada hijo uno. No era nada, comparado con los ochenta y cinco del cuaderno.
+        </p>
+        <p>
+          Empezaron otra vez desde ah&iacute;.
+        </p>
+        <p>
+          Pero ya no igual. Ferm&iacute;n sac&oacute; una regla y la escribi&oacute;
+          en la primera p&aacute;gina del cuaderno, con la letra que le hab&iacute;a
+          ense&ntilde;ado el maestro de la escuela:
+        </p>
+
+        <div class="calculo">
+          Del total, un tercio se guarda. <b>Siempre un tercio, todos los a&ntilde;os.</b><br>
+          Los otros dos tercios se venden.<br>
+          Ni un solo a&ntilde;o se siembra el total.
+        </div>
+
+        <p>
+          &mdash;&iquest;Y por qu&eacute; un tercio, pap&aacute;? &mdash;pregunt&oacute; Nicasio.
+        </p>
+        <p>
+          &mdash;Porque si guard&aacute;s un quinto, el a&ntilde;o que viene te da menos
+          que el de hoy. Si guard&aacute;s la mitad, te da igual. Si guard&aacute;s un
+          tercio, te da m&aacute;s. Y si no guardas nada, se acab&oacute;.
+        </p>
+        <p>
+          Lo dijo sin libro, como quien explica algo que acaba de entender y todav&iacute;a
+          le est&aacute; sonando por dentro.
+        </p>
+        <p>
+          Ferm&iacute;n lo mir&oacute; un rato largo.
+        </p>
+        <p>
+          &mdash;&iquest;Y c&oacute;mo sab&iacute;a eso?&raquo;
+        </p>
+        <p>
+          &mdash;Porque est&aacute; en la tabla. Mire, pap&aacute;: de cuatro quintales
+          uno es semilla y tres son venta. Al a&ntilde;o que viene tengo tres para sembrar,
+          y de tres sale seis, de los cuales uno es semilla. O sea que de seis me
+          quedan cinco para vender. El a&ntilde;o pasado, de dos me quedaba uno. Est&aacute;
+          que cada a&ntilde;o que dejo atras&oacute; menos para vender, pero lo que
+          dejo plantado se hace m&aacute;s grande.
+        </p>
+        <p>
+          &mdash;Y si guardo un cuarto?
+        </p>
+        <p>
+          &mdash;Si guardas un cuarto, de cien te quedan setenta y cinco. Al a&ntilde;o
+          que viene de75 haces 18. Te queda menos que antes. Un cuarto no alcanza.
+        </p>
+        <p>
+          &mdash;&iquest;Por qu&eacute;?
+        </p>
+        <p>
+          &mdash;Porque si guardas un cuarto te est&aacute; encogiendo. Hay un
+          n&uacute;mero exacto: la mitad. Un medio te da lo mismo, ni crece ni baja. Un
+          poco m&aacute;s de la mitad y ya est&aacute;s creciendo. Un tercio est&aacute;
+          en ese lado. Un cuarto, en el otro.
+        </p>
+        <p class="calculo">
+          Guardar la mitad &rarr; la serie se queda igual.<br>
+          Guardar un tercio &rarr; cada a&ntilde;o se guarda m&aacute;s que el anterior.<br>
+          Guardar un cuarto &rarr; cada a&ntilde;o se guarda menos que el anterior.<br>
+          Guardar nada &rarr; se acaba.
+        </p>
+        <p>
+          Ferm&iacute;n no contest&oacute; nada. Se le hab&iacute;a cerrado la boca, como
+          se le cerraba cuando un ni&ntilde;o le dec&iacute;a algo cierto.
+        </p>
+        <p>
+          Al a&ntilde;o siguiente, 2018, Allegro: tres quintales para sembrar, nueve
+          para vender. Al otro, cinco para sembrar, quince para vender. Despu&eacute;s,
+          ocho y veinticuatro. Doce y treinta y seis. Diecinueve y cincuenta y siete.
+        </p>
+        <p>
+          El n&uacute;mero de la fila ya no era el doble del anterior. Era como
+          dos tercios, una y media veces, un poco m&aacute;s. Nada se multiplicaba
+          &iexcl;limpio. Y a&uacute;ndaba bien, porque cada a&ntilde;o sobraba semilla
+          para el a&ntilde;o que ven&iacute;a, y nunca hab&iacute;a una ronda sola que
+          lo vaciara.
+        </p>
+        <p>
+          Nicasio lleg&oacute; a la universidad de Rivas dos a&ntilde;os despu&eacute;s
+          de la primera buena cosecha. En su cuenta de banco los n&uacute;meros no
+          hac&iacute;an eso. Crecian despacio y parejo, como los que se suman.
+        </p>
+        <p>
+          &laquo;&iquest;Qui&eacute;n te ense&ntilde;&oacute; a multiplicar?&raquo; le pregunt&oacute;
+          una maestra que revis&oacute; su tarea.
+        </p>
+        <p>
+          &laquo;Mi pap&aacute; s&iacute; multiplic&oacute;, pero le cost&oacute; caro. Yo
+          aprend&iacute; a multiplicar, pero guard&eacute; un tercio.&raquo;
+        </p>
+      </div>
+    </div>
+    <div class="notas">
+      <div class="nota-oscura">
+        <span class="nota-oscura__num">Nota 1</span>
+        <h4>La serie del cuaderno</h4>
+        <p>
+          Uno, dos, cuatro, ocho, dieciséis, treinta y dos. Cada t&eacute;rmino se obtiene
+          multiplicando el anterior por <strong>dos</strong>, siempre el mismo n&uacute;mero.
+          Una lista as&iacute; se llama <strong>progresi&oacute;n geom&eacute;trica</strong>, y
+          su raz&oacute;n es ese n&uacute;mero fijo.
+        </p>
+        <p style="margin-top:.7rem">
+          La suma de los seis t&eacute;rminos da
+          <strong>63 quintales</strong>. Y aqu&iacute; est&aacute; el detalle que
+          Nicasio entiende solo: de esos 63, m&aacute;s de la mitad son los del
+          &uacute;ltimo a&ntilde;o. Cada t&eacute;rmino es la mitad del siguiente, as&iacute;
+          que el total siempre queda un poco por debajo del doble del &uacute;ltimo.
+        </p>
+      </div>
+
+      <div class="nota-oscura">
+        <span class="nota-oscura__num">Nota 2</span>
+        <h4>Por qu&eacute; el total casi dobla al &uacute;ltimo a&ntilde;o</h4>
+        <p>
+          Si cada t&eacute;rmino es la mitad del que le sigue, al sumarlos todos se
+          obtiene algo muy cerca del doble del mayor, pero nunca igual: la diferencia
+          es justamente la mitad del &uacute;ltimo t&eacute;rmino. Con 32 el total queda
+          en 63, no en 64. Esa diferencia diminuta es la que permit&iacute;a a Ferm&iacute;n
+          pensar que ten&iacute;a margen, y no lo ten&iacute;a.
+        </p>
+      </div>
+
+      <div class="nota-oscura">
+        <span class="nota-oscura__num">Nota 3</span>
+        <h4>La diferencia entre multiplicar y guardar</h4>
+        <p>
+          Guardar la mitad, un tercio o un cuarto no da tres versiones de lo mismo:
+          cambia la naturaleza de la serie. Si se guarda la mitad, la raz&oacute;n sigue
+          siendo 2 y la cuenta no crece. Si se guarda un cuarto, la raz&oacute;n baja
+          de 2 y la cuenta se encoge: cada a&ntilde;o hay menos semilla que la anterior.
+          Solo cuando se guarda m&aacute;s de la mitad la raz&oacute;n queda por debajo
+          de 2 pero por encima de 1, y ah&iacute; la serie sigue creciendo sin acabarse.
+        </p>
+      </div>
+
+      <div class="nota-oscura">
+        <span class="nota-oscura__num">Nota 4</span>
+        <h4>Los n&uacute;meros del relato</h4>
+        <p>
+          La tabla de la parcela se comprob&oacute; antes de escribirla. 1, 2, 4, 8, 16,
+          32; la suma da 63, y de ellos 32 son del &uacute;ltimo a&ntilde;o. La segunda
+          serie, la del relato, se calcul&oacute; aplicando la misma idea con un
+          guard&oacute;o de un tercio: de 1 se reserv&oacute; un tercio, se siembran los
+          dos restantes, y el ciclo se repite.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       LA MATEMATICA DEL CUENTO
+       ================================================================== -->
+  <section class="seccion seccion--alt" aria-labelledby="matematica">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow"> detr&aacute;s del relato</span>
+        <h2 id="matematica">Lo que estaba pasando en la ladera</h2>
+        <p>
+          Se puede leer sin saber nada de esto. Pero la cuenta de la parcela era una
+          progresi&oacute;n geom&eacute;trica, y eso merece su l&iacute;nea aparte.
+        </p>
+      </div>
+
+      <div class="matematica aparece">
+        <h3>Dos series, dos finales</h3>
+        <p>
+          <strong>La primera, la del cuaderno de 2016.</strong> Raz&oacute;n 2. Cada
+          t&eacute;rmino es el doble del anterior y el total se va a laPortfolio
+          con el &uacute;ltimo: de 63 quintales, 32 son del a&ntilde;o final. Esa
+          desproporci&oacute;n es la que hace que la reserva sea urgente. Si en 2016 se
+          hubiera guardado un tercio, la serie no habr&iacute;a sido de raz&oacute;n 2:
+          la raz&oacute;n de un modelo que reserva una fracci&oacute;n fija es
+          <math><mfrac><mn>1</mn><mrow><mn>1</mn><mo>&minus;</mo><mi>f</mi></mrow></mfrac></math>, donde <em>f</em> es la fracci&oacute;n reservada.
+        </p>
+        <p>
+          Con un tercio guardado la raz&oacute;n queda en 1 &frac12;. Ese es el n&uacute;mero
+          que Nicasio describe sin nombrarlo: ni dobla, ni se queda igual. Crece, pero
+          no se desboca.
+        </p>
+        <p>
+          <strong>La segunda, la del cicl&oacute;n.</strong> Se qued&oacute; en cero, y
+          como el cero multiplicado por cualquier cosa sigue siendo cero, los a&ntilde;os
+          siguientes tambi&eacute;n fueron cero. Esa es la diferencia real entre
+          multiplicar y sumar: un n&uacute;mero peque&ntilde;o puede crecer much&iacute;simo y
+          aun as&iacute; quedarse corto, pero un cero no crece nunca.
+        </p>
+      </div>
+
+      <div class="matematica mt-6 aparece">
+        <h3>Lo que el relato no dice</h3>
+        <p>
+          Nicasio no us&oacute; la palabra <em>raz&oacute;n</em> ni la palabra
+          <em>serie</em>. Dijo <em>como el anterior</em> y <em>el doble</em>, y esas
+          dos frases bastan. La cuenta no necesita el nombre para estar bien hecha.
+        </p>
+        <p>
+          Lo &uacute;nico que el relato no termina de explicar es por qu&eacute; Ferm&iacute;n
+          no guard&oacute; nada los primeros seis a&ntilde;os. No fue un descuido: fue
+          la lectura equivocada de la tabla. Al ver que el total de los tres &uacute;ltimos
+          a&ntilde;os era tan grande, concluy&oacute; que la reserva ya no era necesaria.
+          Y en una progresi&oacute;n geom&eacute;trica, esa es precisamente la deducci&oacute;n
+          que hunde a la familia.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       CIERRE
+       ================================================================== -->
+  <section class="cierre-oscuro">
+    <div class="caja">
+      <div class="autor aparece">
+        <span class="autor__inicial" aria-hidden="true">AG</span>
+        <span class="autor__datos">
+          <span class="autor__nombre">Alejandro Guerrero</span>
+          <span class="autor__pieza">Cuento geom&eacute;trico &mdash; la cosecha que se multiplica</span>
+        </span>
+      </div>
+      <p class="cierre-oscuro__texto">
+        La otra mitad del apartado II la escribi&oacute; Angelita Vargas:
+        <strong>La cuenta que no cuadra</strong>, donde en vez de multiplicarse, los
+        n&uacute;meros se suman y una cuenta de maicillo se cabe en una l&iacute;nea.
+      </p>
+<div class="cierre-oscuro__acciones">
+        <a class="boton boton--acento" href="cuento-angelita.html">Leer el otro cuento</a>
+        <a class="boton boton--contorno" href="cuento.html">Ver los dos cuentos</a>
+        <a class="boton boton--contorno" href="index.html#equipo">Ver el equipo</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="caja">
+    <div class="footer__grid">
+      <div>
+        <p class="pie__titulo">Las Series Matem&aacute;ticas</p>
+        <p>Trabajo de investigación sobre series: dos historias, dos cuentos y dos juegos.</p>
+      </div>
+      <div>
+        <p class="pie__rotulo">Apartados</p>
+        <ul>
+          <li><a href="historia.html">I. Historia</a></li>
+          <li><a href="cuento.html">II. Cuento</a></li>
+          <li><a href="juego.html">III. Juego</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="pie__rotulo">Equipo</p>
+        <ul>
+          <li>Diego Bordas</li>
+          <li>Angelita Vargas</li>
+          <li>Alejandro Guerrero</li>
+        </ul>
+      </div>
+    </div>    <div class="pie__abajo">
+      <span>&copy; 2026 &middot; Diego Bordas, Angelita Vargas y Alejandro Guerrero.</span>
+      <span>P&aacute;gina construida con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js?v=20261021" defer></script>
+</body>
+</html>

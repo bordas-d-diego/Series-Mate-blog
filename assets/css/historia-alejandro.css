@@ -1,0 +1,198 @@
+
+/* ==========================================================================
+   DIECHO: EL LEGADO
+   Pagina de Alejandro. Estilo oscuro y ambar: la cabecera va como un panel
+   de luces encendidas sobre fondo casi negro, con mucho contraste y bloques
+   solidos en vez de sombras suaves. Lo que cuenta: usos de cada dia.
+   ========================================================================== */
+
+/* Cabecera de pagina, con el panel oscuro del tema */
+.cab-alejandro {
+  position: relative;
+  isolation: isolate;
+  padding-block: 4.5rem 3.75rem;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+.cab-alejandro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(660px 420px at 90% 0%, rgba(240, 169, 30, .13), transparent 64%),
+    radial-gradient(560px 380px at 4% 14%, rgba(255, 201, 77, .09), transparent 64%),
+    radial-gradient(520px 360px at 46% 100%, rgba(240, 169, 30, .07), transparent 64%);
+}
+.cab-alejandro__sello {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem .95rem;
+  background: var(--surface);
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--accent);
+  box-shadow: var(--sh);
+}
+.cab-alejandro__titulo {
+  margin-top: 1.2rem;
+  font-size: clamp(2.2rem, 4vw + 1rem, 3.6rem);
+  letter-spacing: -0.015em;
+}
+.cab-alejandro__titulo em {
+  font-style: italic;
+  color: var(--accent);
+}
+.cab-alejandro__bajada {
+  max-width: 58ch;
+  margin-top: 1.2rem;
+  font-size: clamp(1.08rem, .3vw + 1rem, 1.25rem);
+  line-height: 1.8;
+  color: var(--fg-soft);
+}
+.cab-alejandro__pie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: 2rem;
+}
+.cab-alejandro__dato {
+  padding: .6rem 1.1rem;
+  background: var(--surface);
+  border-radius: 999px;
+  font-size: .82rem;
+  color: var(--fg-soft);
+  box-shadow: var(--sh-sm);
+}
+.cab-alejandro__dato b {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  color: var(--accent);
+  margin-right: .35rem;
+}
+
+/* ==========================================================================
+   LOS USOS
+   Cada bloque es un lugar donde las series aparecen sin llamarse así.
+   ========================================================================== */
+.usos { display: grid; gap: 2.5rem; }
+.uso {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  padding: 2.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-sm);
+}
+.uso:nth-child(odd) { background: var(--bg-2); }
+.uso__num {
+  display: inline-grid;
+  place-items: center;
+  width: 38px; height: 38px;
+  margin-bottom: .9rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-family: var(--f-mono);
+  font-size: .95rem;
+  font-weight: 600;
+}
+.uso:nth-child(2n) .uso__num { background: var(--accent-2); color: var(--accent-fg); }
+.uso__titulo { font-size: 1.6rem; margin-bottom: .75rem; }
+.uso__texto { color: var(--fg-soft); line-height: 1.8; }
+.uso__texto + .uso__texto { margin-top: .85rem; }
+.uso__ejemplo {
+  padding: 1.35rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+.uso:nth-child(odd) .uso__ejemplo { background: var(--surface); }
+.uso__ejemplo-rotulo {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+@media (max-width: 860px) {
+  .uso { grid-template-columns: 1fr; gap: 1.75rem; padding: 1.6rem; }
+}
+
+/* ==========================================================================
+   LOS DOS DIAGRAMAS DE CRECIMIENTO
+   ========================================================================== */
+.barras { display: grid; gap: .6rem; }
+.barra-fila {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr 3.4rem;
+  gap: .7rem;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: .8rem;
+  color: var(--fg-soft);
+}
+.barra-fila__pista { height: 20px; background: var(--bg-3); border-radius: 999px; overflow: hidden; }
+.barra-fila__relleno { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--accent-2), var(--accent)); }
+.barra-fila--acento .barra-fila__relleno { background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+.barra-fila__valor { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--fg); }
+
+/* ==========================================================================
+   LA ADVERTENCIA
+   ========================================================================== */
+.advertencia {
+  padding: 2.25rem;
+  background: var(--surface);
+  border: 2px solid var(--accent-2);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh);
+}
+.advertencia__titulo {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--accent);
+}
+.advertencia__titulo svg { flex-shrink: 0; }
+.advertencia p { color: var(--fg-soft); line-height: 1.8; }
+.advertencia p + p { margin-top: .9rem; }
+
+/* ==========================================================================
+   TRES SITIOS DONDE LA RAZÓN ES 1
+   ========================================================================== */
+.pastas { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.25rem; }
+.pasta {
+  padding: 1.6rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+.pasta__titulo { font-size: 1.1rem; margin-bottom: .6rem; }
+.pasta__valor {
+  font-family: var(--f-mono);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: .7rem;
+}
+.pasta__texto { font-size: .88rem; color: var(--fg-soft); line-height: 1.7; }
+
+/* ==========================================================================
+   CIERRE
+   ========================================================================== */
+.cierre-alejandro {
+  padding-block: 3.5rem;
+  background: linear-gradient(150deg, var(--bg-3), var(--bg-2) 55%, var(--accent-soft));
+  text-align: center;
+}
+.cierre-alejandro .autor { max-width: 540px; margin-inline: auto; text-align: left; }
+.cierre-alejandro__texto { max-width: 56ch; margin: .9rem auto 1.75rem; color: var(--fg-soft); font-size: 1.05rem; line-height: 1.8; }
+.cierre-alejandro__acciones { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }

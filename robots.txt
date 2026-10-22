@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://series-mateblog.netlify.app/sitemap.xml

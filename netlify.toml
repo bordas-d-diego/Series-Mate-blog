@@ -1,0 +1,36 @@
+# Ajustes de Netlify. Este archivo es opcional: el sitio funciona sin el.
+# Es el unico origen de verdad de la cache: todo se sirve con max-age=0 y
+# must-revalidate, porque los archivos no llevan hash en el nombre y una
+# cache de un año entero sin revalidar hacia que un cambio de estilos
+# no llegara a quien ya habia visitado la pagina. La marca ?v= de los
+# enlaces a los assets es lo que cubre ese hueco.
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  from = "/historia"
+  to = "/historia.html"
+  status = 200
+
+[[redirects]]
+  from = "/cuento"
+  to = "/cuento.html"
+  status = 200
+
+[[redirects]]
+  from = "/juego"
+  to = "/juego.html"
+  status = 200

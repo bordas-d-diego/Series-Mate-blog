@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Las Series Matemáticas — Historia, cuentos y juegos</title>
+<meta name="description" content="Trabajo de investigaci&oacute;n sobre series matem&aacute;ticas: dos historias, dos cuentos y dos juegos, con las f&oacute;rmulas escondidas dentro.">
+<meta name="theme-color" content="#14181f">
+<meta property="og:title" content="Las Series Matemáticas">
+<meta property="og:description" content="+áticas, cada uno con su estilo visual.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Las fuentes de Google no bloquean el dibujado: el navegador pinta la
+     pagina con las del sistema y las cambia cuando llegan. Antes esta
+     peticion estaba en el camino critico de las once paginas. -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <!-- Sin JavaScript el truco de abajo no funciona: la hoja queda en
+           media="print" y las fuentes nunca se aplican. Esta linea es la
+           que las carga de verdad para quien las apagó. -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,600;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+    </noscript>
+<link rel="stylesheet" href="assets/css/base.css?v=20261021">
+<link rel="stylesheet" href="assets/css/portada.css?v=20261021">
+<link rel="stylesheet" href="assets/css/diego.css?v=20261021">
+<link rel="stylesheet" href="assets/css/alejandro.css?v=20261021">
+<link rel="stylesheet" href="assets/css/angelita.css?v=20261021">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2314181f'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' fill='%23c9a227' text-anchor='middle'>%CE%A3</text></svg>">
+</head>
+
+<body class="tema-portada">
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="nav" id="nav">
+  <div class="caja nav__inside">
+    <a class="marca" href="index.html" title="Ir a la portada">
+      <svg class="marca__logo" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="8" fill="#14181f"/>
+        <text x="20" y="28.5" font-size="24" font-family="Georgia, serif" fill="#c9a227" text-anchor="middle">&#931;</text>
+      </svg>
+      <span class="marca__texto">
+        <span class="marca__titulo">Las Series</span>
+        <span class="marca__sub">Matemáticas</span>
+      </span>
+    </a>
+
+    <button class="nav__interruptor" id="navInterruptor" aria-expanded="false"
+            aria-controls="navMenu" aria-label="Abrir el menú">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav__menu" id="navMenu">
+      <ul class="nav__enlaces">
+        <li><a href="index.html" aria-current="page">Portada</a></li>
+        <li><a href="historia.html">I. Historia</a></li>
+        <li><a href="cuento.html">II. Cuento</a></li>
+        <li><a href="juego.html">III. Juego</a></li>
+      </ul>
+      <div class="nav__cta">
+        <a class="boton boton--acento" href="historia-diego.html">Empezar a leer</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <!-- ==================================================================
+       CABECERA
+       ================================================================== -->
+  <section class="cabecera reticula">
+    <div class="caja cabecera__interior">
+      <div>
+        <span class="eyebrow">Matemáticas &middot; Unidad: Series</span>
+        <h1 class="cabecera__titulo">Todo empieza con un <em>&Sigma;</em></h1>
+        <p class="cabecera__bajada">
+          &iquest;Qu&eacute; pasa cuando se suman n&uacute;meros que no terminan nunca?
+          &Eacute;sta es la respuesta de tres personas a esa pregunta, en tres registros
+          distintos y con tres estilos visuales que no se parecen en nada.
+        </p>
+        <div class="cabecera__acciones">
+          <a class="boton boton--solido" href="historia-diego.html">Leer el trabajo</a>
+          <a class="boton boton--contorno" href="juego.html">Jugar</a>
+        </div>
+        <div class="cabecera__meta">
+          <span>
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 4h11M2.5 8h11M2.5 12h7"/></svg>
+            6 piezas
+          </span>
+          <span>
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="5" r="2.6"/><path d="M3 13c0-2.4 2.2-3.6 5-3.6s5 1.2 5 3.6"/></svg>
+            3 integrantes
+          </span>
+          <span>
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="2.2" y="4" width="11.6" height="8.6" rx="2"/><path d="M5.4 7v2.6M4.1 8.3h2.6M10.6 8.3h.01"/></svg>
+            Celular y computadora
+          </span>
+        </div>
+      </div>
+
+      <!-- Las dos progresiones del proyecto, dibujadas -->
+      <figure class="cabecera__figura">
+        <figcaption class="cabecera__figura-titulo">
+          <span>Dos maneras de crecer</span>
+          <span class="mono">1, 2, 3, 4&hellip; &nbsp;/&nbsp; 1, 2, 4, 8&hellip;</span>
+        </figcaption>
+        <svg viewBox="0 0 420 240" role="img"
+             aria-label="Gráfico con dos curvas: una recta que sube paso a paso y otra curva que se dispara cada vez más rápido.">
+          <g stroke="rgba(20,24,31,.10)" stroke-width="1">
+            <line x1="44" y1="18" x2="44" y2="206"/>
+            <line x1="44" y1="206" x2="404" y2="206"/>
+          </g>
+          <g stroke="rgba(20,24,31,.06)" stroke-width="1">
+            <line x1="44" y1="152" x2="404" y2="152"/>
+            <line x1="44" y1="98" x2="404" y2="98"/>
+            <line x1="44" y1="44" x2="404" y2="44"/>
+          </g>
+          <!-- Progresión aritmética: recta -->
+          <polyline points="44,206 86,182 128,158 170,134 212,110 254,86 296,62 338,38"
+                    fill="none" stroke="#4c7fb8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- Progresión geométrica: dobla en cada paso y se sale del gráfico -->
+          <polyline points="44,206 86,182 128,134 170,38"
+                    fill="none" stroke="#c9a227" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="170" y1="38" x2="212" y2="-14" stroke="#c9a227" stroke-width="3"
+                stroke-linecap="round" stroke-dasharray="1 7" marker-end="url(#puntas)"/>
+          <defs>
+            <marker id="puntas" viewBox="0 0 10 10" refX="6" refY="5"
+                    markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M0 1 L9 5 L0 9 z" fill="#c9a227"/>
+            </marker>
+          </defs>
+          <text x="222" y="16" font-family="Inter, sans-serif" font-size="11" font-weight="500"
+                fill="#6f5314">y sigue</text>
+          <g font-family="JetBrains Mono, monospace" font-size="11" fill="#6e7480">
+            <text x="44" y="226">1</text>
+            <text x="196" y="226">4</text>
+            <text x="386" y="226">8</text>
+            <text x="6" y="30">valor</text>
+          </g>
+          <g font-family="Inter, sans-serif" font-size="12" font-weight="600">
+            <text x="252" y="108" fill="#4c7fb8">aritmética</text>
+            <text x="186" y="70" fill="#6f5314">geométrica</text>
+          </g>
+        </svg>
+        <div class="cabecera__leyenda">
+          <span><i class="arit"></i> Siempre sube lo mismo</span>
+          <span><i class="geom"></i> Cada t&eacute;rmino multiplica al anterior</span>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       LOS TRES APARTADOS
+       ================================================================== -->
+  <section class="seccion" aria-labelledby="apartados">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Contenido</span>
+        <h2 id="apartados">Tres apartados, seis piezas</h2>
+        <p>
+          Cada apartado lo escribieron dos personas distintas, con enfoque y
+          estilo propios. Nadie repite a nadie, y cada pareja coincide en un
+          solo apartado.
+        </p>
+      </div>
+
+      <div class="apartados">
+        <article class="apartado aparece">
+          <span class="apartado__num">APARTADO I</span>
+          <svg class="apartado__icono" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 8h11c3 0 5.2 1.3 5.2 3.6v19c0-2-2-3.2-4.8-3.2H6z"/>
+            <path d="M34 8H23c-3 0-5.2 1.3-5.2 3.6v19c0-2 2-3.2 4.8-3.2H34z"/>
+            <path d="M10 13.5h5M10 17.5h5M26 13.5h5M26 17.5h5"/>
+          </svg>
+          <h3 class="apartado__titulo">Historia</h3>
+          <p class="apartado__texto">
+            Cómo se llegó a las series y para qué sirven. Las mismas matemáticas,
+            contadas desde dos puntos de vista distintos.
+          </p>
+          <div class="piezas">
+            <div class="pieza pieza--diego">
+              <span class="pieza__punto"></span>
+              <span class="pieza__nombre">Diego</span>
+              <span class="pieza__serie">el origen</span>
+            </div>
+            <div class="pieza pieza--alejandro">
+              <span class="pieza__punto"></span>
+              <span class="pieza__nombre">Alejandro</span>
+              <span class="pieza__serie">el legado</span>
+            </div>
+          </div>
+          <div class="apartado__botones">
+            <a class="boton boton--contorno" href="historia-diego.html">1 &middot; El origen</a>
+            <a class="boton boton--acento" href="historia-alejandro.html">2 &middot; El legado</a>
+          </div>
+        </article>
+
+        <article class="apartado aparece">
+          <span class="apartado__num">APARTADO II</span>
+          <svg class="apartado__icono" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 7c4.6 4 6.8 7.7 6.8 11.1 0 4.6-3 7.7-6.8 10.5-3.8-2.8-6.8-5.9-6.8-10.5C13.2 14.7 15.4 11 20 7z"/>
+            <path d="M9 27c3.8-2 7.8-2 12.5 0 4.6 2 8.5 2 12.5 0"/>
+            <path d="M9 33.5c3.8-2 7.8-2 12.5 0 4.6 2 8.5 2 12.5 0"/>
+          </svg>
+          <h3 class="apartado__titulo">Cuento</h3>
+          <p class="apartado__texto">
+            Dos relatos de la vida cotidiana en Nicaragua donde las series aparecen
+            sin que nadie las llame por su nombre.
+          </p>
+          <div class="piezas">
+            <div class="pieza pieza--angelita">
+              <span class="pieza__punto"></span>
+              <span class="pieza__nombre">Angelita</span>
+              <span class="pieza__serie">aritmética</span>
+            </div>
+            <div class="pieza pieza--alejandro">
+              <span class="pieza__punto"></span>
+              <span class="pieza__nombre">Alejandro</span>
+              <span class="pieza__serie">geométrica</span>
+            </div>
+          </div>
+          <div class="apartado__botones">
+            <a class="boton boton--acento" href="cuento-angelita.html">1 · La cuenta que no cuadra</a>
+            <a class="boton boton--contorno" href="cuento-alejandro.html">2 · La semilla que se multiplica</a>
+          </div>
+        </article>
+
+        <article class="apartado aparece">
+          <span class="apartado__num">APARTADO III</span>
+          <svg class="apartado__icono" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="4" width="10.5" height="10.5" rx="2.2"/>
+            <rect x="14.8" y="4" width="10.5" height="10.5" rx="2.2"/>
+            <rect x="25.5" y="14.8" width="10.5" height="10.5" rx="2.2"/>
+            <rect x="14.8" y="25.5" width="10.5" height="10.5" rx="2.2"/>
+            <rect x="4" y="14.8" width="10.5" height="10.5" rx="2.2"/>
+            <path d="M9.2 9.2 20.1 20.1M25.5 25.5h.01" stroke-width="2.4"/>
+          </svg>
+          <h3 class="apartado__titulo">Juego</h3>
+          <p class="apartado__texto">
+            Dos juegos, los dos de multiplicación. Y la aritmética va
+            escondida en las rocas de cada ronda: 4, 5 y 6.
+            La serie vive dentro del motor: nadie tiene que saber la fórmula.
+          </p>
+          <div class="piezas">
+            <div class="pieza pieza--diego">
+              <span class="pieza__punto"></span>
+              <span class="pieza__nombre">Diego</span>
+              <span class="pieza__serie">geométrica</span>
+            </div>
+            <div class="pieza pieza--angelita">
+              <span class="pieza__punto"></span>
+              <span class="pieza__nombre">Angelita</span>
+              <span class="pieza__serie">geométrica</span>
+            </div>
+          </div>
+          <div class="apartado__botones">
+<a class="boton boton--contorno" href="juego.html">Ver los dos juegos</a>
+            <a class="boton boton--acento" href="juego-asteroides.html">Jugar ya</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       LOS TRES INTEGRANTES
+       ================================================================== -->
+  <section class="seccion seccion--alt" aria-labelledby="equipo">
+    <div class="caja">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">El equipo</span>
+        <h2 id="equipo">Tres personas, tres estilos</h2>
+        <p>
+          Cada uno hizo sus piezas con su propio diseño. Al ver un juego o
+          un cuento se puede saber de quién es solo por cómo se ve.
+        </p>
+      </div>
+
+      <div class="equipo">
+        <article class="integrante integrante--diego aparece">
+          <div class="integrante__inicial" aria-hidden="true">DB</div>
+          <h3 class="integrante__nombre">Diego Bordas</h3>
+          <p class="integrante__color">Claro, académico y técnico</p>
+          <ul class="integrante__lista">
+            <li>Historia: el origen de las series</li>
+            <li>Juego geométrico: 2048</li>
+          </ul>
+        </article>
+
+        <article class="integrante integrante--angelita aparece">
+          <div class="integrante__inicial" aria-hidden="true">AV</div>
+          <h3 class="integrante__nombre">Angelita Vargas</h3>
+          <p class="integrante__color">Pastel, cálido y tranquilo</p>
+          <ul class="integrante__lista">
+            <li>Cuento aritm&eacute;tico: la cuenta del d&iacute;a</li>
+            <li>Juego geom&eacute;trico: Asteroides</li>
+          </ul>
+        </article>
+
+        <article class="integrante integrante--alejandro aparece">
+          <div class="integrante__inicial" aria-hidden="true">AG</div>
+          <h3 class="integrante__nombre">Alejandro Guerrero</h3>
+          <p class="integrante__color">Oscuro, de alto contraste</p>
+          <ul class="integrante__lista">
+            <li>Historia: el legado de las series</li>
+            <li>Cuento geométrico: la semilla que se multiplica</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================================================================
+       CIERRE
+       ================================================================== -->
+  <section class="cierre">
+    <div class="caja">
+      <h2 class="cierre__titulo">Todo empieza con un &Sigma;</h2>
+      <p class="cierre__texto">
+        Cada apartado fue pensado para leerse en celular y en computadora, sin instalar
+        nada y sin perder una sola línea de la cuenta.
+      </p>
+      <div class="cierre__acciones">
+        <a class="boton boton--solido" href="historia-diego.html">Empezar por la historia</a>
+        <a class="boton boton--contorno" href="juego.html">Probar un juego</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="caja">
+    <div class="footer__grid">
+      <div>
+        <p class="pie__titulo">Las Series Matem&aacute;ticas</p>
+        <p>Trabajo de investigaci&oacute;n sobre series: dos historias, dos cuentos y dos juegos.</p>
+      </div>
+      <div>
+        <p class="pie__rotulo">Apartados</p>
+        <ul>
+          <li><a href="historia.html">I. Historia</a></li>
+          <li><a href="cuento.html">II. Cuento</a></li>
+          <li><a href="juego.html">III. Juego</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="pie__rotulo">Equipo</p>
+        <ul>
+          <li>Diego Bordas</li>
+          <li>Angelita Vargas</li>
+          <li>Alejandro Guerrero</li>
+        </ul>
+      </div>
+    </div>    <div class="pie__abajo">
+      <span>&copy; 2026 &middot; Diego Bordas, Angelita Vargas y Alejandro Guerrero.</span>
+      <span>P&aacute;gina construida con HTML, CSS y JavaScript.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/app.js?v=20261021" defer></script>
+</body>
+</html>

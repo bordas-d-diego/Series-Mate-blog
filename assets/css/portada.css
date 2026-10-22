@@ -1,0 +1,332 @@
+/* ==========================================================================
+   TEMA: PORTADA DEL PROYECTO
+   --------------------------------------------------------------------------
+   Este estilo no pertenece a ninguno de los tres integrantes. Es el del
+   proyecto mismo: papel casi blanco, tinta profunda y oro. Editorial, con
+   aire de revista y una retícula muy suave al fondo.
+
+   Es el único tema con su propia retícula, porque la portada es la página
+   que presenta a los tres y tiene que verse distinta a todos.
+   ========================================================================== */
+
+.tema-portada {
+  --bg:          #fbfaf7;
+  --bg-2:        #f4f1ea;
+  --bg-3:        #ece7dc;
+  --surface:     #ffffff;
+  --line:        #e2dccf;
+  --line-2:      #cfc6b4;
+
+  --fg:          #14181f;
+  --fg-soft:     #4c525d;
+  --fg-faint:    #606671;
+
+  --accent:      #6f5314;
+  --accent-2:    #c9a227;
+  --accent-fg:   #14181f;
+  --accent-soft: #f6ecd2;
+  --accent-line: #d9bd6b;
+
+  --r-sm:   4px;
+  --r:      8px;
+  --r-lg:   14px;
+  --r-xl:   22px;
+
+  --f-title: "Newsreader", Georgia, "Times New Roman", serif;
+  --f-body:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --f-mono:  "JetBrains Mono", "SF Mono", Consolas, monospace;
+
+  --sh-sm: 0 1px 2px rgba(20, 24, 31, .05);
+  --sh:    0 2px 8px rgba(20, 24, 31, .06), 0 10px 28px rgba(20, 24, 31, .06);
+  --sh-lg: 0 4px 14px rgba(20, 24, 31, .07), 0 24px 60px rgba(20, 24, 31, .10);
+
+  --nav-bg:      rgba(251, 250, 247, .88);
+  --nav-bg-fija: rgba(251, 250, 247, .96);
+
+  --grid-line: rgba(20, 24, 31, .028);
+}
+
+/* --------------------------------------------------------------------------
+   Retícula editorial: finísima, como el papel de un cuaderno de notas
+   -------------------------------------------------------------------------- */
+.tema-portada.reticula::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 100% 90% at 50% 20%, #000 10%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 90% at 50% 20%, #000 10%, transparent 75%);
+}
+
+/* ==========================================================================
+   CABECERA
+   ========================================================================== */
+.cabecera {
+  position: relative;
+  isolation: isolate;
+  padding-block: 5rem 4rem;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  background:
+    radial-gradient(820px 460px at 88% -6%, rgba(201, 162, 39, .12), transparent 62%),
+    radial-gradient(680px 420px at 4% 6%, rgba(20, 24, 31, .05), transparent 60%);
+}
+.cabecera__interior {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 940px) {
+  .cabecera { padding-block: 3rem 2.5rem; }
+  .cabecera__interior { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+.cabecera__titulo {
+  font-size: clamp(2.6rem, 5vw + 1rem, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+.cabecera__titulo em {
+  font-style: italic;
+  color: var(--accent);
+  background: linear-gradient(transparent 76%, var(--accent-line) 76%, var(--accent-line) 94%, transparent 94%);
+}
+.cabecera__bajada {
+  margin-top: 1.25rem;
+  max-width: 52ch;
+  font-size: clamp(1.05rem, .4vw + 1rem, 1.2rem);
+  line-height: 1.75;
+  color: var(--fg-soft);
+}
+.cabecera__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: 2rem;
+}
+.cabecera__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  font-size: .85rem;
+  color: var(--fg-soft);
+}
+.cabecera__meta span { display: inline-flex; align-items: center; gap: .5rem; }
+.cabecera__meta svg { color: var(--accent-2); flex-shrink: 0; }
+
+/* --------------------------------------------------------------------------
+   LA FIGURA: las dos progresiones dibujadas
+   ========================================================================== */
+.cabecera__figura {
+  position: relative;
+  padding: 1.6rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh);
+}
+.cabecera__figura-titulo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: .9rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cabecera__figura svg { width: 100%; height: auto; }
+.cabecera__leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.4rem;
+  margin-top: 1rem;
+  font-size: .78rem;
+  color: var(--fg-soft);
+}
+.cabecera__leyenda span { display: inline-flex; align-items: center; gap: .45rem; }
+.cabecera__leyenda i { width: 16px; height: 3px; border-radius: 2px; }
+.cabecera__leyenda i.arit { background: #4c7fb8; }
+.cabecera__leyenda i.geom { background: var(--accent-2); }
+
+/* ==========================================================================
+   LOS TRES APARTADOS
+   ========================================================================== */
+.apartados {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+@media (min-width: 1020px) {
+  .apartados { grid-template-columns: repeat(3, 1fr); }
+}
+
+.apartado {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm);
+  overflow: hidden;
+  transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
+}
+.apartado:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sh-lg);
+  border-color: var(--line-2);
+}
+.apartado::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-2), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.apartado:hover::before { transform: scaleX(1); }
+
+.apartado__num {
+  font-family: var(--f-mono);
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  color: var(--accent);
+}
+.apartado__icono { width: 30px; height: 30px; margin-block: 1rem 1.25rem; color: var(--accent); }
+.apartado__titulo { font-size: 1.5rem; margin-bottom: .6rem; }
+.apartado__botones { margin-top: 1.25rem; display: grid; gap: .5rem; }
+.apartado__botones .boton { width: 100%; justify-content: center; }
+.apartado__texto { font-size: .9rem; color: var(--fg-soft); line-height: 1.65; flex: 1; }
+
+/* Las dos piezas que compone cada apartado */
+/* La columna sin limite tomaba el ancho del contenido y se salia de la
+   tarjeta: con dos fichas de autor, la segunda se salia por la derecha.
+   minmax(0, 1fr) obliga a la columna a respetar la caja. */
+.piezas {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: .5rem;
+  align-content: start;
+}
+.pieza {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  min-width: 0;
+  padding: .6rem .75rem;
+  background: var(--bg-2);
+  border-radius: var(--r-sm);
+  font-size: .82rem;
+  line-height: 1.4;
+}
+.pieza__punto { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+/* min-width: 0 deja que el nombre encoja en vez de empujar a la serie
+   fuera de la tarjeta. */
+.pieza__nombre { font-weight: 600; color: var(--fg); min-width: 0; }
+.pieza__serie {
+  margin-left: auto;
+  padding-left: .6rem;
+  font-family: var(--f-mono);
+  font-size: .68rem;
+  color: var(--fg-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pieza--diego   .pieza__punto { background: #0b3d91; }
+.pieza--angelita .pieza__punto { background: #c46e8b; }
+.pieza--alejandro .pieza__punto { background: #f0a91e; }
+
+/* ==========================================================================
+   LOS TRES INTEGRANTES
+   ========================================================================== */
+.equipo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+@media (min-width: 900px) {
+  .equipo { grid-template-columns: repeat(3, 1fr); }
+}
+
+.integrante {
+  position: relative;
+  padding: 1.6rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--persona, var(--accent));
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm);
+}
+.integrante__inicial {
+  width: 54px; height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--persona, var(--accent));
+  color: var(--persona-fg, #fff);
+  font-family: var(--f-title);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.1rem;
+}
+.integrante__nombre { font-size: 1.2rem; margin-bottom: .2rem; }
+.integrante__color {
+  font-size: .78rem;
+  color: var(--fg-faint);
+  margin-bottom: 1.1rem;
+}
+.integrante__lista { list-style: none; padding: 0; display: grid; gap: .45rem; font-size: .85rem; }
+.integrante__lista li { display: flex; align-items: flex-start; gap: .55rem; line-height: 1.5; color: var(--fg-soft); }
+.integrante__lista li::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--persona);
+  flex-shrink: 0;
+  margin-top: .5rem;
+}
+.integrante--diego    { --persona: #0b3d91; }
+.integrante--angelita { --persona: #c46e8b; }
+.integrante--alejandro{ --persona: #d99414; --persona-fg: #2b1e06; }
+
+/* ==========================================================================
+   BANDA DE CIERRE
+   ========================================================================== */
+.cierre {
+  padding-block: 4rem;
+  background: linear-gradient(140deg, #14181f, #23272f);
+  color: #f4f2ed;
+  text-align: center;
+}
+.cierre__titulo {
+  font-family: var(--f-title);
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  color: #fbfaf7;
+  margin-bottom: .75rem;
+}
+.cierre__texto { max-width: 56ch; margin-inline: auto; color: rgba(244, 242, 237, .78); }
+.cierre__acciones { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; margin-top: 2rem; }
+.cierre .boton--solido { background: #c9a227; color: #14181f; }
+.cierre .boton--contorno { color: #fbfaf7; border-color: rgba(255,255,255,.35); }
+.cierre .boton--contorno:hover { background: rgba(255,255,255,.1); border-color: #c9a227; color: #c9a227; }
