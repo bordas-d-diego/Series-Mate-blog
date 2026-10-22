@@ -147,6 +147,119 @@
   }
 
   /* ------------------------------------------------------------------
+     3.c Seccion activa en el indice y barra de progreso de lectura
+         TAREA T06: un IntersectionObserver con rootMargin que coincide
+         con la cabecera pegajosa (recorta los 64px de arriba y deja una
+         banda fina en la parte inferior). El enlace correspondiente
+         recibe la clase .activo; los demas lo pierden. Para evitar
+         saltos y parpadeos: (a) se observa el tramo [h2, siguiente h2]
+         de cada seccion, no la seccion entera, y (b) si ninguna banda
+         esta visible (hueco entre dos secciones) se mantiene la ultima
+         marca en lugar de dejar el indice sin resaltar.
+     ------------------------------------------------------------------ */
+  var indice = document.querySelector('.hist__indice');
+
+  if (indice && 'IntersectionObserver' in window) {
+    var enlacesIndice = [].slice.call(indice.querySelectorAll('ol a[href^="#"]'));
+    // Mapa destino -> enlace del indice.
+    var mapaEnlaces = {};
+    enlacesIndice.forEach(function (enlace) {
+      try {
+        var d = document.querySelector(enlace.getAttribute('href'));
+        if (d) mapaEnlaces[d.id] = enlace;
+      } catch (e) { /* hash no valido como selector: se ignora */ }
+    });
+
+    // Banda de observacion: desde el titulo de la seccion hasta el titulo
+    // de la siguiente. Asi solo una puede estar en la banda a la vez.
+    var bandas = [];
+    Object.keys(mapaEnlaces).forEach(function (id) {
+      var destino = document.getElementById(id);
+      if (!destino) return;
+      var inicio = destino.matches('h2, h3') ? destino
+               : destino.querySelector('h2, h3') || destino;
+      var fin = null;
+      var todos = [].slice.call(document.querySelectorAll('main h2'));
+      var posicion = todos.indexOf(inicio);
+      if (posicion > -1 && posicion < todos.length - 1) fin = todos[posicion + 1];
+      bandas.push({ id: id, inicio: inicio, fin: fin });
+    });
+
+    var activoActual = null;
+    function marcarActivo(id) {
+      if (id === activoActual) return;          // sin parpadeo: solo cambia si cambia
+      var anterior = activoActual && mapaEnlaces[activoActual];
+      if (anterior) {
+        anterior.classList.remove('activo');
+        anterior.removeAttribute('aria-current');
+      }
+      activoActual = id;
+      if (id && mapaEnlaces[id]) {
+        mapaEnlaces[id].classList.add('activo');
+        mapaEnlaces[id].setAttribute('aria-current', 'true');
+      }
+    }
+
+    var obsSecciones = new IntersectionObserver(function () {
+      // Franja de lectura: debajo de la cabecera (64px) y por encima de los
+      // ultimos ~20% de la ventana. La seccion cuyo tramo la cruza es la activa.
+      var franjaSuperior = 64;   // --nav-h: coincide con el rootMargin del observer
+      var franjaInferior = Math.max(franjaSuperior + 1, window.innerHeight * 0.8);
+      var mejor = null, mejorDistancia = Infinity;
+      bandas.forEach(function (banda) {
+        var top = banda.inicio.getBoundingClientRect().top;
+        var bottom = banda.fin ? banda.fin.getBoundingClientRect().top
+                               : document.body.scrollHeight;
+        var solape = Math.min(bottom, franjaInferior) - Math.max(top, franjaSuperior);
+        if (solape > 0) {
+          // Si varias cruzan la franja (secciones muy cortas), gana la mas alta.
+          var prioridad = top - franjaSuperior;
+          if (prioridad < mejorDistancia) { mejorDistancia = prioridad; mejor = banda.id; }
+        }
+      });
+      // Sin huecos ni saltos: si ninguna banda cruza la franja se conserva la
+      // ultima seccion marcada.
+      if (mejor) marcarActivo(mejor);
+
+      // La barra de progreso comparte este bucle: el navegador ya convoca el
+      // callback en los cambios de interseccion, asi que no hace falta otro
+      // listener de scroll para ella.
+      actualizarProgreso();
+    }, {
+      // rootMargin igual a la altura de la cabecera pegajosa: la banda activa
+      // queda entre -64px arriba y -80% abajo, como pide el plan. Las dos
+      // margenes laterales van puestas para que el valor sea exacto.
+      rootMargin: '-64px 0px -80% 0px',
+      threshold: 0
+    });
+
+    bandas.forEach(function (banda) { obsSecciones.observe(banda.inicio); });
+
+    // Estado inicial correcto al cargar (por ejemplo con #ancla en la URL).
+    marcarActivo(location.hash && location.hash.slice(1) !== ''
+                 && mapaEnlaces[location.hash.slice(1)] ? location.hash.slice(1) : null);
+    if (!activoActual && bandas.length) marcarActivo(bandas[0].id);
+  }
+
+  /* Barra de progreso de lectura (TAREA T06): rellena el riel fino que
+     historia.css pone sobre el canto de abajo de la cabecera. Trabaja con
+     scrollY, que el observer no mira, asi que lleva su propio listener
+     pasivo; el callback del observer la refresca tambien cuando cambia la
+     seccion activa. */
+  var barraProgreso = document.querySelector('.hist__progreso > span');
+  function actualizarProgreso() {
+    if (!barraProgreso) return;
+    var total = document.documentElement.scrollHeight - window.innerHeight;
+    var fraccion = total > 0 ? Math.min(window.scrollY / total, 1) : 0;
+    barraProgreso.style.width = (fraccion * 100).toFixed(2) + '%';
+  }
+  if (barraProgreso) {
+    actualizarProgreso();
+    window.addEventListener('scroll', actualizarProgreso, { passive: true });
+    window.addEventListener('resize', actualizarProgreso, { passive: true });
+  }
+
+  /* ------------------------------------------------------------------
      4. Aparición suave de los elementos al entrar en pantalla
      ------------------------------------------------------------------ */
   var revelables = document.querySelectorAll('.aparece');

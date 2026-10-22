@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="assets/css/diego.css?v=20261021">
 <link rel="stylesheet" href="assets/css/piezas-diego.css?v=20261021">
   <link rel="stylesheet" href="assets/css/ecuaciones.css?v=20261021">
-<link rel="stylesheet" href="assets/css/historia.css?v=20261021">
+<link rel="stylesheet" href="assets/css/historia.css?v=20261023">
 <!-- El indice va justo debajo de la cabecera y antes del <main>, que es donde
      lo pone el encargo. historia.css lo dibuja como columna lateral a partir de
      1200px, y una columna lateral no cabe ahi sin apartar las secciones, que
@@ -38,7 +38,7 @@
 <body class="tema-diego">
 <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
-<header class="nav" id="nav">
+<header class="nav nav--historia" id="nav">
   <div class="caja nav__inside">
     <a class="marca" href="index.html" title="Ir a la portada">
       <svg class="marca__logo" viewBox="0 0 40 40" aria-hidden="true">
@@ -63,7 +63,12 @@
         <li><a href="cuento.html">II. Cuento</a></li>
         <li><a href="juego.html">III. Juego</a></li>
       </ul>
-      <div class="nav__cta">
+      <div class="nav__cta nav__cta--conmutada">
+        <!-- TAREA T07: conmutador Parte 1 / Parte 2 entre las dos historias. -->
+        <a class="nav__conmutador" href="historia-alejandro.html"
+           aria-label="Ir a la Parte 2 &middot; Alejandro">
+          <span class="nav__conmutador-parte">Parte 2 &middot; Alejandro</span>
+        </a>
         <a class="boton boton--acento" href="#construccion">Ver el diagrama</a>
       </div>
     </div>
@@ -116,6 +121,14 @@
         c&iacute;rculo con l&iacute;neas rectas. Aqu&iacute; cuenta el origen &mdash; las
         herramientas y los trucos &mdash;; la otra mitad del apartado cuenta para qu&eacute; sirven.
       </p>
+      <dl class="ficha-trabajo">
+        <dt>Prop&oacute;sito</dt>
+        <dd>Divulgar c&oacute;mo se construyeron las series, desde la exhausti&oacute;n griega hasta el rigor de Cauchy.</dd>
+        <dt>Audiencia</dt>
+        <dd>Estudiantes de secundaria y bachillerato, y aficionados a las matem&aacute;ticas.</dd>
+        <dt>Fecha de publicaci&oacute;n</dt>
+        <dd><time datetime="2026-10">Octubre de 2026</time></dd>
+      </dl>
       <div class="cab-pagina__pie">
         <span>Hitos: <b>13</b></span>
         <span>Construcciones de f&oacute;rmulas: <b>2</b></span>
@@ -128,7 +141,7 @@
   <!-- ==================================================================
        1. QUE ES UNA SERIE
        ================================================================== -->
-  <section class="seccion" aria-labelledby="que-es">
+  <section class="seccion" id="que-es" aria-labelledby="que-es">
     <div class="caja caja--angosta">
       <div class="seccion-cab aparece">
         <span class="eyebrow">Punto de partida</span>
@@ -303,7 +316,7 @@
   <!-- ==================================================================
        3. LINEA DE TIEMPO
        ================================================================== -->
-  <section class="seccion seccion--alt" aria-labelledby="recorrido">
+  <section class="seccion seccion--alt" id="recorrido" aria-labelledby="recorrido">
     <div class="caja">
       <div class="seccion-cab aparece">
         <span class="eyebrow">Recorrido</span>
@@ -318,12 +331,6 @@
       <ol class="hist__linea">
 
         <li class="hist__hito aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/historia/zenon-elea.jpg"
-                 alt="Representaci&oacute;n simb&oacute;lica de Zen&oacute;n de Elea."
-                 width="300" height="417" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Rijksmuseum, &Aacute;msterdam (RP-P-OB-17.264). CC0. Imagen simb&oacute;lica basada en descripciones hist&oacute;ricas. Autor original desconocido. Dominio p&uacute;blico. Usada con fines ilustrativos.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">c. 450 a.C.</span>
             <h3 class="hist__hito-titulo">Zen&oacute;n de Elea: los dos corredores</h3>
@@ -336,14 +343,15 @@
             </p>
             <span class="hist__hito-etiqueta">Una suma que no se acaba</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/zenon-elea.jpg"
+                 alt="Representaci&oacute;n simb&oacute;lica de Zen&oacute;n de Elea."
+                 width="300" height="417" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Rijksmuseum, &Aacute;msterdam (RP-P-OB-17.264). CC0. Imagen simb&oacute;lica basada en descripciones hist&oacute;ricas. Autor original desconocido. Dominio p&uacute;blico. Usada con fines ilustrativos.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito hist__hito--invertido aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/hitos/410-antifon.svg" alt="C&iacute;rculo con un cuadrado inscrito, un oct&oacute;gono y un hexadec&aacute;gono: cada pol&iacute;gono nuevo se queda m&aacute;s cerca de la circunferencia."
-                 width="200" height="250" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Esquema propio.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">410 a.C.</span>
             <h3 class="hist__hito-titulo">Antif&oacute;n: dibujar para acotar</h3>
@@ -357,14 +365,14 @@
             </p>
             <span class="hist__hito-etiqueta">Origen: acotar, no calcular</span>
           </div>
-        </li>
-
-        <li class="hist__hito aparece">
           <figure class="hist__hito-lamina">
-            <img src="assets/img/hitos/350-eudoxo.svg" alt="C&iacute;rculo con cinco esferas conc&eacute;ntricas y un cilindro inscrito, el recurso con el que Eudoxo midi&oacute; vol&uacute;menes."
+            <img src="assets/img/hitos/410-antifon.svg" alt="C&iacute;rculo con un cuadrado inscrito, un oct&oacute;gono y un hexadec&aacute;gono: cada pol&iacute;gono nuevo se queda m&aacute;s cerca de la circunferencia."
                  width="200" height="250" loading="lazy" decoding="async">
             <figcaption class="hist__hito-lamina-pie">Esquema propio.</figcaption>
           </figure>
+        </li>
+
+        <li class="hist__hito aparece">
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">350 a.C.</span>
             <h3 class="hist__hito-titulo">Eudoxo: el truco se vuelve teor&iacute;a</h3>
@@ -379,14 +387,14 @@
             </p>
             <span class="hist__hito-etiqueta">La primera demostraci&oacute;n formal</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/350-eudoxo.svg" alt="C&iacute;rculo con cinco esferas conc&eacute;ntricas y un cilindro inscrito, el recurso con el que Eudoxo midi&oacute; vol&uacute;menes."
+                 width="200" height="250" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Esquema propio.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito hist__hito--invertido aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/hitos/300-euclides.jpg" alt="P&aacute;gina de los Elementos de Euclides en un manuscrito griego, con un dibujo geom&eacute;trico en el centro."
-                 width="300" height="300" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Biblioteca Apost&oacute;lica Vaticana, Vat. gr. 190. Dominio p&uacute;blico.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">300 a.C.</span>
             <h3 class="hist__hito-titulo">Euclides: seis proposiciones</h3>
@@ -404,14 +412,14 @@
             </p>
             <span class="hist__hito-etiqueta">El rigor paga caro</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/300-euclides.jpg" alt="P&aacute;gina de los Elementos de Euclides en un manuscrito griego, con un dibujo geom&eacute;trico en el centro."
+                 width="300" height="300" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Biblioteca Apost&oacute;lica Vaticana, Vat. gr. 190. Dominio p&uacute;blico.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/hitos/287-arquimedes.jpg" alt="Grabado del siglo XVIII que representa a Arqu&iacute;medes de Siracusa."
-                 width="270" height="378" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Grabado de Riedel. Dominio p&uacute;blico.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">287&ndash;212 a.C.</span>
             <h3 class="hist__hito-titulo">Arqu&iacute;medes: el primer c&aacute;lculo documentado de una suma geom&eacute;trica</h3>
@@ -432,14 +440,14 @@
             </p>
             <span class="hist__hito-etiqueta">Nace la serie geom&eacute;trica</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/287-arquimedes.jpg" alt="Grabado del siglo XVIII que representa a Arqu&iacute;medes de Siracusa."
+                 width="270" height="378" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Grabado de Riedel. Dominio p&uacute;blico.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito hist__hito--invertido aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/hitos/200-bakhshali.jpg" alt="El manuscrito de Bakhshali, un cuaderno de cortezas de abedul donde aparece un punto usado como cero."
-                 width="300" height="300" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Manuscrito de Bakhshali, Bodleian Library. La instituci&oacute;n lo data entre los siglos III y IV d.C. Dominio p&uacute;blico.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">c. 200 a.C.</span>
             <h3 class="hist__hito-titulo">Pingala: la cuenta que ya estaba en la India</h3>
@@ -455,14 +463,14 @@
             </p>
             <span class="hist__hito-etiqueta">La India llega antes</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/200-bakhshali.jpg" alt="El manuscrito de Bakhshali, un cuaderno de cortezas de abedul donde aparece un punto usado como cero."
+                 width="300" height="300" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Manuscrito de Bakhshali, Bodleian Library. La instituci&oacute;n lo data entre los siglos III y IV d.C. Dominio p&uacute;blico.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/hitos/1202-fibonacci.jpg" alt="Grabado que representa a Leonardo de Pisa, el Fibonacci."
-                 width="300" height="404" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Grabado de hacia 1850, autor sin identificar. Dominio p&uacute;blico.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">1202</span>
             <h3 class="hist__hito-titulo">Leonardo de Pisa: la recursi&oacute;n</h3>
@@ -477,15 +485,14 @@
             </p>
             <span class="hist__hito-etiqueta">Cada t&eacute;rmino nace de los dos previos</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/1202-fibonacci.jpg" alt="Grabado que representa a Leonardo de Pisa, el Fibonacci."
+                 width="300" height="404" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Grabado de hacia 1850, autor sin identificar. Dominio p&uacute;blico.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito hist__hito--invertido aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/historia/oresme-1350.svg"
-                 alt="Cinco bloques apilados: 1; 1/2; 1/3 y 1/4; 1/5, 1/6, 1/7 y 1/8; y 1/9 hasta 1/16. Una cota a la derecha dice que cada bloque suma al menos 1/2."
-                 width="200" height="250" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Esquema propio.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">c. 1350</span>
             <h3 class="hist__hito-titulo">Nicole Oresme: la serie que no se detiene</h3>
@@ -499,14 +506,15 @@
             </p>
             <span class="hist__hito-etiqueta">La arm&oacute;nica diverge</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/oresme-1350.svg"
+                 alt="Cinco bloques apilados: 1; 1/2; 1/3 y 1/4; 1/5, 1/6, 1/7 y 1/8; y 1/9 hasta 1/16. Una cota a la derecha dice que cada bloque suma al menos 1/2."
+                 width="200" height="250" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Esquema propio.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/hitos/1665-newton.jpg" alt="Retrato de Isaac Newton pintado en 1689."
-                 width="300" height="361" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Retrato de 1689. Dominio p&uacute;blico.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">1665</span>
             <h3 class="hist__hito-titulo">Newton: el binomio y las series infinitas</h3>
@@ -521,14 +529,14 @@
             </p>
             <span class="hist__hito-etiqueta">Se dice la palabra converger</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/1665-newton.jpg" alt="Retrato de Isaac Newton pintado en 1689."
+                 width="300" height="361" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Retrato de 1689. Dominio p&uacute;blico.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito hist__hito--invertido aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/hitos/1676-leibniz.jpg" alt="Retrato de Gottfried Wilhelm Leibniz, pintado hacia 1695 por Christoph Bernhard Francke."
-                 width="300" height="379" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Christoph Bernhard Francke, hacia 1695. Dominio p&uacute;blico.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">1676</span>
             <h3 class="hist__hito-titulo">Leibniz: la notaci&oacute;n y el problema</h3>
@@ -543,14 +551,14 @@
             </p>
             <span class="hist__hito-etiqueta">Un l&iacute;mite correcto pero lent&iacute;simo</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/1676-leibniz.jpg" alt="Retrato de Gottfried Wilhelm Leibniz, pintado hacia 1695 por Christoph Bernhard Francke."
+                 width="300" height="379" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Christoph Bernhard Francke, hacia 1695. Dominio p&uacute;blico.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/hitos/1735-euler.jpg" alt="Retrato de Leonhard Euler, pintado por Jakob Emanuel Handmann."
-                 width="300" height="388" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Jakob Emanuel Handmann. Dominio p&uacute;blico.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">1735</span>
             <h3 class="hist__hito-titulo">Euler y el problema de Basilea</h3>
@@ -589,15 +597,14 @@
             </p>
             <span class="hist__hito-etiqueta">El n&uacute;mero m&aacute;s misterioso</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/hitos/1735-euler.jpg" alt="Retrato de Leonhard Euler, pintado por Jakob Emanuel Handmann."
+                 width="300" height="388" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Jakob Emanuel Handmann. Dominio p&uacute;blico.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito hist__hito--invertido aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/historia/cauchy.jpg"
-                 alt="Litograf&iacute;a de 1856 de Cauchy de pie, con uniforme y condecoraci&oacute;n en el pecho."
-                 width="300" height="452" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">Rudolf Hoffmann, litograf&iacute;a, 1856. Austrian National Library. Dominio p&uacute;blico.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">1821</span>
             <h3 class="hist__hito-titulo">Cauchy: el l&iacute;mite, con palabras</h3>
@@ -610,15 +617,15 @@
             </p>
             <span class="hist__hito-etiqueta">De la intuici&oacute;n a la definici&oacute;n</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/cauchy.jpg"
+                 alt="Litograf&iacute;a de 1856 de Cauchy de pie, con uniforme y condecoraci&oacute;n en el pecho."
+                 width="300" height="452" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">Rudolf Hoffmann, litograf&iacute;a, 1856. Austrian National Library. Dominio p&uacute;blico.</figcaption>
+          </figure>
         </li>
 
         <li class="hist__hito aparece">
-          <figure class="hist__hito-lamina">
-            <img src="assets/img/historia/riemann.jpg"
-                 alt="Fotograf&iacute;a de 1863 de Riemann, de barba oscura y traje negro, con la mirada perdida."
-                 width="300" height="399" loading="lazy" decoding="async">
-            <figcaption class="hist__hito-lamina-pie">August Weger, 1863. Bildarchiv Austria. Dominio p&uacute;blico.</figcaption>
-          </figure>
           <div class="hist__hito-cuerpo">
             <span class="hist__hito-anio">1859</span>
             <h3 class="hist__hito-titulo">Riemann: la serie se vuelve funci&oacute;n</h3>
@@ -638,6 +645,12 @@
             </p>
             <span class="hist__hito-etiqueta">Una funci&oacute;n para todas las series</span>
           </div>
+          <figure class="hist__hito-lamina">
+            <img src="assets/img/historia/riemann.jpg"
+                 alt="Fotograf&iacute;a de 1863 de Riemann, de barba oscura y traje negro, con la mirada perdida."
+                 width="300" height="399" loading="lazy" decoding="async">
+            <figcaption class="hist__hito-lamina-pie">August Weger, 1863. Bildarchiv Austria. Dominio p&uacute;blico.</figcaption>
+          </figure>
         </li>
 
       </ol>
@@ -1191,7 +1204,7 @@
   <!-- ==================================================================
        7. FICHA DE DATOS
        ================================================================== -->
-  <section class="seccion" aria-labelledby="ficha">
+  <section class="seccion" id="ficha" aria-labelledby="ficha">
     <div class="caja">
       <div class="seccion-cab aparece">
         <span class="eyebrow">Resumen num&eacute;rico</span>
@@ -1309,7 +1322,7 @@
   <!-- ==================================================================
        8. FUENTES
        ================================================================== -->
-  <section class="seccion seccion--alt" aria-labelledby="fuentes">
+  <section class="seccion seccion--alt" id="fuentes" aria-labelledby="fuentes">
     <div class="caja caja--angosta">
       <div class="seccion-cab aparece">
         <span class="eyebrow">Respaldo</span>
@@ -1318,6 +1331,56 @@
           Las fechas y los datos de esta parte se verificaron en las fuentes siguientes.
         </p>
       </div>
+
+  <!-- ==================================================================
+       CIERRE ACADEMICO (TAREA T13): sintesis del legado y puente a la
+       Parte 2. No se toco ninguna otra linea de la pagina.
+       ================================================================== -->
+  <section class="seccion cierre" id="cierre" aria-labelledby="t-cierre">
+    <div class="caja caja--angosta">
+      <div class="seccion-cab aparece">
+        <span class="eyebrow">Cierre</span>
+        <h2 id="t-cierre">Lo que queda en las manos</h2>
+      </div>
+
+      <div class="prose">
+        <p>
+          Si alguien levanta la vista al final de este recorrido, ver&aacute; una
+          cadena que no fue pensada como tal. Antif&oacute;n quer&iacute;a un &aacute;rea
+          y dej&oacute; un m&eacute;todo: acotar por arriba y por abajo hasta que las dos
+          cotas se besen. Euclides orden&oacute; esas ideas en proposiciones.
+          Arqu&iacute;medes empuj&oacute; el truco hasta el l&iacute;mite
+          y sac&oacute; del sombrero una suma infinita con resultado finito. Los
+          matem&aacute;ticos de la India llevaban siglos contando escaleras de s&iacute;labas.
+          Oresme dibuj&oacute;
+          rect&aacute;ngulos para discutir si una suma pod&iacute;a acabar de golpe. Newton
+          abri&oacute; el binomio y descubri&oacute; que bajo control funciona, y fuera
+          de &eacute;l no. Euler junt&oacute; los trozos dispersos, cuadr&oacute; el c&iacute;rculo
+          de Basilea y devolvi&oacute; la sorpresa: de unas fracciones ordinarias sali&oacute;
+          &pi;. Cauchy, por &uacute;ltimo, puso la palabra definitiva: no vale que los
+          t&eacute;rminos se hagan peque&ntilde;os; hace falta que las sumas parciales se
+          acerquen a alg&uacute;n sitio y se queden all&iacute;.<sup><a href="#ref-7">[7]</a></sup>
+        </p>
+        <p>
+          Ese es el equipaje: una forma de mirar las sumas largas, unos pocos trucos
+          para calcularlas y una advertencia que nadie deber&iacute;a olvidar: el tama&ntilde;o
+          de los t&eacute;rminos no decide nada; decide el comportamiento de las sumas
+          parciales. Quien aprendi&oacute; a leer el s&iacute;mbolo sigma y a dudar de &eacute;l
+          ya tiene todo lo necesario para seguir leyendo. Lo que viene no habla de
+          cuna ni de construcci&oacute;n. Habla de tel&eacute;fonos, de intereses bancarios,
+          de f&oacute;rmulas que bajan el peso de una fotograf&iacute;a y de cuentas que
+          empiezan solas. Alejandro Guerrero recoge el testigo en la segunda mitad del
+          apartado y responde a la pregunta que aqu&iacute; qued&oacute; sin hacer: para
+          qu&eacute; sirve, en la vida de todos los d&iacute;as, sumar infinitos n&uacute;meros.
+          Vale la pena ir a leerlo: <a href="historia-alejandro.html">Para qu&eacute;
+          <em>sirven</em> las series</a>. Y quien quiera volver por donde entr&oacute;
+          la duda, tiene el contraejemplo esper&aacute;ndolo arriba, en la serie
+          arm&oacute;nica, dentro de <a href="#que-es">&iquest;Qu&eacute; es una
+          serie?</a>.
+        </p>
+      </div>
+    </div>
+  </section>
 
       <ol class="refs aparece">
         <!-- TAREA T09: fuera las dos referencias a Wikipedia; entran sus
@@ -1393,7 +1456,7 @@
   </div>
 </footer>
 
-<script src="assets/js/app.js?v=20261021" defer></script>
+<script src="assets/js/app.js?v=20261023" defer></script>
 <script src="assets/js/historia.js?v=20261021" defer></script>
 </body>
 </html>
