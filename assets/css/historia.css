@@ -1037,3 +1037,57 @@ sup > a[href^="#ref-"]:focus-visible { text-decoration: underline; }
      sobre order) y recupera su margen de cero. */
   .hist__hito-lamina { margin-top: 0; }
 }
+
+/* --------------------------------------------------------------------------
+   18. TAREA T13 — CIERRE ACADEMICO (section.cierre) Y TAREA T14 — FICHA
+   DEL TRABAJO EN EL HERO (.ficha-trabajo). Solo anaden estilo a bloques
+   nuevos; no cambian ninguna medida ni color del resto de la pagina.
+   -------------------------------------------------------------------------- */
+.cierre .prose { max-width: 68ch; }
+.cierre .prose p { text-wrap: pretty; }
+.cierre .eyebrow { letter-spacing: .14em; }
+.cierre sup a {
+  font-family: var(--f-mono);
+  font-size: .72em;
+  font-weight: 600;
+  text-decoration: none;
+}
+.cierre sup a:hover { text-decoration: underline; }
+
+/* Ficha del trabajo: metadatos declarativos bajo el titulo del hero.
+   Fuente mas pequena, color secundario y separacion clara para que no
+   compita con el h1. */
+.ficha-trabajo {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .35rem 1rem;
+  align-items: baseline;
+  max-width: 62ch;
+  margin: 1.5rem 0 1.4rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-sm, 6px);
+  background: var(--bg-2);
+  font-size: .9rem;
+  line-height: 1.6;
+}
+.ficha-trabajo dt {
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fg-mute, var(--fg-soft));
+  white-space: nowrap;
+}
+.ficha-trabajo dd {
+  margin: 0;
+  color: var(--fg-soft);
+}
+@media (max-width: 640px) {
+  /* En celular, una etiqueta por linea para que el valor respire. */
+  .ficha-trabajo { grid-template-columns: 1fr; gap: .15rem; }
+  .ficha-trabajo dt { margin-top: .5rem; }
+  .ficha-trabajo dt:first-child { margin-top: 0; }
+}
