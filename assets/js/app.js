@@ -59,7 +59,41 @@
   }
 
   /* ------------------------------------------------------------------
-     3. Aparición suave de los elementos al entrar en pantalla
+     3. Enlaces del índice (href="#..."): scroll suave + foco en el destino
+        TAREA T04: al pulsar una ancla se hace scrollIntoView suave y luego
+        se pone el foco en la sección destino para accesibilidad.
+     ------------------------------------------------------------------ */
+  document.addEventListener('click', function (ev) {
+    var enlace = ev.target.closest ? ev.target.closest('a[href^="#"]') : null;
+    if (!enlace) return;
+
+    var hash = enlace.getAttribute('href');
+    if (!hash || hash === '#') return;
+
+    var destino;
+    try {
+      destino = document.querySelector(hash);
+    } catch (e) {
+      return; // hash no válido como selector: dejar el comportamiento nativo
+    }
+    if (!destino) return;
+
+    ev.preventDefault();
+
+    // Preparar el destino para poder recibir el foco por JavaScript.
+    if (!destino.hasAttribute('tabindex')) {
+      destino.setAttribute('tabindex', '-1');
+    }
+
+    destino.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    destino.focus({ preventScroll: true });
+
+    // Actualizar la URL sin disparar un salto adicional.
+    if (history.pushState) history.pushState(null, '', hash);
+  });
+
+  /* ------------------------------------------------------------------
+     4. Aparición suave de los elementos al entrar en pantalla
      ------------------------------------------------------------------ */
   var revelables = document.querySelectorAll('.aparece');
 

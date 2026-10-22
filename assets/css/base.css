@@ -96,8 +96,14 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--nav-h) + 1rem);
+  /* TAREA T04: cabecera pegajosa (--nav-h: 68px) + 16px de margen. */
+  scroll-padding-top: calc(var(--nav-h) + 16px);
 }
+
+/* TAREA T04: los destinos de ancla deben poder recibir foco por JS. */
+main > .seccion { scroll-margin-top: calc(var(--nav-h) + 16px); }
+main > .seccion[tabindex="-1"]:focus,
+main > .seccion[tabindex="-1"]:focus-visible { outline: none; }
 
 body {
   min-height: 100vh;
@@ -571,10 +577,6 @@ code, .mono {
   }
   a { text-decoration: none; color: #000; }
   .aparece { opacity: 1 !important; transform: none !important; }
-  /* Al imprimir hay que dibujar todas las secciones. Una seccion saltada
-     sale en blanco, y un trabajo impreso no puede tener huecos. */
-  main > .seccion,
-  main > .seccion:first-of-type { content-visibility: visible !important; }
 }
 /* ==========================================================================
    EL CHROME DE LOS JUEGOS
@@ -702,29 +704,8 @@ code, .mono {
 .cierre-juego .autor { max-width: 540px; margin-inline: auto; text-align: left; }
 .cierre-juego__texto { max-width: 58ch; margin: .9rem auto 1.75rem; color: var(--fg-soft); }
 .cierre-juego__acciones { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
-/* --------------------------------------------------------------------------
-   RENDIZADO DE LAS SECCIONES QUE NO SE VEN
-   Las paginas de historia y de cuento son largas. El navegador las dibuja
-   enteras al abrirlas, y luego no vuelve a tocarlas nunca. Con esto solo
-   dibuja la seccion que esta en pantalla: al bajar, la dibuja, y al subir
-   ya esta hecha. El tamano de respaldo se guarda con 'auto', que es lo que
-   hace que la barra de desplazamiento no de saltos.
-   -------------------------------------------------------------------------- */
-
-main > .seccion {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 700px;
-}
-
-/* La cabecera nunca se salta: esta arriba del todo y siempre se ve. */
-main > .seccion:first-of-type {
-  content-visibility: visible;
-}
-
-/* Sin esta linea, un navegador viejo simplemente ignora lo de arriba. */
-@supports not (content-visibility: auto) {
-  main > .seccion { content-visibility: visible; }
-}
+/* TAREA T03: se elimino 'content-visibility: auto' de main > .seccion
+   porque rompía las anclas del índice. Las secciones se dibujan siempre. */
 /* ==========================================================================
    PIE DE LA CABECERA DE LAS PAGINAS DE PIEZA
    "Tipo: progresion | Cuentas que tienes que hacer: ninguna | Rondas: 3".
