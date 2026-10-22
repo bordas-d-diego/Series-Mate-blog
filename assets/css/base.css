@@ -63,7 +63,8 @@
 
   /* Medidas */
   --w: 1180px;
-  --nav-h: 68px;
+  /* TAREA T05: la cabecera pegajosa no debe medir mas de 64px. */
+  --nav-h: 64px;
 
   /* Textura de fondo: la usan el tema del proyecto y el de Diego */
   --grid-line: rgba(16, 24, 38, .03);
@@ -96,7 +97,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  /* TAREA T04: cabecera pegajosa (--nav-h: 68px) + 16px de margen. */
+  /* TAREA T04: cabecera pegajosa (--nav-h: 64px, T05) + 16px de margen. */
   scroll-padding-top: calc(var(--nav-h) + 16px);
 }
 
@@ -230,7 +231,10 @@ code, .mono {
   position: sticky;
   top: 0;
   z-index: 100;
+  /* TAREA T05: tope duro de 64px en la cabecera pegajosa. */
   height: var(--nav-h);
+  max-height: 64px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   background: var(--nav-bg, rgba(253, 252, 249, .85));
@@ -542,7 +546,8 @@ code, .mono {
    11. ADAPTACIÓN A CELULAR
    -------------------------------------------------------------------------- */
 @media (max-width: 640px) {
-  :root { --nav-h: 60px; }
+  /* TAREA T05: en celular la cabecera sigue midiendo 64px. */
+  :root { --nav-h: 64px; }
   .caja { padding-inline: 1rem; }
   .seccion { padding-block: 3.5rem; }
   h1 { font-size: clamp(1.9rem, 8vw, 2.6rem); }

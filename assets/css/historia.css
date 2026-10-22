@@ -813,3 +813,131 @@
   .hist__hito-lamina img,
   .hist__lamina img { box-shadow: none; }
 }
+
+/* --------------------------------------------------------------------------
+   13. TAREA T05 — INDICE COMPACTO (.nav-compacta)
+   El indice de las paginas de historia cabe en una sola linea: en pantalla
+   grande es una fila con scroll horizontal si no caben los enlaces; en celular
+   (max-width: 640px) se convierte en un boton "Indice" que despliega la lista
+   como un dropdown pegado bajo la cabecera, que nunca mide mas de 64px.
+   Los textos de los enlaces no cambian: solo su disposicion.
+   -------------------------------------------------------------------------- */
+.hist__indice.nav-compacta { display: none; }
+@media (min-width: 641px) {
+  .hist__indice.nav-compacta {
+    display: block;
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 90;
+    width: 100%;
+    max-height: 64px;
+    overflow: hidden;
+    background: var(--bg);
+    border-bottom: 2px solid var(--line);
+    padding-block: .5rem;
+  }
+  /* Fila unica con scroll horizontal cuando el indice es largo. */
+  .hist__indice.nav-compacta ol {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: .3rem;
+    width: 100%;
+    max-width: var(--w);
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+  .hist__indice.nav-compacta ol > li { flex: 0 0 auto; }
+  .hist__indice.nav-compacta a { white-space: nowrap; }
+}
+
+/* El boton del dropdown solo existe en celular. */
+.nav-compacta__interruptor { display: none; }
+@media (max-width: 640px) {
+  .hist__indice.nav-compacta {
+    display: block;
+    position: fixed;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    z-index: 95;
+    height: 0;
+    max-height: 64px;
+    overflow: visible;
+    padding: 0 1rem;
+    background: transparent;
+    border-bottom: 0;
+  }
+  .nav-compacta__interruptor {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    height: 44px;
+    padding: 0 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: var(--bg);
+    box-shadow: var(--sh-sm);
+    font-family: var(--f-body);
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--fg-soft);
+    cursor: pointer;
+  }
+  .nav-compacta__flecha { transition: transform var(--dur) var(--ease-out); }
+  .nav-compacta__interruptor[aria-expanded="true"] .nav-compacta__flecha {
+    transform: rotate(180deg);
+  }
+  /* Dropdown: la lista cae bajo el boton sin sumar filas a la cabecera. */
+  .hist__indice.nav-compacta ol {
+    display: grid;
+    gap: .15rem;
+    position: absolute;
+    top: 52px;
+    left: 1rem;
+    right: 1rem;
+    max-height: calc(100vh - var(--nav-h) - 72px);
+    overflow-y: auto;
+    padding: .5rem;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    box-shadow: var(--sh-lg);
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease-out),
+                visibility var(--dur);
+  }
+  .hist__indice.nav-compacta ol[hidden] {
+    display: grid;
+    opacity: 0;
+    transform: scaleY(.92) translateY(-8px);
+    visibility: hidden;
+  }
+  .hist__indice.nav-compacta a { white-space: normal; }
+}
+
+/* ==========================================================================
+   14. LLAMADAS NUMERICAS A LAS REFERENCIAS (TAREA T10)
+   ========================================================================== */
+sup > a[href^="#ref-"] {
+  font-family: var(--f-mono);
+  font-size: .7em;
+  font-weight: 600;
+  line-height: 0;
+  color: var(--accent);
+  text-decoration: none;
+  padding-inline: .1em;
+}
+sup > a[href^="#ref-"]:hover,
+sup > a[href^="#ref-"]:focus-visible { text-decoration: underline; }
+
+/* Destino de la llamada: mismo compensado que las anclas del indice (T04). */
+.refs li[id^="ref-"] { scroll-margin-top: calc(var(--nav-h) + 16px); }
+.refs li[id^="ref-"]:target {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-radius: 3px;
+}

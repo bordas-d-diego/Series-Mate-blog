@@ -27,23 +27,10 @@
      de navegacion, y le devuelve el alto a su contenido. No toca ningun color
      ni ninguna medida del componente, y se puede borrar entero. -->
 <style>
-  @media (min-width: 1200px) {
-    html { scroll-padding-top: calc(var(--nav-h) + 4rem); }
-    .hist__indice {
-      top: var(--nav-h);
-      z-index: 90;
-      max-height: none;
-      overflow-y: visible;
-      width: 100%;
-      max-width: var(--w);
-      margin-inline: auto;
-      padding: 0 1.5rem .85rem;
-      border-left: 0;
-      border-bottom: 2px solid var(--line);
-      background: var(--bg);
-    }
-    .hist__indice ol { display: flex; flex-wrap: wrap; gap: .15rem .3rem; }
-  }
+  /* TAREA T05: el indice compacto (.nav-compacta) lo dibuja ya historia.css:
+     una fila con scroll horizontal bajo la cabecera de 64px y un dropdown en
+     celular. El antiguo andamiaje de 1200px se retira; solo quedan aqui las
+     reglas propias de esta pagina. */
   /* La lista de referencias. La clase .refs vive en piezas-diego.css, que esta
      pagina no carga: sin estas dos reglas las fuentes saldrian con el numero
      del navegador, sin el aire del resto de la pagina y con la tinta del tema
@@ -101,8 +88,17 @@
      pone historia.css: aqui va solo el markup. -->
 <div class="hist__progreso" aria-hidden="true"><span></span></div>
 
-<nav class="hist__indice" aria-label="&Iacute;ndice de la p&aacute;gina">
-  <ol>
+<nav class="hist__indice nav-compacta" aria-label="&Iacute;ndice de la p&aacute;gina">
+  <button class="nav-compacta__interruptor" id="indiceInterruptor" type="button"
+          aria-expanded="false" aria-controls="indiceLista"
+          aria-label="Abrir el &iacute;ndice de la p&aacute;gina">
+    &Iacute;ndice
+    <svg class="nav-compacta__flecha" width="12" height="12" viewBox="0 0 16 16" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <path d="M4 6l4 4 4-4"/>
+    </svg>
+  </button>
+  <ol id="indiceLista">
     <li><a href="#usos">1. Los cuatro usos</a></li>
     <li><a href="#advertencia">2. La advertencia</a></li>
     <li><a href="#razon-uno">3. La raz&oacute;n 1</a></li>
@@ -410,7 +406,7 @@
         <h2 id="advertencia">Cuando a&ntilde;adir cosas peque&ntilde;as nunca termina</h2>
         <p>
           Hay una serie que parece la m&aacute;s inofensiva del mundo y es la m&aacute;s
-          traicionera. Es la que aparece en mi cuento: la cuenta que no cuadra.
+          traicionera. Es la que aparece en mi cuento: la cuenta que no cuadra.<sup><a href="#ref-2">[2]</a></sup>
         </p>
       </div>
 
@@ -428,7 +424,7 @@
           Cada t&eacute;rmino es m&aacute;s peque&ntilde;o que el anterior, y esa es la
           intuici&oacute;n que enga&ntilde;a: si cada n&uacute;mero se acerca a cero, la
           suma deber&iacute;a acabarse. No es cierto. La suma de esta serie es
-          <strong>infinita</strong>.
+          <strong>infinita</strong>.<sup><a href="#ref-1">[1]</a></sup>
         </p>
         <p>
           La raz&oacute;n se entiende agrupando. Los primeros 1 000 t&eacute;rminos suman
@@ -462,7 +458,7 @@
           signo. Y eso solo ya basta para que la suma se quede quieta: converge a
           <math><mrow><mi mathvariant="normal">ln</mi><mn>2</mn><mo>=</mo><mn>0,6931471805599453&hellip;</mn></mrow></math>.
           La arm&oacute;nica, con los mismos t&eacute;rminos y sin alternar los signos,
-          se va al infinito.
+          se va al infinito.<sup><a href="#ref-2">[2]</a></sup>
         </p>
       </div>
     </div>
@@ -665,7 +661,7 @@
               hilo que sube. Es la primera vez que una m&aacute;quina obedece a una
               lista guardada fuera de ella. Jacquard lo present&oacute; en 1801 en
               la Exposici&oacute;n de productos de la industria de Par&iacute;s, y la
-              patente lleg&oacute; en 1804.
+              patente lleg&oacute; en 1804.<sup><a href="#ref-1">[1]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">La lista manda</span>
           </div>
@@ -689,7 +685,7 @@
               de Par&iacute;s el 21 de diciembre de 1807. La ecuaci&oacute;n que estaba
               resolviendo es la del calor,
               <math><mrow><mfrac><mrow><mo>&#8706;</mo><mi>u</mi></mrow><mrow><mo>&#8706;</mo><mi>t</mi></mrow></mfrac><mo>=</mo><mi>&#945;</mi><mfrac><mrow><msup><mo>&#8706;</mo><mn>2</mn></msup><mi>u</mi></mrow><mrow><mo>&#8706;</mo><msup><mi>x</mi><mn>2</mn></msup></mrow></mfrac></mrow></math>,
-              y la respuesta a esa ecuaci&oacute;n es justamente una suma de esas ondas.
+              y la respuesta a esa ecuaci&oacute;n es justamente una suma de esas ondas.<sup><a href="#ref-3">[3]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">Una funci&oacute;n es una suma</span>
           </div>
@@ -780,7 +776,7 @@
               con much&iacute;simas menos operaciones. Gauss
               hab&iacute;a hecho algo parecido hacia <strong>1805</strong>, pero no lo
               public&oacute;; su trabajo apareci&oacute; p&oacute;stumo en
-              <strong>1866</strong>.
+              <strong>1866</strong>.<sup><a href="#ref-4">[4]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">El mismo resultado, menos operaciones</span>
           </div>
@@ -801,7 +797,7 @@
               <em>IEEE Transactions on Computers</em> C-23(1), enero de 1974,
               p&aacute;ginas 90-92. Una foto se parte en bloques de 8 &times; 8, cada
               bloque en cosenos, casi todos los coeficientes salen casi cero y se
-              tiran. De ah&iacute; sale el JPEG.
+              tiran. De ah&iacute; sale el JPEG.<sup><a href="#ref-5">[5]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">De ah&iacute; sale el JPEG</span>
           </div>
@@ -852,7 +848,7 @@
               <th scope="row">JPEG</th>
               <td>Coseros, en bloques de 8 &times; 8 (transformada discreta del coseno)</td>
               <td>Guarda la imagen con menos n&uacute;meros, tirando los coeficientes que casi no aportan</td>
-              <td>El est&aacute;ndar es ITU-T T.81 / ISO/IEC 10918-1, aprobado en 1992</td>
+              <td>El est&aacute;ndar es ITU-T T.81 / ISO/IEC 10918-1, aprobado en 1992<sup><a href="#ref-6">[6]</a></sup></td>
             </tr>
             <tr>
               <th scope="row">MP3 y AAC</th>
@@ -870,7 +866,7 @@
               <th scope="row">TAC</th>
               <td>La transformada de Radon</td>
               <td>Reconstruye un corte a partir de muchas proyecciones</td>
-              <td>Johann Radon la public&oacute; en 1917; la reconstrucci&oacute;n usa retroproyecci&oacute;n filtrada</td>
+              <td>Johann Radon la public&oacute; en 1917; la reconstrucci&oacute;n usa retroproyecci&oacute;n filtrada<sup><a href="#ref-7">[7]</a></sup></td>
             </tr>
             <tr>
               <th scope="row">Sismolog&iacute;a</th>
@@ -922,7 +918,7 @@
       <div class="prose mt-6 aparece">
         <p>
           La &uacute;ltima fila de la tabla nombra el problema; la manera en que qued&oacute;
-          escrito, la que se public&oacute; en 2000, es la que sigue.
+          escrito, la que se public&oacute; en 2000, es la que sigue.<sup><a href="#ref-8">[8]</a></sup>
         </p>
       </div>
 
@@ -1152,7 +1148,7 @@
           comprar para tener la colecci&oacute;n completa. Lo que sale no es un n&uacute;mero
           de la serie geom&eacute;trica, que habr&iacute;a sido f&aacute;cil, sino el
           <strong>valor esperado</strong> del n&uacute;mero de sobres, y ese sale de la
-          serie arm&oacute;nica.
+          serie arm&oacute;nica.<sup><a href="#ref-1">[1]</a></sup>
         </p>
       </div>
 
@@ -1170,7 +1166,7 @@
           <abbr class="hist__term" tabindex="0" title="Divergencia: que las sumas parciales no se acerquen a ning&uacute;n n&uacute;mero fijo y sigan creciendo. Una serie divergente no tiene suma finita: por eso la de los cromos sale grande.">divergente</abbr>
           aqu&iacute;
           no es una casualidad: justamente porque no converge, el n&uacute;mero de
-          sobres sale grande.
+          sobres sale grande.<sup><a href="#ref-2">[2]</a></sup>
         </p>
         <p class="hist__formula-nota">
           Nadie suma mil t&eacute;rminos cada vez que quiere saberlo. Se usa la
@@ -1178,7 +1174,7 @@
           <math><mrow><mi>n</mi><mo>&#183;</mo><mi mathvariant="normal">ln</mi><mi>n</mi><mo>+</mo><mi>&#947;</mi><mo>&#183;</mo><mi>n</mi><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></mrow></math>,
           con
           <math><mrow><mi>&#947;</mi><mo>=</mo><mn>0,5772156649&hellip;</mn></mrow></math>,
-          la constante de Euler-Mascheroni.
+          la constante de Euler-Mascheroni.<sup><a href="#ref-9">[9]</a></sup>
         </p>
       </div>
 
@@ -1321,15 +1317,17 @@
       </div>
 
       <ol class="refs aparece">
-        <li><strong>Boyer, Carl B.; Merzbach, Uta C.</strong> <em>A History of Mathematics</em>. 3.&ordf; ed. John Wiley &amp; Sons, 2011.</li>
-        <li><strong>Katz, Victor J.</strong> <em>A History of Mathematics: An Introduction</em>. Addison-Wesley (Pearson), 3.&ordf; ed.</li>
-        <li><strong>Fourier, J.</strong> <em>Th&eacute;orie analytique de la chaleur</em>. Par&iacute;s: Firmin Didot, 1822.</li>
-        <li><strong>Cooley, J. W.; Tukey, J. W.</strong> &laquo;An Algorithm for the Machine Calculation of Complex Fourier Series&raquo;, <em>Mathematics of Computation</em> 19(90), abril de 1965, pp. 297-301.</li>
-        <li><strong>Ahmed, N.; Natarajan, T.; Rao, K. R.</strong> &laquo;Discrete Cosine Transform&raquo;, <em>IEEE Transactions on Computers</em> C-23(1), enero de 1974, pp. 90-92.</li>
-        <li><strong>ITU-T.</strong> Recomendaci&oacute;n T.81 / ISO/IEC 10918-1 (JPEG), 1992-1994.</li>
-        <li><strong>Radon, J.</strong> &laquo;&Uuml;ber die Bestimmung von Funktionen durch ihre Integralwerte l&auml;ngs gewisser Mannigfaltigkeiten&raquo;, <em>Berichte der K&ouml;nigl. S&auml;chsischen Gesellschaft der Wissenschaften</em> 69, Leipzig, 1917.</li>
-        <li><strong>Clay Mathematics Institute.</strong> <em>Millennium Prize Problems</em>, anunciados en Par&iacute;s el 24 de mayo de 2000.</li>
-        <li><strong>Ap&eacute;ry, R.</strong> &laquo;Irrationalit&eacute; de &zeta;(2) et &zeta;(3)&raquo;, <em>Ast&eacute;risque</em> 61 (1979), pp. 11-13.</li>
+        <!-- TAREA T09: nueve referencias en formato APA simplificado, todas
+             con su id para recibir las llamadas numericas del texto. -->
+        <li id="ref-1"><strong>Boyer, C. B.; Merzbach, U. C.</strong> (2011). <em>A History of Mathematics</em> (3.&ordf; ed.). John Wiley &amp; Sons.</li>
+        <li id="ref-2"><strong>Katz, V. J.</strong> (2019). <em>A History of Mathematics: An Introduction</em> (3.&ordf; ed.). Addison-Wesley (Pearson).</li>
+        <li id="ref-3"><strong>Fourier, J.</strong> (1822). <em>Th&eacute;orie analytique de la chaleur</em>. Par&iacute;s: Firmin Didot.</li>
+        <li id="ref-4"><strong>Cooley, J. W.; Tukey, J. W.</strong> (1965). &laquo;An Algorithm for the Machine Calculation of Complex Fourier Series&raquo;, <em>Mathematics of Computation</em> 19(90), abril de 1965, pp. 297-301.</li>
+        <li id="ref-5"><strong>Ahmed, N.; Natarajan, T.; Rao, K. R.</strong> (1974). &laquo;Discrete Cosine Transform&raquo;, <em>IEEE Transactions on Computers</em> C-23(1), enero de 1974, pp. 90-92.</li>
+        <li id="ref-6"><strong>ITU-T.</strong> (1992-1994). Recomendaci&oacute;n T.81 / ISO/IEC 10918-1 (JPEG).</li>
+        <li id="ref-7"><strong>Radon, J.</strong> (1917). &laquo;&Uuml;ber die Bestimmung von Funktionen durch ihre Integralwerte l&auml;ngs gewisser Mannigfaltigkeiten&raquo;, <em>Berichte der K&ouml;nigl. S&auml;chsischen Gesellschaft der Wissenschaften</em> 69, Leipzig.</li>
+        <li id="ref-8"><strong>Clay Mathematics Institute.</strong> (2000). <em>Millennium Prize Problems</em>, anunciados en Par&iacute;s el 24 de mayo de 2000.</li>
+        <li id="ref-9"><strong>Ap&eacute;ry, R.</strong> (1979). &laquo;Irrationalit&eacute; de &zeta;(2) et &zeta;(3)&raquo;, <em>Ast&eacute;risque</em> 61, pp. 11-13.</li>
       </ol>
     </div>
   </section>
