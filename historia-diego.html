@@ -27,23 +27,10 @@
      de navegacion, y le devuelve el alto a su contenido. No toca ningun color
      ni ninguna medida del componente, y se puede borrar entero. -->
 <style>
-  @media (min-width: 1200px) {
-    html { scroll-padding-top: calc(var(--nav-h) + 4rem); }
-    .hist__indice {
-      top: var(--nav-h);
-      z-index: 90;
-      max-height: none;
-      overflow-y: visible;
-      width: 100%;
-      max-width: var(--w);
-      margin-inline: auto;
-      padding: 0 1.5rem .85rem;
-      border-left: 0;
-      border-bottom: 2px solid var(--line);
-      background: var(--bg);
-    }
-    .hist__indice ol { display: flex; flex-wrap: wrap; gap: .15rem .3rem; }
-  }
+  /* TAREA T05: el indice compacto (.nav-compacta) lo dibuja ya historia.css:
+     una fila con scroll horizontal bajo la cabecera de 64px y un dropdown en
+     celular. El antiguo andamiaje de 1200px se retira; solo quedan aqui las
+     reglas propias de esta pagina. */
 </style>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230b3d91'/><text x='50' y='72' font-size='62' font-family='Georgia,serif' fill='white' text-anchor='middle'>%CE%A3</text></svg>">
 </head>
@@ -88,8 +75,17 @@
      pone historia.css: aqui va solo el markup. -->
 <div class="hist__progreso" aria-hidden="true"><span></span></div>
 
-<nav class="hist__indice" aria-label="&Iacute;ndice de la p&aacute;gina">
-  <ol>
+<nav class="hist__indice nav-compacta" aria-label="&Iacute;ndice de la p&aacute;gina">
+  <button class="nav-compacta__interruptor" id="indiceInterruptor" type="button"
+          aria-expanded="false" aria-controls="indiceLista"
+          aria-label="Abrir el &iacute;ndice de la p&aacute;gina">
+    &Iacute;ndice
+    <svg class="nav-compacta__flecha" width="12" height="12" viewBox="0 0 16 16" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <path d="M4 6l4 4 4-4"/>
+    </svg>
+  </button>
+  <ol id="indiceLista">
     <li><a href="#que-es">1. &iquest;Qu&eacute; es una serie?</a></li>
     <li><a href="#definiciones">2. Las cinco palabras</a></li>
     <li><a href="#recorrido">3. Trece pasos</a></li>
@@ -155,7 +151,7 @@
           n&uacute;mero finito y se calcula de una vez. La <strong>suma de la
           serie</strong> es el l&iacute;mite de esas sumas parciales cuando <em>n</em>
           crece sin parar. Ese l&iacute;mite puede existir o no. Toda la teor&iacute;a
-          de series consiste, en el fondo, en distinguir esos dos casos.
+          de series consiste, en el fondo, en distinguir esos dos casos.<sup><a href="#ref-1">[1]</a></sup>
         </p>
       </div>
 
@@ -182,7 +178,7 @@
           <math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>+</mo><mo>&hellip;</mo></mrow></math> tiene t&eacute;rminos
           que se acercan a cero y, sin embargo, su suma es infinita. Se llama
           <strong>serie arm&oacute;nica</strong>, y es el contraejemplo que usaremos
-          varias veces en este trabajo.
+          varias veces en este trabajo.<sup><a href="#ref-9">[9]</a></sup>
         </p>
       </div>
     </div>
@@ -336,7 +332,7 @@
               infinita en el centro del argumento. Zen&oacute;n sosten&iacute;a que Aquiles
               nunca alcanza a la tortuga porque entre ellos siempre queda un trozo;
               la respuesta es que una suma de infinitos sumandos puede dar un
-              resultado finito, y eso no se pudo decir con precisi&oacute;n hasta el siglo XIX.
+              resultado finito, y eso no se pudo decir con precisi&oacute;n hasta el siglo XIX.<sup><a href="#ref-1">[1]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">Una suma que no se acaba</span>
           </div>
@@ -357,7 +353,7 @@
               &aacute;rea por debajo y por encima. Lo notable es que nunca calculaba el
               resultado: solo estrechaba el cerco. Cada figura nueva dejaba fuera un
               resto, y el resto se hac&iacute;a m&aacute;s peque&ntilde;o con cada paso.
-              Es la idea de <strong>l&iacute;mite</strong> disfrazada de dibujo.
+              Es la idea de <strong>l&iacute;mite</strong> disfrazada de dibujo.<sup><a href="#ref-2">[2]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">Origen: acotar, no calcular</span>
           </div>
@@ -379,7 +375,7 @@
               diagrama de la suma aritm&eacute;tica: si por cada cantidad se toma una
               cantidad mayor, y entre ambas hay much&iacute;simas intermedias, entonces
               las primeras est&aacute;n por debajo y las &uacute;ltimas por encima.
-              Acotaci&oacute;n por los dos lados, igual que Antif&oacute;n.
+              Acotaci&oacute;n por los dos lados, igual que Antif&oacute;n.<sup><a href="#ref-8">[8]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">La primera demostraci&oacute;n formal</span>
           </div>
@@ -404,7 +400,7 @@
               seis, el libro X desarrolla una teor&iacute;a de razones: es, con
               diferencia, el libro m&aacute;s largo y m&aacute;s complejo de los trece,
               y sus 115 proposiciones son casi una cuarta parte de las 465 de toda la
-              obra. El precio de rigor fue un libro entero de preparaci&oacute;n.
+              obra. El precio de rigor fue un libro entero de preparaci&oacute;n.<sup><a href="#ref-2">[2]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">El rigor paga caro</span>
           </div>
@@ -432,7 +428,7 @@
               demuestra con ella que el &aacute;rea del segmento parab&oacute;lico es
               <math><mfrac><mn>4</mn><mn>3</mn></mfrac></math> del &aacute;rea del
               tri&aacute;ngulo inscrito. La obra est&aacute; dirigida a
-              <strong>Dositeo</strong> y es del siglo III a.C.
+              <strong>Dositeo</strong> y es del siglo III a.C.<sup><a href="#ref-2">[2]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">Nace la serie geom&eacute;trica</span>
           </div>
@@ -455,7 +451,7 @@
               mismo nombre es <em>m&amacr;tr&amacr;-meru</em>. Pingala dio el
               <strong>fundamento combinatorio</strong>; la sucesi&oacute;n aditiva la
               formalizaron despu&eacute;s <strong>Virah&amacr;nka</strong> (siglos
-              VI&ndash;VIII) y <strong>Hemachandra</strong> (hacia 1150).
+              VI&ndash;VIII) y <strong>Hemachandra</strong> (hacia 1150).<sup><a href="#ref-5">[5]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">La India llega antes</span>
           </div>
@@ -477,7 +473,7 @@
               1, 1, 2, 3, 5, 8, 13, 21&hellip; se construye con sumas: cada t&eacute;rmino
               es el resultado de sumar los dos anteriores. Lo que hoy llamamos
               <strong>recursi&oacute;n</strong> naci&oacute; aqu&iacute; como un truco
-              para contar conejos.
+              para contar conejos.<sup><a href="#ref-3">[3]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">Cada t&eacute;rmino nace de los dos previos</span>
           </div>
@@ -499,7 +495,7 @@
               t&eacute;rminos en bloques de potencias de dos:
               <math><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mo>(</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>)</mo><mo>+</mo><mo>(</mo><mfrac><mn>1</mn><mn>5</mn></mfrac><mo>+</mo><mo>&hellip;</mo><mo>+</mo><mfrac><mn>1</mn><mn>8</mn></mfrac><mo>)</mo><mo>+</mo><mo>&hellip;</mo></mrow></math>,
               y cada bloque suma <strong>al menos 1/2</strong>, as&iacute; que la suma crece
-              sin tope.
+              sin tope.<sup><a href="#ref-9">[9]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">La arm&oacute;nica diverge</span>
           </div>
@@ -521,7 +517,7 @@
               el <strong>m&eacute;todo general</strong> que convirti&oacute; las series de
               potencias en el instrumento central del c&aacute;lculo. La pregunta de
               <em>cu&aacute;ndo</em> una de esas sumas se queda quieta no se respondi&oacute; de
-              verdad hasta Cauchy, en 1821.
+              verdad hasta Cauchy, en 1821.<sup><a href="#ref-3">[3]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">Se dice la palabra converger</span>
           </div>
@@ -543,7 +539,7 @@
               es correcta, pero converge tan despacio que hacen falta millones de
               t&eacute;rminos para aproximar &pi;. El problema no era de exactitud sino de
               velocidad: un l&iacute;mite correcto que llega demasiado tarde. Ese hueco
-              defini&oacute; buena parte de la matem&aacute;tica del siglo XIX.
+              defini&oacute; buena parte de la matem&aacute;tica del siglo XIX.<sup><a href="#ref-6">[6]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">Un l&iacute;mite correcto pero lent&iacute;simo</span>
           </div>
@@ -567,7 +563,7 @@
               era <math><mfrac><msup><mi>&pi;</mi><mn>2</mn></msup><mn>6</mn></mfrac></math>.
               Una suma de fracciones ordinarias igual al cuadrado de la circunferencia.
               Se public&oacute; despu&eacute;s en varios art&iacute;culos, entre ellos el E41 de
-              1740 y el E63 de 1743.
+              1740 y el E63 de 1743.<sup><a href="#ref-4">[4]</a></sup>
             </p>
 
             <figure class="hist__lamina" style="max-width: 20rem">
@@ -589,7 +585,7 @@
               que se capitaliza sin parar, y ya era el l&iacute;mite de
               <math><msup><mrow><mo>(</mo><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><mo>)</mo></mrow><mi>n</mi></msup></math>.
               Euler adopt&oacute; la letra <em>e</em> en 1727-1728, y la us&oacute; impresa por
-              primera vez en la <em>Mechanica</em>, de 1736.
+              primera vez en la <em>Mechanica</em>, de 1736.<sup><a href="#ref-6">[6]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">El n&uacute;mero m&aacute;s misterioso</span>
           </div>
@@ -610,7 +606,7 @@
               definici&oacute;n de l&iacute;mite con palabras en vez de con dibujos, y con
               ella el <strong>criterio de Cauchy</strong> de convergencia. Hasta entonces
               &laquo;sumar infinitos t&eacute;rminos&raquo; era una intuici&oacute;n; desde aqu&iacute;
-              es una definici&oacute;n.
+              es una definici&oacute;n.<sup><a href="#ref-7">[7]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">De la intuici&oacute;n a la definici&oacute;n</span>
           </div>
@@ -636,7 +632,9 @@
               que result&oacute; irracional en 1978 (Roger Ap&eacute;ry). La hip&oacute;tesis de
               Riemann &mdash;d&oacute;nde est&aacute;n los ceros de esa funci&oacute;n&mdash; es
               desde el a&ntilde;o 2000 uno de los siete Problemas del Milenio, con un
-              premio de un mill&oacute;n de d&oacute;lares.
+              premio de un mill&oacute;n de d&oacute;lares.<sup><a href="#ref-1">[1]</a></sup> La irracionalidad
+              de <math><mrow><mi>&zeta;</mi><mo>(</mo><mn>3</mn><mo>)</mo></mrow></math> la demostr&oacute;
+              Roger Ap&eacute;ry en 1978.<sup><a href="#ref-3">[3]</a></sup>
             </p>
             <span class="hist__hito-etiqueta">Una funci&oacute;n para todas las series</span>
           </div>
@@ -1322,15 +1320,18 @@
       </div>
 
       <ol class="refs aparece">
-        <li><strong>Katz, Victor J.</strong> <em>A History of Mathematics: An Introduction</em>. Addison-Wesley (Pearson), 3.&ordf; ed.</li>
-        <li><strong>Boyer, Carl B.; Merzbach, Uta C.</strong> <em>A History of Mathematics</em>. 3.&ordf; ed. John Wiley &amp; Sons, 2011.</li>
-        <li><strong>Wikipedia</strong>, &laquo;Method of exhaustion&raquo;. El procedimiento se atribuye a Antif&oacute;n hacia 410 a.C. y Eudoxo lo llev&oacute; a forma rigurosa; Euclides lo aplica en el libro XII de los <em>Elementos</em>.</li>
-        <li><strong>Euler, L.</strong> &laquo;De summis serierum reciprocarum&raquo; (E41), <em>Commentarii academiae scientiarum Petropolitanae</em> 7 (1740), pp.&nbsp;123-134. Planteado por Pietro Mengoli en 1650; resuelto por Euler en 1734 y le&iacute;do ante la Academia de Ciencias de San Petersburgo el 5 de diciembre de 1735.</li>
-        <li><strong>Wikipedia</strong>, &laquo;Fibonacci sequence&raquo;. <em>Liber Abaci</em>, 1202. El mismo c&aacute;lculo ya se usaba en la India desde Pingala, hacia el 200 a.C., con el nombre de <em>meru-prast&amacr;ra</em>.</li>
-        <li><strong>Euler, Leonhard</strong>. <em>Introductio in analysin infinitorum</em>. Lausana, 1748.</li>
-        <li><strong>Cauchy, Augustin-Louis</strong>. <em>Cours d'analyse</em>. Par&iacute;s, 1821.</li>
-        <li><strong>Heath, Thomas L.</strong> <em>A History of Greek Mathematics</em>. Oxford, Clarendon Press, 1921. Cap&iacute;tulos 5 y 10.</li>
-        <li><strong>Oresme, Nicole</strong> (h. 1350), <em>Quaestiones super geometriam Euclidis</em>, citado en Boyer&ndash;Merzbach (2011).</li>
+        <!-- TAREA T09: fuera las dos referencias a Wikipedia; entran sus
+             sustitutas academicas (Katz 2019 / Heath 1981 para el metodo de
+             exhaucion y Plofker 2009 para la sucesion antes de Fibonacci). -->
+        <li id="ref-1"><strong>Katz, V. J.</strong> (2019). <em>A History of Mathematics: An Introduction</em> (3.&ordf; ed.). Addison-Wesley (Pearson).</li>
+        <li id="ref-2"><strong>Heath, T. L.</strong> (1981). <em>A History of Greek Mathematics</em> (vols. 1-2). Dover Publications. (Orig.: Oxford, Clarendon Press, 1921.)</li>
+        <li id="ref-3"><strong>Boyer, C. B.; Merzbach, U. C.</strong> (2011). <em>A History of Mathematics</em> (3.&ordf; ed.). John Wiley &amp; Sons.</li>
+        <li id="ref-4"><strong>Euler, L.</strong> (1740). &laquo;De summis serierum reciprocarum&raquo; (E41), <em>Commentarii academiae scientiarum Petropolitanae</em> 7, pp.&nbsp;123-134. Planteado por Pietro Mengoli en 1650; resuelto por Euler en 1734 y le&iacute;do ante la Academia de Ciencias de San Petersburgo el 5 de diciembre de 1735.</li>
+        <li id="ref-5"><strong>Plofker, K.</strong> (2009). <em>Mathematics in India</em>. Princeton University Press. El c&aacute;lculo de la sucesi&oacute;n ya se usaba en la India desde Pingala, hacia el 200 a.C., con el nombre de <em>meru-prast&amacr;ra</em>.</li>
+        <li id="ref-6"><strong>Euler, L.</strong> (1748). <em>Introductio in analysin infinitorum</em>. Lausana.</li>
+        <li id="ref-7"><strong>Cauchy, A.-L.</strong> (1821). <em>Cours d'analyse</em>. Par&iacute;s.</li>
+        <li id="ref-8"><strong>Heath, T. L.</strong> (1921). <em>A History of Greek Mathematics</em>. Oxford, Clarendon Press. Cap&iacute;tulos 5 y 10.</li>
+        <li id="ref-9"><strong>Oresme, N.</strong> (h. 1350). <em>Quaestiones super geometriam Euclidis</em>, citado en Boyer&ndash;Merzbach (2011).</li>
       </ol>
     </div>
   </section>

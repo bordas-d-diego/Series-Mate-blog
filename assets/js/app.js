@@ -59,7 +59,95 @@
   }
 
   /* ------------------------------------------------------------------
-     3. Aparición suave de los elementos al entrar en pantalla
+     3. Enlaces del índice (href="#..."): scroll suave + foco en el destino
+        TAREA T04: al pulsar una ancla se hace scrollIntoView suave y luego
+        se pone el foco en la sección destino para accesibilidad.
+     ------------------------------------------------------------------ */
+  document.addEventListener('click', function (ev) {
+    var enlace = ev.target.closest ? ev.target.closest('a[href^="#"]') : null;
+    if (!enlace) return;
+
+    var hash = enlace.getAttribute('href');
+    if (!hash || hash === '#') return;
+
+    var destino;
+    try {
+      destino = document.querySelector(hash);
+    } catch (e) {
+      return; // hash no válido como selector: dejar el comportamiento nativo
+    }
+    if (!destino) return;
+
+    ev.preventDefault();
+
+    // Preparar el destino para poder recibir el foco por JavaScript.
+    if (!destino.hasAttribute('tabindex')) {
+      destino.setAttribute('tabindex', '-1');
+    }
+
+    destino.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    destino.focus({ preventScroll: true });
+
+    // Al navegar desde el dropdown del indice, se cierra en celular.
+    cerrarIndiceMovil();
+
+    // Actualizar la URL sin disparar un salto adicional.
+    if (history.pushState) history.pushState(null, '', hash);
+  });
+
+  /* ------------------------------------------------------------------
+     3.b Dropdown del indice compacto en celular (TAREA T05)
+         Bajo max-width: 640px el indice es un boton que despliega la
+         lista; aqui esta su comportamiento y su cierre con Escape o al
+         pulsar fuera.
+     ------------------------------------------------------------------ */
+  var botonIndice = document.getElementById('indiceInterruptor');
+  var listaIndice = document.getElementById('indiceLista');
+
+  function esMovilIndice() { return window.matchMedia('(max-width: 640px)').matches; }
+
+  function aplicarIndice(abierto) {
+    if (!botonIndice || !listaIndice) return;
+    botonIndice.setAttribute('aria-expanded', String(abierto));
+    botonIndice.setAttribute('aria-label', abierto ? 'Cerrar el índice de la página'
+                                                   : 'Abrir el índice de la página');
+    listaIndice.hidden = !abierto;
+  }
+
+  function cerrarIndiceMovil() {
+    if (esMovilIndice() && botonIndice && listaIndice && !listaIndice.hidden) {
+      aplicarIndice(false);
+    }
+  }
+
+  if (botonIndice && listaIndice) {
+    // En pantalla grande la lista siempre esta visible (fila con scroll).
+    aplicarIndice(esMovilIndice() ? false : true);
+
+    botonIndice.addEventListener('click', function () {
+      aplicarIndice(botonIndice.getAttribute('aria-expanded') !== 'true');
+    });
+
+    document.addEventListener('click', function (ev) {
+      if (!esMovilIndice() || listaIndice.hidden) return;
+      if (listaIndice.contains(ev.target) || botonIndice.contains(ev.target)) return;
+      aplicarIndice(false);
+    });
+
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape' && !listaIndice.hidden) {
+        aplicarIndice(false);
+        botonIndice.focus();
+      }
+    });
+
+    window.matchMedia('(max-width: 640px)').addEventListener('change', function (e) {
+      aplicarIndice(!e.matches);
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     4. Aparición suave de los elementos al entrar en pantalla
      ------------------------------------------------------------------ */
   var revelables = document.querySelectorAll('.aparece');
 
