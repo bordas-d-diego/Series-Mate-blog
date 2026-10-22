@@ -66,6 +66,14 @@
   --hist-lamina-ancho: clamp(200px, 22vw, 260px);
   --hist-riel: 1px;
   --hist-progreso-alto: 3px;
+
+  /* TAREA T15 — TOKENS DE MEDIDA Y RITMO. Son tokens de composicion, no de
+     color: valen igual en los dos temas, asi que van en :root sin reserva por
+     tema. Se aplican al cuerpo del texto de los hitos y a las secciones en la
+     seccion 19, mas abajo. */
+  --medida: 66ch;   /* ancho maximo de lectura */
+  --ritmo: 1.62;    /* interlineado base */
+  --seccion: 72px;  /* margen/padding vertical entre secciones */
 }
 
 /* El tema oscuro no puede usar las reservas de arriba: el color de aviso es
@@ -247,44 +255,56 @@
 }
 
 /* --------------------------------------------------------------------------
-   4. LINEA DE TIEMPO CON LAMINA
+   4. LINEA DE TIEMPO CON LAMINA — TAREA T16: REESCRITA COMPLETA
    --------------------------------------------------------------------------
-   En escritorio son dos columnas con un riel vertical en el medio y un nodo
-   por hito. El riel se dibuja con el pseudoelemento del propio hito, no el de
-   la lista: asi --hist-carril puede cambiar en cada hito y la variante
-   --invertido funciona hito a hito, incluso mezcladas.
-   En movil el riel se pasa a la izquierda y la lamina ocupa todo el ancho.
+   EJE UNICO Y CONTINUO: el riel lo dibuja UNA sola vez la lista (.hist__linea
+   con ::before), de arriba abajo, sin huecos entre hitos. Antes cada <li>
+   dibujaba su trozo de riel y la variante --invertido movia el carril de lado
+   en lado (zigzag): eso eran los saltos y parte de la altura. Ahora el eje
+   esta siempre a la izquierda (--hist-eje: 5px) en todos los anchos.
+
+   ALTURA: el vano entre hitos baja de 3rem (48px) + gap 1.4rem a
+   padding-bottom: clamp(2.5rem, 4vw, 3rem) = 40..48px, siempre <= 96px. Las
+   laminas llevan tope duro de 240px (max-height + object-fit: cover).
+
+   La clase .hist__hito--invertido sigue en el HTML pero ya no mueve nada:
+   conservada por compatibilidad, sin reglas visuales.
    -------------------------------------------------------------------------- */
 .hist__linea {
+  --hist-eje: 5px;              /* posicion X del eje unico */
+  --hist-vano: clamp(2.5rem, 4vw, 3rem); /* vano entre hitos: 40..48px <= 96px */
   list-style: none;
   padding: 0;
   margin: 0;
-}
-.hist__hito {
-  --hist-carril: 5px;
   position: relative;
-  display: grid;
-  gap: 1.4rem;
-  padding-left: 1.75rem;
-  padding-bottom: 3rem;
 }
-.hist__hito:last-child { padding-bottom: 0; }
-
-.hist__hito::before {
+/* El riel continuo: una sola linea vertical, del primer nodo al ultimo.
+   Se para 12px antes del final de la lista para no asomar bajo el ultimo
+   pie de lamina. */
+.hist__linea::before {
   content: "";
   position: absolute;
-  left: var(--hist-carril);
+  left: var(--hist-eje);
   top: .6rem;
-  bottom: 0;
+  bottom: 12px;
   width: var(--hist-riel);
   background: var(--line);
 }
-.hist__hito:last-child::before { bottom: auto; height: 0; }
 
-.hist__hito-cuerpo::before {
+.hist__hito {
+  position: relative;
+  padding-left: 1.75rem;
+  padding-bottom: var(--hist-vano);
+}
+.hist__hito:last-child { padding-bottom: 0; }
+
+/* El nodo va ahora en el propio hito (antes vivia en el cuerpo, que con el
+   orden de lectura de T08 queda debajo de la lamina en celular y el nodo
+   bajaria con ella). Alineado con la chip de la fecha, arriba del todo. */
+.hist__hito::before {
   content: "";
   position: absolute;
-  left: var(--hist-carril);
+  left: var(--hist-eje);
   top: .5rem;
   width: 11px;
   height: 11px;
@@ -296,15 +316,18 @@
 
 .hist__hito-lamina {
   margin: 0;
-  /* TAREA T08: el cuerpo pasa a flex y deja de ser caja de posicion;
-     el nodo de la linea de tiempo (hist__hito-cuerpo::before) se ancla
-     aqui, que es la celda de la izquierda en el diptico. */
   position: relative;
 }
 .hist__hito-lamina img {
   display: block;
   width: 100%;
+  /* TAREA T16: tope de 240px de alto para toda la lamina, recorte incluido.
+     El padding y el borde van dentro de los 240px (box-sizing: border-box,
+     que base.css pone para *, img incluida), asi que nunca se pasa. */
   height: auto;
+  max-height: 228px;
+  object-fit: cover;
+  box-sizing: border-box;
   padding: .55rem;
   background: var(--hist-papel);
   border: 1px solid var(--hist-lamina-borde);
@@ -312,9 +335,9 @@
   box-shadow: var(--hist-lamina-sombra);
 }
 .hist__hito-lamina-pie {
-  margin-top: .6rem;
+  margin-top: .5rem;
   font-size: .74rem;
-  line-height: 1.55;
+  line-height: var(--ritmo);
   color: var(--fg-faint);
 }
 
@@ -333,7 +356,9 @@
 .hist__hito-texto {
   margin-top: .6rem;
   font-size: .98rem;
-  line-height: 1.75;
+  /* TAREA T15: el cuerpo del texto de los hitos adopta el ritmo y la medida. */
+  line-height: var(--ritmo);
+  max-width: var(--medida);
   color: var(--fg-soft);
 }
 .hist__hito-etiqueta {
@@ -350,23 +375,20 @@
   color: var(--accent);
 }
 
+/* Escritorio (incluidos 1024px y 1440px): el eje unico se conserva a la
+   izquierda y el hito pasa a DOS COLUMNAS: lamina | cuerpo. La rejilla manda
+   sobre el order de T08 mediante grid-column, igual que antes, solo que ahora
+   la lamina SIEMPRE va en la primera columna: no hay zigzag que gaste alto. */
 @media (min-width: 900px) {
   .hist__hito {
-    --hist-carril: calc(var(--hist-lamina-ancho) + 1.125rem);
+    display: grid;
     grid-template-columns: var(--hist-lamina-ancho) minmax(0, 1fr);
     column-gap: 2.25rem;
     row-gap: 0;
-    padding-left: 0;
     align-items: start;
   }
   .hist__hito-lamina { grid-column: 1; grid-row: 1; }
-  .hist__hito-cuerpo  { grid-column: 2; grid-row: 1; }
-  .hist__hito--invertido {
-    --hist-carril: calc(100% - var(--hist-lamina-ancho) - 1.125rem);
-    grid-template-columns: minmax(0, 1fr) var(--hist-lamina-ancho);
-  }
-  .hist__hito--invertido .hist__hito-lamina { grid-column: 2; }
-  .hist__hito--invertido .hist__hito-cuerpo  { grid-column: 1; }
+  .hist__hito-cuerpo { grid-column: 2; grid-row: 1; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1018,10 +1040,10 @@ sup > a[href^="#ref-"]:focus-visible { text-decoration: underline; }
    17. TAREA T08 — ORDEN DE LECTURA DE LOS HITOS (Fecha -> Titulo -> Texto -> Figura)
    El orden del DOM de cada hito es ahora Fecha -> Titulo -> Texto -> Figura:
    el lector de pantalla recorre primero el contenido y al final la lamina,
-   que es lo critico para accesibilidad. La posicion visual del diptico no se
-   toca: en escritorio la rejilla de la seccion 4 manda sobre order con
-   grid-column (lamina a la izquierda o a la derecha segun --invertido), y en
-   celular los numeros de order dejan la figura al fondo sin mover el DOM.
+   que es lo critico para accesibilidad. La posicion visual no se toca: en
+   escritorio la rejilla de la seccion 4 (T16, eje unico) manda sobre order con
+   grid-column (lamina siempre en la primera columna), y en celular los numeros
+   de order dejan la figura al fondo sin mover el DOM.
    Los margenes superior propios de titulo, texto y etiqueta pasan a ser el
    gap del cuerpo, para que el aire entre lineas sea el mismo de antes.
    -------------------------------------------------------------------------- */
@@ -1090,4 +1112,28 @@ sup > a[href^="#ref-"]:focus-visible { text-decoration: underline; }
   .ficha-trabajo { grid-template-columns: 1fr; gap: .15rem; }
   .ficha-trabajo dt { margin-top: .5rem; }
   .ficha-trabajo dt:first-child { margin-top: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   19. TAREAS T15 Y T16 — RITMO, MEDIDA Y COMPACTADO VERTICAL
+   Los tokens --medida / --ritmo / --seccion se declaran en :root (seccion 1).
+   Aqui se aplican: el ritmo y la medida van al cuerpo del texto de los hitos
+   (en la seccion 4 reescrita) y a las secciones; --seccion baja el padding
+   vertical de main > .seccion de 6rem (96px) a 72px, dentro del objetivo de
+   altura total de las paginas. En celular base.css sigue mandando con su
+   3.5rem: no se agranda nada en pantallas estrechas.
+   La prosa general (.prose de base.css: 68ch / line-height 1.8) NO se toca:
+   cambiarla alteraria el diseno global, vedado por la regla inquebrantable.
+   -------------------------------------------------------------------------- */
+main > .seccion { padding-block: var(--seccion); }
+
+/* Con el riel continuo detras, cada lamina necesita su aire por arriba en
+   celular (antes lo ponia el gap de la rejilla): .65rem sigue siendo menos
+   del hueco viejo y el vano total entre bloques no pasa de 96px. */
+@media (max-width: 899px) {
+  .hist__hito-lamina { margin-top: .65rem; }
+}
+@media print {
+  /* El eje unico tampoco estorba en papel. */
+  .hist__linea::before { display: none; }
 }
