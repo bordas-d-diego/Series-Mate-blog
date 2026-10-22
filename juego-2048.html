@@ -69,13 +69,14 @@
 Apartado III &middot; Juego geom&eacute;trico &middot; Diego Bordas
       </span>
       <h1 class="cab-pagina__titulo">2048</h1>
-      <p class="cab-pagina__bajada">
-        Un tablero de n&uacute;meros al cuadrado. Deslizas hacia un lado y las fichas que
-        llevan el mismo n&uacute;mero se juntan en una del doble: dos doses hacen un
-        cuatro, dos cuatro hacen un ocho. El juego se llama as&iacute; porque su ficha
-        mayor es la de 2048, y para llegar a ella hay que pasar antes por
-        todas las de abajo. <strong>No hay que hacer ni una cuenta</strong>: solo
-        juntas parejas.
+      <!-- TAREA T19: la bajada larga vive ahora dentro del panel plegable de
+           la mecanica, debajo del tablero. El Hero queda compacto para que el
+           juego entre en la primera pantalla de un movil de 375x750. No se
+           borro ninguna palabra: el texto esta intacto bajo el summary. -->
+      <p class="cab-pagina__bajada cab-pagina__bajada--compacta">
+        Juntas las fichas que llevan el mismo n&uacute;mero: dos doses hacen un
+        cuatro, dos cuatro hacen un ocho. <strong>No hay que hacer ni una
+        cuenta</strong>.
       </p>
       <div class="cab-pagina__pie">
         <span>Tipo: <b>progresi&oacute;n geom&eacute;trica</b></span>
@@ -102,7 +103,6 @@ Apartado III &middot; Juego geom&eacute;trico &middot; Diego Bordas
           <span class="dosmil__estado" id="estadoTablero">Meta: 128</span>
           <span class="dosmil__meta">Vidas <b id="leerVidas">3</b></span>
           <span class="dosmil__meta">Cadena <b id="leerCadena">0/5</b></span>
-          <button class="boton boton--contorno boton--peque" type="button" id="btnSilencio" aria-pressed="false" aria-label="Silenciar el sonido">Sonido</button>
         </div>
 
         <div class="dosmil__tablero" id="tablero" tabindex="0" role="application"
@@ -118,6 +118,22 @@ Apartado III &middot; Juego geom&eacute;trico &middot; Diego Bordas
               <div class="dosmil__fase-num" id="faseHechaNum">128</div>
             </div>
           </div>
+
+          <!-- TAREA T26: declaracion de la mecanica, plegada por defecto para
+               no robar altura a la primera pantalla. -->
+          <details class="dosmil__mecanica">
+            <summary>&iquest;Qu&eacute; serie juegas?</summary>
+            <p>Este tablero es de <strong>5&times;5</strong>, inspirado en la serie de
+              sucesiones de orden superior. Cada ficha vale el doble de la anterior
+              &mdash;2, 4, 8, 16&hellip;&mdash;, una progresi&oacute;n geom&eacute;trica de
+              raz&oacute;n 2 que est&aacute; en el motor, no en tus cuentas.</p>
+            <p>Un tablero de n&uacute;meros al cuadrado. Deslizas hacia un lado y las fichas que
+              llevan el mismo n&uacute;mero se juntan en una del doble: dos doses hacen un
+              cuatro, dos cuatro hacen un ocho. El juego se llama as&iacute; porque su ficha
+              mayor es la de 2048, y para llegar a ella hay que pasar antes por
+              todas las de abajo. <strong>No hay que hacer ni una cuenta</strong>: solo
+              juntas parejas.</p>
+          </details>
         </div>
 
         <p class="dosmil__teclas">
@@ -127,6 +143,18 @@ Apartado III &middot; Juego geom&eacute;trico &middot; Diego Bordas
           <span class="dosmil__tecla">&#8594;</span>
           <span>para mover &middot; o desliza el tablero con el dedo o el rat&oacute;n</span>
         </p>
+      </div>
+
+      <!-- TAREA T23: los mandos van FUERA del bounding box del tablero, en su
+           propia fila de control. Cada boton respeta el area tactil minima de
+           44x44 px (game-controls.css). -->
+      <div class="game-controls" role="group" aria-label="Controles del juego">
+        <button class="boton boton--contorno game-controls__boton" type="button" id="btnPausa"
+                aria-pressed="false" aria-label="Pausar el juego">Pausa</button>
+        <button class="boton boton--contorno game-controls__boton" type="button" id="btnSilencio"
+                aria-pressed="false" aria-label="Silenciar el sonido">Sonido</button>
+        <button class="boton boton--contorno game-controls__boton" type="button" id="btnReiniciar"
+                aria-label="Reiniciar la ronda">Reiniciar</button>
       </div>
 
       <p class="visualmente-oculto" id="lecturaViva" role="status" aria-live="polite" aria-atomic="true"></p>

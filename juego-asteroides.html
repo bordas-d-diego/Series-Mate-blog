@@ -69,11 +69,14 @@
         Apartado III &middot; Juego geom&eacute;trico &middot; Angelita Vargas
       </span>
       <h1 class="cab-pagina__titulo">Asteroides</h1>
-      <p class="cab-pagina__bajada">
-Las rocas flotan y tu nave las esquiva. Al pegarle a una roca enorme se
-parte en <strong>dos grandes</strong>, cada grande en <strong>dos medianas</strong>,
-y cada mediana en <strong>dos pequenas</strong>. <strong>No hay que hacer
-ni una cuenta</strong>: disparas y ya.
+      <!-- TAREA T19: la bajada larga vive ahora dentro del panel plegable de
+           la mecanica, debajo del marco. El Hero queda compacto para que el
+           campo entre en la primera pantalla de un movil de 375x750. No se
+           borro ninguna palabra: el texto esta intacto bajo el summary. -->
+      <p class="cab-pagina__bajada cab-pagina__bajada--compacta">
+Una roca enorme se parte en <strong>dos grandes</strong>, cada grande en
+<strong>dos medianas</strong>, cada mediana en <strong>dos pequenas</strong>.
+<strong>No hay que hacer ni una cuenta</strong>: disparas y ya.
 </p>
       <div class="cab-pagina__pie">
         <span>Tipo: <b>progresi&oacute;n geom&eacute;trica</b></span>
@@ -139,7 +142,10 @@ ni una cuenta</strong>: disparas y ya.
           </p>
         </section>
 
-        <div class="astro__marco" id="marco">
+        <!-- TAREA T20: el marco recibe tabindex="-1" para poder recibir el
+             foco cuando app.js hace scrollIntoView al pulsar "Jugar": el
+             lienzo ya traia tabindex="0" para el teclado del motor. -->
+        <div class="astro__marco" id="marco" tabindex="-1">
           <canvas class="astro__lienzo" id="lienzo" width="900" height="558" tabindex="0"
                   role="application"
 aria-label="Campo de asteroides. Arrastra o usa las flechas para girar la nave y moverla, y pulsa la barra espaciadora o toca la pantalla para disparar. Con el dedo apoyado sobre el campo apuntas y disparas a la vez. Tecla P o Escape para pausar, tecla R para reiniciar la partida.">
@@ -313,6 +319,21 @@ aria-label="Campo de asteroides. Arrastra o usa las flechas para girar la nave y
               <button class="boton boton--contorno" type="button" id="btnMenu">Men&uacute;</button>
             </div>
           </div>
+
+          <!-- TAREA T26: declaracion de la mecanica, plegada por defecto para
+               no robar altura a la primera pantalla. -->
+          <details class="astro__mecanica">
+            <summary>&iquest;Qu&eacute; serie juegas?</summary>
+            <p>El campo es de <strong>5 fases</strong>. Las rocas enormes de cada fase
+              son <strong>4, 5, 5, 6 y 3</strong> &mdash;la aritm&eacute;tica sube una roca
+              por fase hasta la Tormenta, y la del Centinela baja a tres&mdash;, y cada
+              roca se parte en dos: 1, 2, 4, 8, la geom&eacute;trica de raz&oacute;n 2. Los
+              puntos se duplican en cada corte: 20, 40, 80, 160.</p>
+            <p>Las rocas flotan y tu nave las esquiva. Al pegarle a una roca enorme se
+              parte en <strong>dos grandes</strong>, cada grande en <strong>dos medianas</strong>,
+              y cada mediana en <strong>dos pequenas</strong>. <strong>No hay que hacer
+              ni una cuenta</strong>: disparas y ya.</p>
+          </details>
         </div>
       </div>
 
@@ -321,6 +342,21 @@ aria-label="Campo de asteroides. Arrastra o usa las flechas para girar la nave y
            contenido de la pagina. Al entrar en pantalla completa no
            se pierde nada que el jugador necesite mientras juega.
            ============================================================ -->
+      <!-- TAREA T23: los mandos que se usan fuera del campo viven en esta
+           fila, debajo del marco y FUERA de su bounding box. Los tres botones
+           tienen area tactil minima de 44x44 px (game-controls.css). La pausa,
+           el silencio y la salida de pantalla completa que flotan dentro del
+           marco siguen donde estaban: son los unicos mandos que el jugador
+           alcanza en pantalla completa. -->
+      <div class="game-controls" role="group" aria-label="Controles del juego">
+        <button class="boton boton--contorno game-controls__boton" type="button" id="btnPausaCampo"
+                aria-pressed="false" aria-label="Pausar el juego">Pausa</button>
+        <button class="boton boton--contorno game-controls__boton" type="button" id="btnSilencioCampo"
+                aria-pressed="false" aria-label="Silenciar el sonido">Sonido</button>
+        <button class="boton boton--contorno game-controls__boton" type="button" id="btnReiniciarCampo"
+                aria-label="Reiniciar la partida">Reiniciar</button>
+      </div>
+
       <p class="visualmente-oculto" id="lecturaViva" role="status" aria-live="polite" aria-atomic="true"></p>
 
       <div class="astro__leyenda">
